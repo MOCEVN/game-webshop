@@ -1,4 +1,4 @@
-# Specifiek Doel
+## Specifiek Doel
 
 Ons team verbindt zich tot het versterken van de samenwerking in onze planningsprocessen.
 Wij streven ernaar om regelmatig en gedetailleerd onze agenda's en taken te bespreken om te zorgen
