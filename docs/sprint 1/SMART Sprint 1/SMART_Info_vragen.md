@@ -1,4 +1,7 @@
-﻿# SMART – Op tijd informatie vragen
+# SMART - Acties Ondernemen
+
+
+# SMART – Op tijd informatie vragen
 
 **Teamleden:** Megan Sastroredjo, Giorgio de Rijp, Nii Sackey, Sonny Chim, Omar Asamoah  
 **Studentnummers:** 500848607, 500926845, 500927154, 500930930, 500929403
@@ -19,4 +22,59 @@ Realistisch gezien kunnen we dit doel bereiken door onze goede communicatie te b
 
 ## Tijdgebonden
 Tijdgebonden willen we binnen de komende sprints een duidelijke verbetering zien in onze communicatie en het op tijd stellen van vragen. We streven ernaar om binnen twee weken na het starten van een nieuwe sprint volledig op de hoogte te zijn van alle benodigde informatie voor die sprint. Dit stelt ons in staat om beter te werken en om al onze doelstellingen te behalen.
+
+# SMART – Planningen maken
+
+
+## Specifiek Doel
+
+Ons team verbindt zich tot het versterken van de samenwerking in onze planningsprocessen.
+Wij streven ernaar om regelmatig en gedetailleerd onze agenda's en taken te bespreken om te zorgen
+dat alle teamleden op één lijn zitten en goed geïnformeerd zijn.
+
+## Meetbare Resultaten
+
+Ons doel is om een significante toename in de gedocumenteerde planning te bereiken, waarbij meer
+dan 50% van alle plannen systematisch geschreven en op tijd afgerond zijn. Ons succes zal blijken
+uit het tijdig voltooien van gebruikers- en leerdoelen en een consistent vloeiende verloop van de
+burndown chart, wat duidt op een efficiënte werkstroom en taakvoltooiing.
+
+## Aanvaardbare Normen
+
+Er is overeengekomen dat het team minimaal tweemaal per week bijeenkomt voor planningsessies. Deze
+bijeenkomsten zijn essentieel om actueel te blijven met de veranderende projectomgeving, updates op
+te nemen en een samenhangend teamklimaat te bevorderen.
+
+## Relevantie voor Doelstellingen
+
+Elk teamlid zal een persoonlijke en kritische beoordeling van hun planningsvaardigheden ondernemen,
+waarbij gebieden voor verbetering worden geïdentificeerd. Het resultaat zal een actieplan zijn dat
+is afgestemd op de individuele ontwikkelingsbehoeften, bijdragend aan persoonlijke groei en daarmee
+aan de versterking van de prestaties van het team als geheel.
+
+## Tijdsgebonden Doelen
+
+Tegen het einde van Sprint 2 is het onze intentie om specifieke ontwikkelingsmijlpalen te hebben
+bereikt, waaronder de voltooiing van de admin-pagina, de verfijning van de landingspagina en de
+volledige operationele productoverzicht. Deze deadline dient als een belangrijke maatstaf voor de
+vooruitgang en efficiëntie van ons team.
+
+
+# SMART – User stories afkrijgen
+
+## Specifiek
+Als team hebben wij als doel om in sprint 2 de admin pagina en pagina overview af te hebben. In sprint 1 liep niet alles heel soepeltjes en waren er meer obstakels dan wij hadden verwacht.
+
+## Meetbaar
+Wij zitten in een team van vijf en kunnen dus met z’n alle wel wat user stories afmaken. Ons issue board voor sprint 2 is al af met onze planning voor sprint 2. Per week bespreken wij wat we gaan doen en wanneer we het af willen hebben. Binnen ons team spreken we deadlines af zodat we op schema zitten met het project.  
+
+## Acceptabel
+In sprint 1 hadden wij heel laat het gesprek met ons product owner en daardoor liepen we een klein beetje achter met het maken van de user stories. Tijdens het gesprek met de product owner vertelde hij al zijn wensen voor de webshop en hebben wij een samenvatting ervan gemaakt. Vanuit de samenvatting hebben wij de user stories met acceptatiecriteria kunnen maken.
+
+## Realistisch
+Ons sprint 2 issue board was bomvol met user stories, maar die had Nico nog nagekeken samen met ons. Er zijn toen een aantal user stories weer terug gezet naar de backlog. Wij waren iets te enthousiast maar met nog een kijkje van Nico hebben we het weer veranderd naar wat wij als groep kunnen maken in een sprint.
+
+## Tijdgebonden
+Per week gaan wij bespreken welke user stories wij af willen hebben. Ons streven is alle user stories af hebben aan het eind van sprint 2. 
+
 
