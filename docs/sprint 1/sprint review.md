@@ -1,15 +1,16 @@
-# Sprint review 1
+# STARRT Sprint Review 1
 
-Tijdens de eerste sprint review hebben wij laten zien en verteld wat wij allemaal hebben gedaan.
+**Situatie:**
+Tijdens de eerste sprint review hebben we ons gericht op het helder presenteren van ons werk, inclusief de achterliggende keuzes en beslissingen. We hebben zorgvuldig onderzoek uitgevoerd en een duidelijke link gelegd tussen het gebruikersonderzoek en het ontwikkelde prototype.
 
-## Wat ging goed? 
-Wij kregen complimenten voor de powerpoint, die zat goed in elkaar. Wij hebben duidelijk alles kunnen uitleggen over wat wij hebben gedaan en gemaakt en van waaruit wij onze keuzes hebben gemaakt voor het project. Wij hebben als team heel veel tijd gestopt in onze onderzoeksverslagen en ervoor zorgen dat er ook een link is van het gebruikersonderzoek en prototype.
+**Taak:**
+Onze taak was om ons werk helder te presenteren en te verklaren, en om feedback te verzamelen van de docenten en de product owner.
 
-## Wat ging minder goed? 
-Na de presentatie hebben was er nog onduidelijkheid bij de docenten over ons protoyype en het gebruikersonderzoek. Zij konden de link tussen de antwoorden en het prototype nog niet leggen. Er was misschien maar een keuze die gemaakt is uit eigen idee, en dat was de website Steam als voorbeeld gebruiken. Het formulier was al doorgestuurd en de layout idee van Steam kwam pas achteraf. Ook hadden wij ons gesprek met de product owner wat later dan zou moeten. En uit dat gesprek kwamen ook nog wat ideeën over de layout van de webshop.
+**Actie:**
+We hebben een duidelijke PowerPoint-presentatie voorbereid en ons werk en de gemaakte keuzes toegelicht. We hebben veel tijd besteed aan onze onderzoeksverslagen en ervoor gezorgd dat er een duidelijke link was tussen het gebruikersonderzoek en het prototype.
 
-## Wat waren de tips? 
-Wat concreter zijn over de keuzes die wij hebben gemaakt binnen ons project. De carrousel die de product owner graag wilde hebben, in een volgend prototype laten zien. Doordat het gesprek best wel last minute was hadden we daar niet genoeg tijd voor.
+**Resultaat:**
+We ontvingen complimenten voor de kwaliteit van onze PowerPoint-presentatie en onze vermogen om onze beslissingen en keuzes duidelijk uit te leggen. Daarnaast werden onze user stories goed ontvangen en zag onze demo er goed uit. Ook hadden we een goede planning voor sprint 2 opgesteld. Echter, na de presentatie bleek er nog wat onduidelijkheid te zijn bij de docenten over ons prototype en gebruikersonderzoek.
 
-
-
+**Reflectie:**
+We realiseerden ons dat we wellicht concreter hadden moeten zijn over de keuzes die we hebben gemaakt binnen ons project. Ook moeten we meer uitleg bieden aan de docenten wanneer we onze onderzoeken of andere aspecten van ons werk presenteren. Verder hadden we de carrousel, waar de product owner interesse in had, in een volgend prototype moeten integreren. Door het laatste gesprek met de product owner was hier echter te weinig tijd voor. Dit inzicht nemen we mee naar de volgende sprint om onze communicatie en planning te verbeteren.
