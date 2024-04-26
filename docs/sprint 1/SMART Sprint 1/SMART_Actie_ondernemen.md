@@ -1,12 +1,12 @@
 # SMART - Acties Ondernemen
 
-
-# SMART – Op tijd informatie vragen
-
 **Teamleden:** Megan Sastroredjo, Giorgio de Rijp, Nii Sackey, Sonny Chim, Omar Asamoah  
 **Studentnummers:** 500848607, 500926845, 500927154, 500930930, 500929403
 
-Wij hebben een begeleide retrospective les met het hele team gehad. Hierbij de uitwerking van ons actiepunt ‘Op tijd informatie vragen’.
+Wij hebben een begeleide retrospective les met het hele team gehad. Hierbij de uitwerking van onze actiepunten: Op tijd informatie vragen, Beter met elkaar plannen en De geprioriteerde userstories voor sprint 2 ook af krijgen.
+
+# SMART – Op tijd informatie vragen
+
 
 ## Specifiek
 Het doel is om op tijd informatie te vragen van onze docenten, product owner, maar ook onze medestudenten. Omdat wij nu als team ervaren dat informatie niet soepel loopt wat betreft de studie en het project. Met dit doel willen wij voorkomen dat we niet weer op het laatste moment te horen krijgen dat we bijvoorbeeld een gesprek met de product owner hadden moeten hebben.
