@@ -6,6 +6,30 @@ import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
 import { orderItems, users } from "../fakeDatabase";
 import { CustomJwtPayload } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
+import { getConnection, queryDatabase } from "../databaseService";
+import { PoolConnection } from "mysql2/promise";
+
+class UserDatabase {
+    public constructor() {
+
+    }
+    public async getUserFromEmail(email: string): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE email = ?",email);
+        console.log(user[0]);
+        connection.release();
+        return user[0] as UserData | undefined;
+    }
+    public async getUserFromId(id: number): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE id = ?",id);
+        console.log(user[0]);
+        connection.release();
+        return user[0] as UserData | undefined;
+    }
+}
+
+export const userDatabase: UserDatabase = new UserDatabase();
 
 /**
  * Handles all endpoints related to the User resource
@@ -60,14 +84,13 @@ export class UserController {
      * @param req Request object
      * @param res Response object
      */
-    public login(req: Request, res: Response): void {
+    public async login(req: Request, res: Response): Promise<void> {
         const formModel: UserLoginFormModel = req.body as UserLoginFormModel;
 
         // TODO: Validate empty email/password
 
-        // Retrieve user from the fake database
-        const user: UserData | undefined = users.find((u) => u.email === formModel.email);
-
+        // Retrieve user from the database
+        const user: UserData | undefined = await userDatabase.getUserFromEmail(formModel.email);
         if (!user) {
             res.status(400).json({ message: "User not found" });
 
