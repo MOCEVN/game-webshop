@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { UserData } from "@shared/types";
+import { AuthorizationLevel, UserData } from "@shared/types";
 import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
 import { orderItems, users } from "../fakeDatabase";
 import { CustomJwtPayload } from "../types/jwt";
@@ -16,14 +16,12 @@ class UserDatabase {
     public async getUserFromEmail(email: string): Promise<UserData | undefined> {
         const connection: PoolConnection = await getConnection();
         const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE email = ?",email);
-        console.log(user[0]);
         connection.release();
         return user[0] as UserData | undefined;
     }
     public async getUserFromId(id: number): Promise<UserData | undefined> {
         const connection: PoolConnection = await getConnection();
         const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE id = ?",id);
-        console.log(user[0]);
         connection.release();
         return user[0] as UserData | undefined;
     }
@@ -173,6 +171,15 @@ export class UserController {
         });
 
         res.json(userData.cart?.length || 0);
+    }
+
+    public requestAdminAccess(req: Request, res: Response): void {
+        const userData: UserData = req.user!;
+        if (userData.authorizationLevel === AuthorizationLevel.ADMIN){
+            res.json("true");
+            return;
+        }
+        res.json("false");
     }
 
     /**

@@ -144,4 +144,26 @@ export class UserService {
 
         return (await response.json()) as number;
     }
+    /**
+     * Handles requesting access to the admin panel. Requires a valid token.
+     * @returns whether the user has permission to use the admin page
+     */
+    public async requestAdminAccess(): Promise<boolean>{
+        const token: string | undefined = this._tokenService.getToken();
+
+        if (!token) {
+            return false;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}users/admin`, {
+            method: "get",
+            headers: { ...headers, authorization: token}
+        });
+
+        if (!response.ok) {
+            return false;
+        }
+
+        return (await response.json()) as boolean;
+    }
 }
