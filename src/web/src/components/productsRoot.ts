@@ -1,5 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
+// import {map} from "lit/directives/map.js";
 
 
 @customElement("products-root")
@@ -9,22 +10,30 @@ export class Root extends LitElement {
     .container {
         display: flex;
         flex-direction: column;
+        align-items: center;
     }
-    .productenH1 {
-        color: red;
+    .ProductsH1 {
+        color: black;
+    }
+    .ProductsContainer {
+        background-color: grey;
+        width: 90vw;
+        height: 90vw;
     }
     `;
 
-    @property()
-    private game = "";
+    @property() private game = "";
+    @property() private productsList = "";
 
     
     protected render(): unknown {
         return html`
         <div class = "container">
             <div class = "header">
-        <h1 class= "productenH1">Producten</h1>
-            </div>
+        <h1 class= "ProductsH1">Products</h1>
+        </div>
+         <div class = "ProductsContainer">
+         </div>
     </div>
         `;
     }

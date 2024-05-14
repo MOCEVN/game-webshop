@@ -24,4 +24,13 @@ router.use(handleTokenBasedAuthentication());
 router.get("/users/logout", (req, res) => userController.logout(req, res));
 router.get("/users/hello", (req, res) => userController.hello(req, res));
 router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(req, res));
+<<<<<<< HEAD
 router.get("/users/admin", (req, res) => userController.requestAdminAccess(req, res));
+=======
+
+//Nii
+router.get("/producten", (req, res) => {
+    res.send("");
+    
+});
+>>>>>>> d590274 (productss)
