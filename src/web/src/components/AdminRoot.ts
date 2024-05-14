@@ -6,8 +6,11 @@ import { UserService } from "../services/UserService";
 export class AdminRoot extends LitElement{
     public static styles = css`
         h1 {
-            font-family: Arial, Helvetica, sans-serif;
-            margin-top: 10px;
+            font-family: sans-serif;
+            margin: 10px;
+        }
+        p {
+            margin: 10px;
         }
     `;
 

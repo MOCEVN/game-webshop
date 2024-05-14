@@ -2,6 +2,7 @@ import { UserLoginFormModel } from "@shared/formModels/UserLoginFormModel";
 import { UserRegisterFormModel } from "@shared/formModels/UserRegisterFormModel";
 import { TokenService } from "./TokenService";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
+import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -146,7 +147,7 @@ export class UserService {
     }
     /**
      * Handles requesting access to the admin panel. Requires a valid token.
-     * @returns whether the user has permission to use the admin page
+     * @returns `true` when successful, otherwise `false`.
      */
     public async requestAdminAccess(): Promise<boolean>{
         const token: string | undefined = this._tokenService.getToken();
@@ -164,6 +165,30 @@ export class UserService {
             return false;
         }
 
+        return (await response.json()) as boolean;
+    }
+    /**
+     * Handles adding a product to the database
+     * @param formData Data to use for adding a product
+     * @returns `true` when successful, otherwise `false`.
+     */
+    public async adminAddProduct(formData: ProductAddModel): Promise<boolean> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if (!token) {
+            return false;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/admin/add`, {
+            method: "post",
+            headers: { ...headers, authorization: token},
+            body: JSON.stringify(formData)
+        });
+        
+        if (!response.ok) {
+            return false;
+        }
+        
         return (await response.json()) as boolean;
     }
 }
