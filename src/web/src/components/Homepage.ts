@@ -1,8 +1,8 @@
 import { LitElement, html, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 
-@customElement("header")
-export class Header extends LitElement {
+@customElement("home-page")
+export class Homepage extends LitElement {
 
 
 protected render(): TemplateResult {

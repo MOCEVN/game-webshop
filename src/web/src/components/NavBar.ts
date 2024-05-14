@@ -12,17 +12,18 @@ export class Navbar extends LitElement {
   align-items: center;
 }
 
-.navBar ul li:first-child {
+.navBar ul li:first-child,
+.navBar ul li:nth-child(2) {
   margin-right: auto;
 }
 
 .navBar img {
-  height: 40px; 
+  height: 30px; 
   margin-right: 20px; 
 }
 
 .navBar ul {
-  width:100%;
+  width :100%;
   display: flex;
   list-style-type: none;
   justify-content: flex-end;
@@ -42,20 +43,29 @@ export class Navbar extends LitElement {
   align-items: center;
 }
 
+.navBar .logo {
+  height: 70px; 
+}
+
 .searchBar {
-  flex-grow: 1; 
+  width: 50%; 
   display: flex;
-  justify-content: center; 
   align-items: center;
 }
 
 .searchBar input {
-  width: 50%; 
-  padding: 10px 30px;
+  flex-grow: 1; 
+  padding: 10px 30px; 
   border: 1px solid #ccc;
   border-radius: 20px;
   font-size: 16px;
+  box-sizing: border-box; 
+  background-image: url('/assets/img/search.png'); 
+  background-repeat: no-repeat; 
+  background-position: calc(100% - 10px) center; 
+  background-size: 20px; 
 }
+
 
   `;
 
@@ -71,8 +81,9 @@ protected render(): TemplateResult {
     return html`
       <nav class="navBar">
         <ul>
-        <li><a href="#"><img src="/assets/img/logo.png"></a></li>
-        <li class="searchBar"><input type="text" placeholder="Search..."><img src="/assets/img/search.png"></li>
+        <li><a href="#"><img src="/assets/img/logo.png" class="logo"></a></li>
+        <li><a href="#">Genres</a></li>
+        <li class="searchBar"><input type="text" placeholder="Zoek naar games..."></li>
           <li><a href="#"><img src="/assets/img/cart.png"></a></li>
           <li><a href="#"><img src="/assets/img/heart.png"></a></li>
           <li><a href="#"><img src="/assets/img/account.png"></a></li>
