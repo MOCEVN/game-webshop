@@ -1,11 +1,33 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { UserData } from "@shared/types";
+import { AuthorizationLevel, UserData } from "@shared/types";
 import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
 import { orderItems, users } from "../fakeDatabase";
 import { CustomJwtPayload } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
+import { getConnection, queryDatabase } from "../databaseService";
+import { PoolConnection } from "mysql2/promise";
+
+class UserDatabase {
+    public constructor() {
+
+    }
+    public async getUserFromEmail(email: string): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE email = ?",email);
+        connection.release();
+        return user[0] as UserData | undefined;
+    }
+    public async getUserFromId(id: number): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE id = ?",id);
+        connection.release();
+        return user[0] as UserData | undefined;
+    }
+}
+
+export const userDatabase: UserDatabase = new UserDatabase();
 
 /**
  * Handles all endpoints related to the User resource
@@ -60,14 +82,13 @@ export class UserController {
      * @param req Request object
      * @param res Response object
      */
-    public login(req: Request, res: Response): void {
+    public async login(req: Request, res: Response): Promise<void> {
         const formModel: UserLoginFormModel = req.body as UserLoginFormModel;
 
         // TODO: Validate empty email/password
 
-        // Retrieve user from the fake database
-        const user: UserData | undefined = users.find((u) => u.email === formModel.email);
-
+        // Retrieve user from the database
+        const user: UserData | undefined = await userDatabase.getUserFromEmail(formModel.email);
         if (!user) {
             res.status(400).json({ message: "User not found" });
 
@@ -150,6 +171,15 @@ export class UserController {
         });
 
         res.json(userData.cart?.length || 0);
+    }
+
+    public requestAdminAccess(req: Request, res: Response): void {
+        const userData: UserData = req.user!;
+        if (userData.authorizationLevel === AuthorizationLevel.ADMIN){
+            res.json("true");
+            return;
+        }
+        res.json("false");
     }
 
     /**
