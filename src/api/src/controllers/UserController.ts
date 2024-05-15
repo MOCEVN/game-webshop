@@ -10,15 +10,22 @@ import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection } from "mysql2/promise";
 
 class UserDatabase {
-    public constructor() {
-
-    }
+    /**
+     * Gets user data from an email address.
+     * @param email 
+     * @returns UserData
+     */
     public async getUserFromEmail(email: string): Promise<UserData | undefined> {
         const connection: PoolConnection = await getConnection();
         const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE email = ?",email);
         connection.release();
         return user[0] as UserData | undefined;
     }
+    /**
+     * Gets user data from an id.
+     * @param id 
+     * @returns UserData
+     */
     public async getUserFromId(id: number): Promise<UserData | undefined> {
         const connection: PoolConnection = await getConnection();
         const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE id = ?",id);
