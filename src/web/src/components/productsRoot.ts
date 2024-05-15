@@ -1,6 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-// import {map} from "lit/directives/map.js";
+import {map} from "lit/directives/map.js";
 
 
 @customElement("products-root")
@@ -12,13 +12,17 @@ export class Root extends LitElement {
         flex-direction: column;
         align-items: center;
     }
+    .header{
+        height: 10vh;
+    }
     .ProductsH1 {
         color: black;
     }
     .ProductsContainer {
         background-color: grey;
         width: 90vw;
-        height: 90vw;
+        height: 90vh;
+        overflow-y: scroll;
     }
     `;
 
@@ -33,6 +37,9 @@ export class Root extends LitElement {
         <h1 class= "ProductsH1">Products</h1>
         </div>
          <div class = "ProductsContainer">
+         ${map(this.productsList,(product) => {
+            
+         })}
          </div>
     </div>
         `;
