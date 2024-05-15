@@ -25,7 +25,7 @@ router.get("/users/logout", (req, res) => userController.logout(req, res));
 router.get("/users/hello", (req, res) => userController.hello(req, res));
 router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(req, res));
 router.get("/users/admin", (req, res) => userController.requestAdminAccess(req, res));
-router.post("/store-content/admin/add",asyncHandler(async (req, res) => orderItemController.adminAdd(req,res)));
+router.post("/store-content/admin/add",asyncHandler(orderItemController.adminAdd));
 
 //Nii
 router.get("/producten", (req, res) => {
