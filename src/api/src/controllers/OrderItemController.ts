@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { orderItems } from "../fakeDatabase";
-import { AuthorizationLevel, UserData } from "@shared/types";
+import { AuthorizationLevel, OrderItem, UserData } from "@shared/types";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
@@ -34,6 +33,19 @@ class ItemDatabase {
             connection.release();
         }
     }
+    public async getAll(): Promise<OrderItem[]> {
+        const connection: PoolConnection = await getConnection();
+        try {
+            const result: any = await queryDatabase(connection, "SELECT * FROM orderitem");
+            return result;
+        } catch (err) {
+            console.error(err);
+            
+            return [];
+        } finally {
+            connection.release();
+        }
+    }
 }
 
 const itemDatabase: ItemDatabase = new ItemDatabase();
@@ -48,8 +60,11 @@ export class OrderItemController {
      * @param _ Request object (unused)
      * @param res Response object
      */
-    public getAll(_: Request, res: Response): void {
-        res.json(orderItems);
+    public async getAll(_: Request, res: Response): Promise<void> {
+        const result: OrderItem[] = await itemDatabase.getAll();
+        console.log(result);
+        
+        res.json(result);
     }
     /**
      * Adds an item

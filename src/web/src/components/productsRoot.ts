@@ -1,6 +1,8 @@
 import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import {map} from "lit/directives/map.js";
+import { OrderItemService } from "../services/OrderItemService";
+import { OrderItem } from "@shared/types";
 
 
 @customElement("products-root")
@@ -26,8 +28,25 @@ export class Root extends LitElement {
     }
     `;
 
-    @property() private game = "";
-    @property() private productsList = "";
+    @state() private game = "";
+
+    @state()
+    private _orderItemService: OrderItemService = new OrderItemService();
+
+    @state()
+    private _orderItems: OrderItem[] = [];
+
+
+    private async getOrderItems(): Promise<void>{
+        const result: OrderItem[]|undefined = await this._orderItemService.getAll();
+
+        if (!result) {
+            return;
+        }
+
+        this._orderItems = result;
+    }
+
 
     
     protected render(): unknown {
@@ -37,7 +56,7 @@ export class Root extends LitElement {
         <h1 class= "ProductsH1">Products</h1>
         </div>
          <div class = "ProductsContainer">
-         ${map(this.productsList,(_product) => {
+         ${map(this._orderItems,(_product) => {
             
          })}
          </div>
