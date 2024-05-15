@@ -37,7 +37,7 @@ export class Root extends LitElement {
         <h1 class= "ProductsH1">Products</h1>
         </div>
          <div class = "ProductsContainer">
-         ${map(this.productsList,(product) => {
+         ${map(this.productsList,(_product) => {
             
          })}
          </div>
