@@ -27,7 +27,9 @@ class ItemDatabase {
             }
             await connection.commit();
             return true;
-        } catch {
+        } catch (err) {
+            console.log(formData);
+            console.error(err);
             return false;
         } finally {
             connection.release();
@@ -62,8 +64,6 @@ export class OrderItemController {
      */
     public async getAll(_: Request, res: Response): Promise<void> {
         const result: OrderItem[] = await itemDatabase.getAll();
-        console.log(result);
-        
         res.json(result);
     }
     /**
@@ -82,5 +82,29 @@ export class OrderItemController {
             return;
         };
         res.json("false");
+    }
+    public async adminAddJson(req: Request, res: Response): Promise<void> {
+        const userData: UserData = req.user!;
+        if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
+            res.status(401).end();
+            return;
+        }
+        const json: any = req.body;
+        let succeeded: number = 0;
+        let failed: number = 0;
+        for (const product of json) {
+            if (await itemDatabase.addItem({
+                name: product.title ?? "",
+                description: product.descriptionMarkdown ?? "",
+                price: "0",
+                catagory: product.tags[0] ?? "",
+                imageURLs: product.images ?? []
+            })) {
+                succeeded++;
+            } else {
+                failed++;
+            }
+        }
+        res.json({succeeded: succeeded, failed: failed, error: false});
     }
 }

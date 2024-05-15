@@ -41,7 +41,7 @@ export class AdminRoot extends LitElement{
             `;
         }
         return html`
-            <p>access denied</p>
+            <p>Unauthorized</p>
             <p><a href="/">log in</a>to an account with administrator privileges.</p>
         `;
     }
