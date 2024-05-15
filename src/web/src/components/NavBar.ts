@@ -66,14 +66,28 @@ export class Navbar extends LitElement {
   background-size: 20px; 
 }
 
+footer {
+  height: 70px;
+  background-color: lightgray;
+  padding: 0 50px;
+  display: flex;
+  align-items: flex-end;
+  position: fixed;
+  bottom: 0;
+  width: 100%; 
+}
+footer p {
+  line-height: 1.2em;
+  height: 1.2em;
+}
 
   `;
 
+// Fetch and Parse navigation bar and footer
 protected render(): TemplateResult {
   return html`
-      <div class="container">
           ${this.renderNavBar()}
-      </div>
+          ${this.renderFooter()}
   `;
 }
 
@@ -82,7 +96,7 @@ protected render(): TemplateResult {
       <nav class="navBar">
         <ul>
         <li><a href="#"><img src="/assets/img/logo.png" class="logo"></a></li>
-        <li><a href="#">Genres</a></li>
+        <li><a href="products.html">Producten</a></li>
         <li class="searchBar"><input type="text" placeholder="Zoek naar games..."></li>
           <li><a href="#"><img src="/assets/img/cart.png"></a></li>
           <li><a href="#"><img src="/assets/img/heart.png"></a></li>
@@ -91,4 +105,15 @@ protected render(): TemplateResult {
     </nav>
     `;
   }
+
+  private renderFooter(): TemplateResult {
+    return html`
+        <footer>
+            <p>
+                Copyright © Luca Stars 2024
+            </p>
+        </footer>
+    `;
+}
+
 }
