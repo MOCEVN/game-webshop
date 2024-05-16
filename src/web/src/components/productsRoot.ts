@@ -97,6 +97,9 @@ export class Root extends LitElement {
             const description: HTMLDivElement = document.createElement("div");
             description.className = "productdescription";
             
+            // const imagesElement : HTMLElement= document.createElement("div");
+
+            // const images : any = queryDatabase
             // description.innerHTML = row.description ? row.description : "";
             // const price: HTMLDivElement = document.createElement("div");
             // price.innerHTML = row.price;

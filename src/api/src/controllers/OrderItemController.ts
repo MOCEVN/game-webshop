@@ -3,6 +3,7 @@ import { AuthorizationLevel, OrderItem, UserData } from "@shared/types";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
+// import { connect } from "http2";
 
 class ItemDatabase {
     /**
@@ -48,6 +49,20 @@ class ItemDatabase {
             connection.release();
         }
     }
+    /**
+     * name
+     */
+    public async getImages(): Promise<any> {
+        const connection: PoolConnection = await getConnection();
+        try {
+            
+        } catch (error) {
+            return[];
+        } finally{
+            connection.release();
+        }
+    }
+
 }
 
 const itemDatabase: ItemDatabase = new ItemDatabase();
