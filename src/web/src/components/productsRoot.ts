@@ -74,11 +74,12 @@ export class Root extends LitElement {
 
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
-
+        // als de component word geladen voer dan deze code uit
         await this.getOrderItems();
     }
 
     private async getOrderItems(): Promise<void> {
+        // do een get request met de api om alle items te krijgen en sla deze op in een array
         const result: OrderItem[] | undefined = await this._orderItemService.getAll();
 
         if (!result) {
@@ -99,11 +100,15 @@ export class Root extends LitElement {
                     <!-- voor elke  row van _orderItems maak je een products html-->
                     ${map(this._orderItems, (row) => {
 
-                        console.log(row);
+                        console.log(row.thumbnail);
+
+                        if(row.imageURLs){
+                            // const image : string = row.imageURLs;
+                        };
 
                         return html `
-                        <div class= "products">
-                            <!--  -->
+                        <div class="products">
+                            <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
                             <div class="productname">${row.name}</div>
                             <div class="description">${row.description}</div>
                             <div class="price">${row.price}</div>
