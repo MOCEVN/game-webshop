@@ -106,7 +106,7 @@ export class AdminAdd extends LitElement{
                 </form>
                 <form @submit=${this._handleFile}>
                     <label for="json">Add products from JSON file</label>
-                    <input type="file" id="json" accept=".json">
+                    <input type="file" id="json" accept=".json" required>
                     <input type="submit">
                     ${this._jsonResult && this._jsonStatus.recievedResponse ? this._jsonResult.errorOccured ? html`<p>An error occured</p>` : html`<p>${this._jsonResult.succeeded} succeeded, ${this._jsonResult.failed} failed</p>` : nothing}
                     ${this._jsonStatus.sent && !this._jsonStatus.recievedResponse ? html`<p>Processing...</p>` : nothing}

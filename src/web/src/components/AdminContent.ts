@@ -17,19 +17,20 @@ export class AdminContent extends LitElement{
             display: flex;
             gap: 3em;
             height: 3em;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid #373E98;
             padding-left: 1em;
         }
         nav button {
             border: none;
             background-color: white;
+            color: #373E98;
             cursor: pointer;
             border-radius: 1em 1em 0 0;
         }
         .selected {
-            border: 1px solid black;
+            border: 1px solid #373E98;
             border-bottom: 1px solid white;
-            margin: -1px;
+            margin-bottom: -1px;
         }
     `;
     

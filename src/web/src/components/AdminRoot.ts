@@ -5,12 +5,24 @@ import { UserService } from "../services/UserService";
 @customElement("admin-root")
 export class AdminRoot extends LitElement{
     public static styles = css`
+        header {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
         h1 {
             font-family: sans-serif;
+            color: #ECAE20;
             margin: 10px;
         }
         p {
             margin: 10px;
+        }
+        img {
+            margin: 10px;
+            width: auto;
+            height: 100px;
+            cursor: pointer;
         }
     `;
 
@@ -48,8 +60,12 @@ export class AdminRoot extends LitElement{
 
     protected render(): TemplateResult {
         return html`
-            <a href="/">back to main page</a>
-            <h1>Admin panel</h1>
+            <header>
+                <a href="/">
+                    <img src="/assets/img/logo.png" alt="Logo" />
+                </a>
+                <h1>Admin panel</h1>
+            </header>
             ${this.renderContent()}
         `;
     }
