@@ -15,8 +15,8 @@ class ItemDatabase {
         try {
             const catagoryQueryResult: [{id: string}] = await queryDatabase(connection,"SELECT id FROM category WHERE name = ?",formData.catagory);
             const catagoryId: string = catagoryQueryResult.length > 0 ? catagoryQueryResult[0].id : "1";
-            const query: string = "INSERT INTO orderitem(name, description, price, categoryId) VALUES (?,?,?,?)";
-            const values: string[] = [formData.name,formData.description,formData.price,catagoryId];
+            const query: string = "INSERT INTO orderitem(name, description, price, categoryId, thumbnail) VALUES (?,?,?,?,?)";
+            const values: string[] = [formData.name,formData.description,formData.price,catagoryId,formData.thumbnail ?? ""];
             await connection.beginTransaction();
             const result: ResultSetHeader = await queryDatabase(connection, query, ...values);
             if (formData.imageURLs){
@@ -113,7 +113,8 @@ export class OrderItemController {
                 description: product.descriptionMarkdown ?? "",
                 price: "0",
                 catagory: product.tags[0] ?? "",
-                imageURLs: product.images ?? []
+                imageURLs: product.images ?? [],
+                thumbnail: product.thumbnail ?? ""
             })) {
                 succeeded++;
             } else {

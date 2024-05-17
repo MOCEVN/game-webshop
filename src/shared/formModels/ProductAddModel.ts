@@ -3,5 +3,6 @@ export type ProductAddModel = {
     description: string;
     price: string;
     catagory?: string;
+    thumbnail?: string;
     imageURLs?: string[];
 }
