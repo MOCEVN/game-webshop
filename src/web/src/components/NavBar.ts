@@ -67,7 +67,7 @@ export class Navbar extends LitElement {
 }
 
 footer {
-  height: 70px;
+  height: 50px;
   background-color: lightgray;
   padding: 0 50px;
   display: flex;
