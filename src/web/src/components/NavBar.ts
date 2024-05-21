@@ -95,12 +95,13 @@ protected render(): TemplateResult {
     return html`
       <nav class="navBar">
         <ul>
-        <li><a href="#"><img src="/assets/img/logo.png" class="logo"></a></li>
+        <li><a href="homepage.html"><img src="/assets/img/logo.png" class="logo"></a></li>
         <li><a href="products.html">Producten</a></li>
         <li class="searchBar"><input type="text" placeholder="Zoek naar games..."></li>
           <li><a href="#"><img src="/assets/img/cart.png"></a></li>
           <li><a href="#"><img src="/assets/img/heart.png"></a></li>
           <li><a href="#"><img src="/assets/img/account.png"></a></li>
+          <li><a href="signup.html" id="logIn"><img src="/assets/img/login.png"></a></li>
         </ul>
     </nav>
     `;
