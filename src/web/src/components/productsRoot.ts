@@ -10,7 +10,7 @@ export class productsRoot extends LitElement {
     // static
     public static styles = css`
         .container {
-            /* max-height: 95vh; */
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,9 +28,10 @@ export class productsRoot extends LitElement {
             flex-wrap: wrap;
             background-color: #d3d3d3;
             width: 90vw;
-            /* height: 90vh; */
+            height: 80vh;
             overflow-y: scroll;
             border-radius: 10px;
+            margin-bottom:4vw;
         }
         .products {
             overflow: hidden;
