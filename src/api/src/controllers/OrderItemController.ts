@@ -3,6 +3,7 @@ import { AuthorizationLevel, OrderItem, UserData } from "@shared/types";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
+import { SortFilter } from "@shared/types/SortFIlter";
 // import { connect } from "http2";
 
 class ItemDatabase {
@@ -32,6 +33,25 @@ class ItemDatabase {
             console.log(formData);
             console.error(err);
             return false;
+        } finally {
+            connection.release();
+        }
+    }
+    public async getAllSortedFiltered(params: SortFilter): Promise<OrderItem[]> {
+        const connection: PoolConnection = await getConnection();
+        try {
+            let query: string = "SELECT * FROM orderitem";
+            // TODO: add filters
+            
+            if (params.orderBy) {
+                query += ` ORDER BY ${params.orderBy} ${params.sortOrder ?? "ASC"}`;
+            }
+            const result: any = await queryDatabase(connection, query);
+            return result;
+        } catch (err) {
+            console.error(err);
+            
+            return [];
         } finally {
             connection.release();
         }
@@ -79,6 +99,13 @@ export class OrderItemController {
      */
     public async getAll(_: Request, res: Response): Promise<void> {
         const result: OrderItem[] = await itemDatabase.getAll();
+        res.json(result);
+    }
+    public async getAllSortedFiltered(req: Request,res: Response): Promise<void> {
+        const result: OrderItem[] = await itemDatabase.getAllSortedFiltered({
+            orderBy: req.query.orderBy as string ?? "",
+            sortOrder: req.query.sortOrder as string ?? "ASC"
+        });
         res.json(result);
     }
     /**

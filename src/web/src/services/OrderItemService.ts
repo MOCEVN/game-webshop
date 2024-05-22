@@ -29,6 +29,23 @@ export class OrderItemService {
         return (await response.json()) as OrderItem[];
     }
 
+    public async getAllSortedFiltered(orderBy: string = "", sortOrder: string = "ASC"): Promise<OrderItem[] | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/all?${(new URLSearchParams({
+            orderBy: orderBy,
+            sortOrder: sortOrder
+        })).toString()}`, {
+            method: "get",
+        });
+        
+        if (!response.ok) {
+            console.error(response);
+
+            return undefined;
+        }
+
+        return (await response.json()) as OrderItem[];
+    }
+
     public async addFromJson(json: string): Promise<{succeeded?: number, failed?: number, errorOccured: boolean}> {
         
         const token: string | undefined = this._tokenService.getToken();
