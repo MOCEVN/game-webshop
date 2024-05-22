@@ -2,3 +2,4 @@
 export * from "./components/AdminRoot";
 export * from "./components/AdminContent";
 export * from "./components/AdminAdd";
+export * from "./components/AdminView";
