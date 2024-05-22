@@ -44,7 +44,9 @@ class UserDatabase {
         const query: string = "INSERT INTO `user`(`email`, `password`, `name`) VALUES (?,?,?)";
         const values: string[] = [email,password,name];
         try {
+            await connection.beginTransaction();
             const queryResult: ResultSetHeader = await queryDatabase(connection, query, ...values);
+            await connection.commit();
             if (queryResult.affectedRows > 0) {
                 return "";
             }
