@@ -13,7 +13,7 @@ router.get("/", (_, res) => {
     res.send("Hello, this is a simple webshop API.");
 });
 
-router.post("/users/register", (req, res) => userController.register(req, res));
+router.post("/users/register", asyncHandler(async (req, res) => userController.register(req, res)));
 router.post("/users/login", asyncHandler(async (req, res) => userController.login(req, res)));
 
 router.get("/orderItems", asyncHandler(orderItemController.getAll));
