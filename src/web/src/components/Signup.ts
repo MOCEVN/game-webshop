@@ -1,5 +1,6 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
+import { UserService } from "../services/UserService";
 
 @customElement("sign-up")
 export class SignUp extends LitElement {
@@ -9,7 +10,11 @@ export class SignUp extends LitElement {
       display: block;
       font-family: Arial, sans-serif;
     }
-    .container {
+
+    .logo {
+      height: 90px;
+    }
+    .signup-form {
       max-width: 400px;
       margin: 0 auto;
       padding: 20px;
@@ -49,23 +54,75 @@ export class SignUp extends LitElement {
     }
   `;
 
+  private _userService: UserService = new UserService();
+
+  private _email: string = "";
+  private _password: string = "";
+  private _firstName: string = "";
+  private _lastName: string = "";
+
   protected render(): TemplateResult {
     return html`
-      <div class="container">
-        <h2>Sign Up</h2>
-        <form>
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" required>
-          
+      <div class="navBar" id="navBar"></div>
+      <div class="signup-form">
+        <h2>Registreren</h2>
+        <form @submit="${this.signUpForm}">
+
+          <label for="firstName">Voornaam</label>
+          <input type="text" id="firstName" name="firstName" @input="${this.handleInputChange}" required>
+
+          <label for="lastName">Achternaam</label>
+          <input type="text" id="lastName" name="lastName" @input="${this.handleInputChange}" required>
+
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" id="email" name="email" @input="${this.handleInputChange}" required>
           
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" required>
+          <input type="password" id="password" name="password" @input="${this.handleInputChange}" required>
           
-          <button type="submit">Sign Up</button>
+          <button type="submit">Registreren</button>
+
+          <a href="index.html">
+            <p>Heeft u al een account? Log in</p> 
+          </a>
         </form>
       </div>
     `;
   }
+
+  private handleInputChange(event: Event): void {
+    const input: HTMLInputElement = event.target as HTMLInputElement;
+
+    switch (input.name) {
+      case "firstName":
+        this._firstName = input.value;
+        break;
+      case "lastName":
+        this._lastName = input.value;
+        break;
+      case "email":
+        this._email = input.value;
+        break;
+      case "password":
+        this._password = input.value;
+        break;
+    }
+  }
+
+  private async signUpForm(event: Event): Promise<void> {
+    event.preventDefault();
+
+    const result: boolean = await this._userService.register({
+      email: this._email,
+      password: this._password,
+      name: `${this._firstName} ${this._lastName}`,
+    });
+
+    if (result) {
+      alert("Successfully registered!");
+    } else {
+      alert("Failed to register!");
+    }
+  }
 }
+
