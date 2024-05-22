@@ -5,7 +5,9 @@ import { OrderItemService } from "../services/OrderItemService";
 import { OrderItem } from "@shared/types";
 
 @customElement("products-root")
-export class Root extends LitElement {
+export class productsRoot extends LitElement {
+
+    // static
     public static styles = css`
         .container {
             /* max-height: 95vh; */
@@ -90,6 +92,7 @@ export class Root extends LitElement {
         // console.log(this._orderItems);
     }
 
+    // polymorphism
     protected render(): unknown {
         return html`
             <div class="container">
