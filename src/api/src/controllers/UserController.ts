@@ -7,7 +7,7 @@ import { orderItems } from "../fakeDatabase";
 import { CustomJwtPayload } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
 import { getConnection, queryDatabase } from "../databaseService";
-import { PoolConnection } from "mysql2/promise";
+import { PoolConnection, ResultSetHeader } from "mysql2/promise";
 
 class UserDatabase {
     /**
@@ -32,18 +32,26 @@ class UserDatabase {
         connection.release();
         return user[0] as UserData | undefined;
     }
-    public async addUser(email: string,password: string,name: string): Promise<boolean> {
+    /**
+     * Adds a user to the database.
+     * @param email 
+     * @param password 
+     * @param name 
+     * @returns Error string. Empty if no error.
+     */
+    public async addUser(email: string,password: string,name: string): Promise<string> {
         const connection: PoolConnection = await getConnection();
         const query: string = "INSERT INTO `user`(`email`, `password`, `name`) VALUES (?,?,?)";
         const values: string[] = [email,password,name];
         try {
-            const queryResult: any = await queryDatabase(connection, query, ...values);
-            console.log(queryResult);
-            
-            return true;
+            const queryResult: ResultSetHeader = await queryDatabase(connection, query, ...values);
+            if (queryResult.affectedRows > 0) {
+                return "";
+            }
+            return queryResult.info;
         } catch (err) {
             console.error(err);
-            return false;
+            return err as string;
         } finally {
             connection.release();
         }
@@ -82,7 +90,11 @@ export class UserController {
         // Hash the password
         const hashedPassword: string = bcrypt.hashSync(formModel.password, 10);
 
-        await userDatabase.addUser(formModel.email,hashedPassword,formModel.name);
+        const queryResult: string = await userDatabase.addUser(formModel.email,hashedPassword,formModel.name);
+
+        if (queryResult) {
+            res.status(400).json({message: queryResult});
+        }
 
         res.status(200).json({ message: "Successfully registered user." });
     }
