@@ -53,6 +53,7 @@ export class AdminAdd extends LitElement{
             description: formInputData.get("description") as string,
             price: formInputData.get("price") as string,
             catagory: formInputData.get("catagory") as string | undefined,
+            thumbnail: formInputData.get("thumbnail") as string | undefined,
             imageURLs: (formInputData.get("images") as string | undefined)?.split(" ")
         };
         this._succeeded = await this._userService.adminAddProduct(formData);
@@ -99,7 +100,9 @@ export class AdminAdd extends LitElement{
                     <input type="number" step=0.01 name="price" id="price" required>
                     <label for="catagory">Catagory:</label>
                     <input type="text" name="catagory" id="catagory">
-                    <label for="images">ImageURLs:</label>
+                    <label for="thumbnail">Thumbnail URL:</label>
+                    <input type="text" name="thumbnail" id="thumbnail">
+                    <label for="images">Image URLs:</label>
                     <textarea name="images" id="images"></textarea>
                     <button type="submit">Submit</button>
                     ${this._succeeded ? html`<p class="success">Success!</p>` : nothing}

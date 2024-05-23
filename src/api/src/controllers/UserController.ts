@@ -3,11 +3,11 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AuthorizationLevel, UserData } from "@shared/types";
 import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
-import { orderItems, users } from "../fakeDatabase";
+import { orderItems } from "../fakeDatabase";
 import { CustomJwtPayload } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
 import { getConnection, queryDatabase } from "../databaseService";
-import { PoolConnection } from "mysql2/promise";
+import { PoolConnection, ResultSetHeader } from "mysql2/promise";
 
 class UserDatabase {
     /**
@@ -32,6 +32,32 @@ class UserDatabase {
         connection.release();
         return user[0] as UserData | undefined;
     }
+    /**
+     * Adds a user to the database.
+     * @param email 
+     * @param password 
+     * @param name 
+     * @returns Error string. Empty if no error.
+     */
+    public async addUser(email: string,password: string,name: string): Promise<string> {
+        const connection: PoolConnection = await getConnection();
+        const query: string = "INSERT INTO `user`(`email`, `password`, `name`) VALUES (?,?,?)";
+        const values: string[] = [email,password,name];
+        try {
+            await connection.beginTransaction();
+            const queryResult: ResultSetHeader = await queryDatabase(connection, query, ...values);
+            await connection.commit();
+            if (queryResult.affectedRows > 0) {
+                return "";
+            }
+            return queryResult.info;
+        } catch (err) {
+            console.error(err);
+            return err as string;
+        } finally {
+            connection.release();
+        }
+    }
 }
 
 export const userDatabase: UserDatabase = new UserDatabase();
@@ -49,13 +75,13 @@ export class UserController {
      * @param req Request object
      * @param res Response object
      */
-    public register(req: Request, res: Response): void {
+    public async register(req: Request, res: Response): Promise<void> {
         const formModel: UserRegisterFormModel = req.body as UserRegisterFormModel;
 
         // TODO: Validate empty email/password/name
 
         // Validate if the user already exists
-        const existingUser: UserData | undefined = users.find((u) => u.email === formModel.email);
+        const existingUser: UserData | undefined = await userDatabase.getUserFromEmail(formModel.email);
 
         if (existingUser) {
             res.status(400).json({ message: "This email address is already used." });
@@ -66,16 +92,11 @@ export class UserController {
         // Hash the password
         const hashedPassword: string = bcrypt.hashSync(formModel.password, 10);
 
-        // Create a new user and store it in the "fake" database
-        const user: UserData = {
-            id: this.generateFakeId(),
+        const queryResult: string = await userDatabase.addUser(formModel.email,hashedPassword,formModel.name);
 
-            email: formModel.email,
-            password: hashedPassword,
-            name: formModel.name,
-        };
-
-        users.push(user);
+        if (queryResult) {
+            res.status(400).json({message: queryResult});
+        }
 
         res.status(200).json({ message: "Successfully registered user." });
     }
@@ -187,16 +208,5 @@ export class UserController {
             return;
         }
         res.json("false");
-    }
-
-    /**
-     * Generate an id for a user
-     *
-     * @note Do not use this method in production, it exists purely for our fake database!
-     * 
-     * @returns Generated id
-     */
-    private generateFakeId(): number {
-        return users.length + 1;
     }
 }
