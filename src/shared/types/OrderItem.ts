@@ -1,3 +1,5 @@
+import { Catagory } from "./Catagory";
+
 export type OrderItem = {
     thumbnail: string;
     id: number;
@@ -5,4 +7,5 @@ export type OrderItem = {
     description?: string;
     price: number;
     imageURLs?: string[];
+    catagory?: Catagory;
 };

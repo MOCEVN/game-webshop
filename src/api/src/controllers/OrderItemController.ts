@@ -3,6 +3,8 @@ import { AuthorizationLevel, OrderItem, UserData } from "@shared/types";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
+import { SortFilter } from "@shared/types/SortFIlter";
+import { Catagory } from "@shared/types/Catagory";
 // import { connect } from "http2";
 
 class ItemDatabase {
@@ -32,6 +34,47 @@ class ItemDatabase {
             console.log(formData);
             console.error(err);
             return false;
+        } finally {
+            connection.release();
+        }
+    }
+    public async getAllSortedFiltered(params: SortFilter): Promise<OrderItem[]> {
+        const connection: PoolConnection = await getConnection();
+        try {
+            let query: string = "SELECT * FROM orderitem";
+            // TODO: add filters
+            
+            if (params.orderBy) {
+                query += ` ORDER BY ${params.orderBy} ${params.sortOrder ?? "ASC"}`;
+            }
+            const result: any = await queryDatabase(connection, query);
+            return result;
+        } catch (err) {
+            console.error(err);
+            
+            return [];
+        } finally {
+            connection.release();
+        }
+    }
+    public async getProduct(id: string): Promise<OrderItem | undefined> {
+        const connection: PoolConnection = await getConnection();
+        try {
+            const productQuery: string = "SELECT `id`, `name`, `description`, `price`, `categoryId`, `thumbnail` FROM `orderitem` WHERE `id` = ?";
+            const queryProductResult: OrderItem[] & {categoryId: string}[] = await queryDatabase(connection,productQuery, id);
+            const imageQuery: string = "SELECT `url` FROM `image` WHERE `ItemId` = ?";
+            const queryImageResult: {url: string}[] = await queryDatabase(connection,imageQuery,id);
+            const catagoryQuery: string = "SELECT `name`, `description` FROM `category` WHERE `id` = ?";
+            const queryCatagoryResult: Catagory[] = await queryDatabase(connection,catagoryQuery,queryProductResult[0].categoryId);
+            
+            const result: OrderItem = queryProductResult[0];
+            result.imageURLs = queryImageResult.map((val) => val.url);
+            result.catagory = queryCatagoryResult[0];
+            
+            return result;
+        } catch (err) {
+            console.error(err);
+            return undefined;
         } finally {
             connection.release();
         }
@@ -81,39 +124,38 @@ export class OrderItemController {
         const result: OrderItem[] = await itemDatabase.getAll();
         res.json(result);
     }
+    public async getAllSortedFiltered(req: Request,res: Response): Promise<void> {
+        const result: OrderItem[] = await itemDatabase.getAllSortedFiltered({
+            orderBy: req.query.orderBy as string ?? "",
+            sortOrder: req.query.sortOrder as string ?? "ASC"
+        });
+        res.json(result);
+    }
+    public async getProduct(req: Request,res: Response): Promise<void> {
+        const result: OrderItem | undefined = await itemDatabase.getProduct(req.params["id"]);
+        res.json(result);
+    }
     /**
-     * Adds an item
+     * Adds an array of products
      * @param req Request object
      * @param res Response object
      */
-    public async adminAdd(req: Request, res: Response): Promise<void> {
+    public async add(req: Request, res: Response): Promise<void> {
         const userData: UserData = req.user!;
         if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
             res.status(401).end();
             return;
         }
-        if (await itemDatabase.addItem(req.body)) {
-            res.json("true");
-            return;
-        };
-        res.json("false");
-    }
-    public async adminAddJson(req: Request, res: Response): Promise<void> {
-        const userData: UserData = req.user!;
-        if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
-            res.status(401).end();
-            return;
-        }
-        const json: any = req.body;
+        const products: any = req.body;
         let succeeded: number = 0;
         let failed: number = 0;
-        for (const product of json) {
+        for (const product of products) {
             if (await itemDatabase.addItem({
-                name: product.title ?? "",
-                description: product.descriptionMarkdown ?? "",
+                name: product.title ?? product.name ?? "",
+                description: product.descriptionMarkdown ?? product.description ?? "",
                 price: "0",
-                catagory: product.tags[0] ?? "",
-                imageURLs: product.images ?? [],
+                catagory: product.catagory ?? (product.tags ? product.tags[0] : ""),
+                imageURLs: product.images ?? product.imageURLs ?? [],
                 thumbnail: product.thumbnail ?? ""
             })) {
                 succeeded++;

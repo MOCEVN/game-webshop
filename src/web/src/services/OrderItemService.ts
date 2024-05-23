@@ -29,7 +29,63 @@ export class OrderItemService {
         return (await response.json()) as OrderItem[];
     }
 
-    public async addFromJson(json: string): Promise<{succeeded?: number, failed?: number, errorOccured: boolean}> {
+    public async getAllSortedFiltered(orderBy: string = "", sortOrder: string = "ASC"): Promise<OrderItem[] | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/all?${(new URLSearchParams({
+            orderBy: orderBy,
+            sortOrder: sortOrder
+        })).toString()}`, {
+            method: "get",
+        });
+        
+        if (!response.ok) {
+            console.error(response);
+
+            return undefined;
+        }
+
+        return (await response.json()) as OrderItem[];
+    }
+
+    public async getProduct(id: string): Promise<OrderItem | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/all/${id}`, {
+            method: "get",
+        });
+        
+        if (!response.ok) {
+            console.error(response);
+
+            return undefined;
+        }
+
+        return (await response.json()) as OrderItem;
+    }
+    /**
+     * Handles adding a product to the database
+     * @param formData Data to use for adding a product
+     * @returns `true` when successful, otherwise `false`.
+     */
+    public async add(product: OrderItem | any): Promise<boolean> {
+        
+        const token: string | undefined = this._tokenService.getToken();
+
+        if (!token) {
+            return false;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content`, {
+            method: "post",
+            headers: { ...headers, authorization: token},
+            body: JSON.stringify([product])
+        });
+        
+        if (!response.ok) {
+            return false;
+        }
+        
+        return (await response.json()) as boolean;
+    }
+
+    public async addMultiple(products: any): Promise<{succeeded?: number, failed?: number, errorOccured: boolean}> {
         
         const token: string | undefined = this._tokenService.getToken();
 
@@ -37,10 +93,10 @@ export class OrderItemService {
             return {errorOccured: true};
         }
 
-        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/admin/add-json`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content`, {
             method: "post",
             headers: {...headers, authorization: token},
-            body: json
+            body: typeof products === "string" ? products : JSON.stringify(products)
         });
         
         if (!response.ok) {
