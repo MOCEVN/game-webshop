@@ -136,38 +136,26 @@ export class OrderItemController {
         res.json(result);
     }
     /**
-     * Adds an item
+     * Adds an array of products
      * @param req Request object
      * @param res Response object
      */
-    public async adminAdd(req: Request, res: Response): Promise<void> {
+    public async add(req: Request, res: Response): Promise<void> {
         const userData: UserData = req.user!;
         if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
             res.status(401).end();
             return;
         }
-        if (await itemDatabase.addItem(req.body)) {
-            res.json("true");
-            return;
-        };
-        res.json("false");
-    }
-    public async adminAddJson(req: Request, res: Response): Promise<void> {
-        const userData: UserData = req.user!;
-        if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
-            res.status(401).end();
-            return;
-        }
-        const json: any = req.body;
+        const products: any = req.body;
         let succeeded: number = 0;
         let failed: number = 0;
-        for (const product of json) {
+        for (const product of products) {
             if (await itemDatabase.addItem({
-                name: product.title ?? "",
-                description: product.descriptionMarkdown ?? "",
+                name: product.title ?? product.name ?? "",
+                description: product.descriptionMarkdown ?? product.description ?? "",
                 price: "0",
-                catagory: product.tags[0] ?? "",
-                imageURLs: product.images ?? [],
+                catagory: product.catagory ?? (product.tags ? product.tags[0] : ""),
+                imageURLs: product.images ?? product.imageURLs ?? [],
                 thumbnail: product.thumbnail ?? ""
             })) {
                 succeeded++;

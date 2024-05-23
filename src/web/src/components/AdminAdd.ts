@@ -1,6 +1,6 @@
 import { LitElement, TemplateResult, css, html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { UserService } from "../services/UserService";
+// import { UserService } from "../services/UserService";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { OrderItemService } from "../services/OrderItemService";
 
@@ -30,7 +30,7 @@ export class AdminAdd extends LitElement{
         }
     `;
 
-    private _userService: UserService = new UserService();
+    // private _userService: UserService = new UserService();
     private _orderItemService: OrderItemService = new OrderItemService();
 
     @state()
@@ -56,7 +56,7 @@ export class AdminAdd extends LitElement{
             thumbnail: formInputData.get("thumbnail") as string | undefined,
             imageURLs: (formInputData.get("images") as string | undefined)?.split(" ")
         };
-        this._succeeded = await this._userService.adminAddProduct(formData);
+        this._succeeded = await this._orderItemService.add(formData);
         
         if (this._succeeded) {
             formElement.reset();
@@ -76,16 +76,12 @@ export class AdminAdd extends LitElement{
         fileReader.readAsText(jsonFile);
         fileReader.addEventListener("load",() => {
             const content: string = fileReader.result as string;
-            console.log(content);
             this._jsonStatus = {sent: true, recievedResponse: false};
-            void this._orderItemService.addFromJson(content).then((status) => {
+            void this._orderItemService.addMultiple(content).then((status) => {
                 this._jsonStatus = {sent: true, recievedResponse: true};
                 this._jsonResult = status;
             });
         });
-        console.log(formElement);
-        
-        
     }
 
     protected render(): TemplateResult {
