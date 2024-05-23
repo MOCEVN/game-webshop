@@ -12,10 +12,13 @@ export type UserData = {
     id: number;
     email: string;
     password: string;
+    firstName: string;
+    lastName: string;
     name: string;
 
-    firstName?: string;
-    lastName?: string;
+
+    // firstName?: string;
+    // lastName?: string;
     addresses?: Address[];
     orders?: Order[];
     authorizationLevel?: AuthorizationLevel;

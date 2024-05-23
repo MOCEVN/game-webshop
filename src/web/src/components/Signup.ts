@@ -3,6 +3,7 @@ import { customElement } from "lit/decorators.js";
 import { UserService } from "../services/UserService";
 
 @customElement("sign-up")
+// signUp class inherited from litElement
 export class SignUp extends LitElement {
 
   public static styles = css`
@@ -54,12 +55,15 @@ export class SignUp extends LitElement {
     }
   `;
 
+  // composition from class signUp
   private _userService: UserService = new UserService();
 
+  // encapsulation
   private _email: string = "";
   private _password: string = "";
   private _firstName: string = "";
   private _lastName: string = "";
+  private _name: string = "";
 
   protected render(): TemplateResult {
     return html`
@@ -77,7 +81,7 @@ export class SignUp extends LitElement {
           <label for="email">Email</label>
           <input type="email" id="email" name="email" @input="${this.handleInputChange}" required>
           
-          <label for="password">Password</label>
+          <label for="password">Wachtwoord</label>
           <input type="password" id="password" name="password" @input="${this.handleInputChange}" required>
           
           <button type="submit">Registreren</button>
@@ -115,11 +119,14 @@ export class SignUp extends LitElement {
     const result: boolean = await this._userService.register({
       email: this._email,
       password: this._password,
-      name: `${this._firstName} ${this._lastName}`,
+      firstName: this._firstName,
+      lastName: this._lastName,
+      name: this._name
     });
 
     if (result) {
       alert("U bent geregistreerd!");
+      window.location.href = "homepage.html";
     } else {
       alert("Registratie is niet gelukt!");
     }
