@@ -17,6 +17,7 @@ router.post("/users/register", asyncHandler(async (req, res) => userController.r
 router.post("/users/login", asyncHandler(async (req, res) => userController.login(req, res)));
 
 router.get("/store-content/all", asyncHandler(orderItemController.getAllSortedFiltered));
+router.get("/store-content/all/:id", asyncHandler(orderItemController.getProduct));
 router.get("/orderItems", asyncHandler(orderItemController.getAll));
 
 // NOTE: Everything after this point only works with a valid JWT token!

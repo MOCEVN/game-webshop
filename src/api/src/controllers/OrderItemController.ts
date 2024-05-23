@@ -4,6 +4,7 @@ import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
 import { SortFilter } from "@shared/types/SortFIlter";
+import { Catagory } from "@shared/types/Catagory";
 // import { connect } from "http2";
 
 class ItemDatabase {
@@ -52,6 +53,28 @@ class ItemDatabase {
             console.error(err);
             
             return [];
+        } finally {
+            connection.release();
+        }
+    }
+    public async getProduct(id: string): Promise<OrderItem | undefined> {
+        const connection: PoolConnection = await getConnection();
+        try {
+            const productQuery: string = "SELECT `id`, `name`, `description`, `price`, `categoryId`, `thumbnail` FROM `orderitem` WHERE `id` = ?";
+            const queryProductResult: OrderItem[] & {categoryId: string}[] = await queryDatabase(connection,productQuery, id);
+            const imageQuery: string = "SELECT `url` FROM `image` WHERE `ItemId` = ?";
+            const queryImageResult: {url: string}[] = await queryDatabase(connection,imageQuery,id);
+            const catagoryQuery: string = "SELECT `name`, `description` FROM `category` WHERE `id` = ?";
+            const queryCatagoryResult: Catagory[] = await queryDatabase(connection,catagoryQuery,queryProductResult[0].categoryId);
+            
+            const result: OrderItem = queryProductResult[0];
+            result.imageURLs = queryImageResult.map((val) => val.url);
+            result.catagory = queryCatagoryResult[0];
+            
+            return result;
+        } catch (err) {
+            console.error(err);
+            return undefined;
         } finally {
             connection.release();
         }
@@ -106,6 +129,10 @@ export class OrderItemController {
             orderBy: req.query.orderBy as string ?? "",
             sortOrder: req.query.sortOrder as string ?? "ASC"
         });
+        res.json(result);
+    }
+    public async getProduct(req: Request,res: Response): Promise<void> {
+        const result: OrderItem | undefined = await itemDatabase.getProduct(req.params["id"]);
         res.json(result);
     }
     /**
