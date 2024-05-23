@@ -164,6 +164,6 @@ export class UserService {
             return false;
         }
 
-        return (await response.json()) as boolean;
+        return await response.json() === "true";
     }
 }

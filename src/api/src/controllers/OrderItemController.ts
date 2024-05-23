@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { AuthorizationLevel, OrderItem, UserData } from "@shared/types";
+import { AuthorizationLevel, OrderItem } from "@shared/types";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
 import { SortFilter } from "@shared/types/SortFIlter";
 import { Catagory } from "@shared/types/Catagory";
+import { CustomJwtToken } from "../types/jwt";
 // import { connect } from "http2";
 
 class ItemDatabase {
@@ -141,8 +142,10 @@ export class OrderItemController {
      * @param res Response object
      */
     public async add(req: Request, res: Response): Promise<void> {
-        const userData: UserData = req.user!;
-        if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const userToken: CustomJwtToken = req.token!;
+        
+        if (userToken.authorization !== AuthorizationLevel.ADMIN){
             res.status(401).end();
             return;
         }

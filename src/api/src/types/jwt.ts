@@ -1,3 +1,4 @@
+import { AuthorizationLevel } from "@shared/types";
 import { JwtPayload } from "jsonwebtoken";
 
 /**
@@ -5,6 +6,7 @@ import { JwtPayload } from "jsonwebtoken";
  */
 export type CustomJwtPayload = {
     userId: number;
+    authorization?: AuthorizationLevel;
 };
 
 /**
