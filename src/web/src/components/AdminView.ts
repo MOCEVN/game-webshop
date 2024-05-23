@@ -1,5 +1,5 @@
 import { LitElement, TemplateResult, css, html } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import { OrderItemService } from "../services/OrderItemService";
 import { OrderItem } from "@shared/types";
 import {until} from "lit/directives/until.js";
@@ -17,6 +17,7 @@ export class AdminView extends LitElement {
         }
         .products {
             display: grid;
+            align-items: center;
             grid-template-columns: 1fr 2fr 2fr 6fr;
         }
         .center {
@@ -24,6 +25,9 @@ export class AdminView extends LitElement {
         }
         h1 {
             font-size: 1.5em;
+        }
+        img {
+            max-height: 30em;
         }
     `;
 
@@ -33,6 +37,10 @@ export class AdminView extends LitElement {
 
     private _orderBy: string = "id";
     private _sortOrder: string = "ASC";
+
+    @state()
+    private _viewProduct: boolean = false;
+    private _product?: OrderItem;
 
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
@@ -53,7 +61,7 @@ export class AdminView extends LitElement {
         if (this._products) {
             return html`
                 ${map(this._products, (val) => html`
-                    <p>${val.id}</p>
+                    <a @click=${(e: Event): void => {void this._handleClickProduct(e,val.id.toString());}} href="">${val.id}</a>
                     <p>${val.name}</p>
                     <p class="center">${val.price}</p>
                     <p>${val.description}</p>
@@ -75,19 +83,47 @@ export class AdminView extends LitElement {
         this._sortOrder = (e.target as HTMLInputElement).value;
     }
     
+    private async _handleClickProduct(e: Event,id: string): Promise<void> {
+        e.preventDefault();
+        this._product = await this._orderItemService.getProduct(id);
+        if (this._product) {
+            this._viewProduct = true;
+        }
+    }
+
+    private renderProduct(): TemplateResult {
+        return html`
+            <div class="container">
+                <button @click=${(): void => {this._viewProduct = false;}}>Back</button>
+                <h1>${this._product?.name}</h1>
+                <img src=${this._product!.thumbnail} alt="">
+                <p>${this._product?.description}</p>
+                <p>${this._product?.price}</p>
+                <p>${this._product?.catagory?.name}</p>
+                <p>${this._product?.catagory?.description}</p>
+                ${map(this._product?.imageURLs, (val) => html`
+                    <img src=${val}>
+                `)}
+            </div>
+        `;
+    }
+
     protected render(): TemplateResult {
+        if (this._viewProduct) {
+            return this.renderProduct();
+        }
         return html`
             <div class="container">
                 <label for="sort">Order By:</label>
                 <select name="sort" id="sort" @change=${this._handleOrderBy}>
-                    <option value="id">ID</option>
-                    <option value="name">Name</option>
-                    <option value="price">Price</option>
-                    <option value="description">Description</option>
+                    <option value="id" ?selected=${this._orderBy === "id"}>ID</option>
+                    <option value="name" ?selected=${this._orderBy === "name"}>Name</option>
+                    <option value="price" ?selected=${this._orderBy === "price"}>Price</option>
+                    <option value="description" ?selected=${this._orderBy === "description"}>Description</option>
                 </select>
                 <select name="order" id="order" @change=${this._handleSortOrder}>
-                    <option value="ASC">Ascending</option>
-                    <option value="DESC">Descending</option>
+                    <option value="ASC" ?selected=${this._sortOrder === "ASC"}>Ascending</option>
+                    <option value="DESC" ?selected=${this._sortOrder === "DESC"}>Descending</option>
                 </select>
                 <button @click=${this._refresh}>refresh</button>
                 <div class="products">
