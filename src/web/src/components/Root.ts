@@ -78,6 +78,8 @@ export class Root extends LitElement {
 
     private _email: string = "";
     private _password: string = "";
+    private _firstName: string = "";
+    private _lastName: string = "";
     private _name: string = "";
 
     public async connectedCallback(): Promise<void> {
@@ -143,6 +145,8 @@ export class Root extends LitElement {
         const result: boolean = await this._userService.register({
             email: this._email,
             password: this._password,
+            firstName: this._firstName,
+            lastName: this._lastName,
             name: this._name,
         });
 

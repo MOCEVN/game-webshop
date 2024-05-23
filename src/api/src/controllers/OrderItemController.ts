@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { AuthorizationLevel, OrderItem, UserData } from "@shared/types";
+import { AuthorizationLevel, OrderItem, OrderItemSortableColumns } from "@shared/types";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
-import { SortFilter } from "@shared/types/SortFIlter";
+import { getQueryParameters } from "@shared/types/SortFIlter";
 import { Catagory } from "@shared/types/Catagory";
+import { CustomJwtToken } from "../types/jwt";
 // import { connect } from "http2";
 
 class ItemDatabase {
@@ -38,16 +39,25 @@ class ItemDatabase {
             connection.release();
         }
     }
-    public async getAllSortedFiltered(params: SortFilter): Promise<OrderItem[]> {
+    public async getAllWithParameters(params: getQueryParameters): Promise<OrderItem[]> {
         const connection: PoolConnection = await getConnection();
         try {
             let query: string = "SELECT * FROM orderitem";
+            const values: any[] = [];
+
             // TODO: add filters
             
-            if (params.orderBy) {
-                query += ` ORDER BY ${params.orderBy} ${params.sortOrder ?? "ASC"}`;
+            // mysql2 parameter binding doesn't work for searchType here
+            if (params.search && params.searchType && OrderItemSortableColumns.has(params.searchType)) {
+                query += ` WHERE ${params.searchType} LIKE ?`;
+                values.push(params.search);
             }
-            const result: any = await queryDatabase(connection, query);
+            // mysql2 parameter binding doesn't work with ORDER BY
+            if (params.orderBy && OrderItemSortableColumns.has(params.orderBy)) {
+                query += ` ORDER BY ${params.orderBy} ${params.sortOrder === "DESC" ? "DESC" : "ASC"}`;
+            }
+            
+            const result: any = await queryDatabase(connection, query, ...values);
             return result;
         } catch (err) {
             console.error(err);
@@ -124,10 +134,12 @@ export class OrderItemController {
         const result: OrderItem[] = await itemDatabase.getAll();
         res.json(result);
     }
-    public async getAllSortedFiltered(req: Request,res: Response): Promise<void> {
-        const result: OrderItem[] = await itemDatabase.getAllSortedFiltered({
+    public async getAllWithParameters(req: Request,res: Response): Promise<void> {
+        const result: OrderItem[] = await itemDatabase.getAllWithParameters({
             orderBy: req.query.orderBy as string ?? "",
-            sortOrder: req.query.sortOrder as string ?? "ASC"
+            sortOrder: req.query.sortOrder as string ?? "ASC",
+            search: req.query.search as string ?? "",
+            searchType: req.query.searchType as string ?? "name",
         });
         res.json(result);
     }
@@ -136,38 +148,28 @@ export class OrderItemController {
         res.json(result);
     }
     /**
-     * Adds an item
+     * Adds an array of products
      * @param req Request object
      * @param res Response object
      */
-    public async adminAdd(req: Request, res: Response): Promise<void> {
-        const userData: UserData = req.user!;
-        if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
+    public async add(req: Request, res: Response): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const userToken: CustomJwtToken = req.token!;
+        
+        if (userToken.authorization !== AuthorizationLevel.ADMIN){
             res.status(401).end();
             return;
         }
-        if (await itemDatabase.addItem(req.body)) {
-            res.json("true");
-            return;
-        };
-        res.json("false");
-    }
-    public async adminAddJson(req: Request, res: Response): Promise<void> {
-        const userData: UserData = req.user!;
-        if (userData.authorizationLevel !== AuthorizationLevel.ADMIN){
-            res.status(401).end();
-            return;
-        }
-        const json: any = req.body;
+        const products: any = req.body;
         let succeeded: number = 0;
         let failed: number = 0;
-        for (const product of json) {
+        for (const product of products) {
             if (await itemDatabase.addItem({
-                name: product.title ?? "",
-                description: product.descriptionMarkdown ?? "",
+                name: product.title ?? product.name ?? "",
+                description: product.descriptionMarkdown ?? product.description ?? "",
                 price: "0",
-                catagory: product.tags[0] ?? "",
-                imageURLs: product.images ?? [],
+                catagory: product.catagory ?? (product.tags ? product.tags[0] : ""),
+                imageURLs: product.images ?? product.imageURLs ?? [],
                 thumbnail: product.thumbnail ?? ""
             })) {
                 succeeded++;

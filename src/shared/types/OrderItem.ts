@@ -9,3 +9,12 @@ export type OrderItem = {
     imageURLs?: string[];
     catagory?: Catagory;
 };
+
+export const OrderItemSortableColumns: Set<string> = new Set(
+    [
+        "id",
+        "description",
+        "name",
+        "price"   
+    ]
+);

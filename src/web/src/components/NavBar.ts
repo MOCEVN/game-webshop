@@ -101,7 +101,7 @@ protected render(): TemplateResult {
           <li><a href="shoppingcart.html"><img src="/assets/img/cart.png"></a></li>
           <li><a href="#"><img src="/assets/img/heart.png"></a></li>
           <li><a href="#"><img src="/assets/img/account.png"></a></li>
-          <li><a href="signup.html" id="logIn"><img src="/assets/img/login.png"></a></li>
+          <li><a href="login.html" id="logIn"><img src="/assets/img/login.png"></a></li>
         </ul>
     </nav>
     `;

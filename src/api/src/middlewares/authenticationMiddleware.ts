@@ -1,7 +1,5 @@
-// import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { CustomJwtToken } from "../types/jwt";
-// import { users } from "../fakeDatabase";
 import { userDatabase } from "../controllers/UserController";
 import asyncHandler from "express-async-handler";
 
@@ -45,6 +43,8 @@ export function handleTokenBasedAuthentication(): ExpressMiddleware {
 
             return;
         }
+
+        req.token = jwtToken;
 
         // Retrieve user
         req.user = await userDatabase.getUserFromId(jwtToken.userId);

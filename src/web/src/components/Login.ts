@@ -68,12 +68,12 @@ export class LoginForm extends LitElement {
           <label for="email">Email</label>
           <input type="email" id="email" name="email" @input="${this.handleInputChange}" required>
 
-          <label for="password">Password</label>
+          <label for="password">Wachtwoord</label>
           <input type="password" id="password" name="password" @input="${this.handleInputChange}" required>
           
           <button type="submit">Inloggen</button>
 
-          <a href="register.html">
+          <a href="signup.html">
             <p>Heeft u nog geen account? Registreer</p> 
           </a>
         </form>
@@ -109,4 +109,5 @@ export class LoginForm extends LitElement {
         break;
     }
   }
+  
 }

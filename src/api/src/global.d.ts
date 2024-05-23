@@ -1,4 +1,5 @@
 import { UserData } from "@shared/types/UserData";
+import { CustomJwtToken } from "./types/jwt";
 
 declare global {
     namespace NodeJS {
@@ -10,6 +11,7 @@ declare global {
     namespace Express {
         export interface Request {
             user?: UserData;
+            token?: CustomJwtToken;
         }
     }
 }

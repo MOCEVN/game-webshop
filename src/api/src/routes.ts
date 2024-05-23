@@ -16,7 +16,7 @@ router.get("/", (_, res) => {
 router.post("/users/register", asyncHandler(async (req, res) => userController.register(req, res)));
 router.post("/users/login", asyncHandler(async (req, res) => userController.login(req, res)));
 
-router.get("/store-content/all", asyncHandler(orderItemController.getAllSortedFiltered));
+router.get("/store-content/all", asyncHandler(orderItemController.getAllWithParameters));
 router.get("/store-content/all/:id", asyncHandler(orderItemController.getProduct));
 router.get("/orderItems", asyncHandler(orderItemController.getAll));
 
@@ -27,6 +27,5 @@ router.get("/users/logout", (req, res) => userController.logout(req, res));
 router.get("/users/hello", (req, res) => userController.hello(req, res));
 router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(req, res));
 router.get("/users/admin", (req, res) => userController.requestAdminAccess(req, res));
-router.post("/store-content/admin/add",asyncHandler(orderItemController.adminAdd));
-router.post("/store-content/admin/add-json",asyncHandler(orderItemController.adminAddJson));
+router.post("/store-content",asyncHandler(orderItemController.add));
 

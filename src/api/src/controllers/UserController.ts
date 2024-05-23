@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { AuthorizationLevel, UserData } from "@shared/types";
 import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
 import { orderItems } from "../fakeDatabase";
-import { CustomJwtPayload } from "../types/jwt";
+import { CustomJwtPayload, CustomJwtToken } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
@@ -132,7 +132,7 @@ export class UserController {
         }
 
         // Generate a JWT Token
-        const payload: CustomJwtPayload = { userId: user.id };
+        const payload: CustomJwtPayload = { userId: user.id , authorization: user.authorizationLevel };
 
         const token: string = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
 
@@ -202,8 +202,10 @@ export class UserController {
     }
 
     public requestAdminAccess(req: Request, res: Response): void {
-        const userData: UserData = req.user!;
-        if (userData.authorizationLevel === AuthorizationLevel.ADMIN){
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const userToken: CustomJwtToken = req.token!;
+        
+        if (userToken.authorization === AuthorizationLevel.ADMIN){
             res.json("true");
             return;
         }
