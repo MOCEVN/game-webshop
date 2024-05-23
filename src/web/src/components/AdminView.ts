@@ -35,6 +35,8 @@ export class AdminView extends LitElement {
 
     private _products!: OrderItem[];
 
+    private _search: string = "";
+    private _searchType: string = "name";
     private _orderBy: string = "id";
     private _sortOrder: string = "ASC";
 
@@ -43,7 +45,7 @@ export class AdminView extends LitElement {
     private _product?: OrderItem;
 
     private async _getProducts(): Promise<void> {
-        const products: OrderItem[] | undefined = await this._orderItemService.getAllSortedFiltered(this._orderBy,this._sortOrder);
+        const products: OrderItem[] | undefined = await this._orderItemService.getAllWithParameters(this._orderBy,this._sortOrder,this._search,this._searchType);
         if (products) {
             this._products = products;
             return;
@@ -68,6 +70,14 @@ export class AdminView extends LitElement {
 
     private _refresh(): void {
         this.requestUpdate();
+    }
+
+    private _handleSearch(e: Event): void {
+        this._search = (e.target as HTMLInputElement).value;
+    }
+
+    private _handleSearchType(e: Event): void {
+        this._searchType = (e.target as HTMLInputElement).value;
     }
 
     private _handleOrderBy(e: Event): void {
@@ -109,6 +119,13 @@ export class AdminView extends LitElement {
         }
         return html`
             <div class="container">
+                <label for="search">Search</label>
+                <input type="text" name="search" id="search" @change=${this._handleSearch}>
+                <label for="searchType">Search column</label>
+                <select name="searchType" id="searchType" @change=${this._handleSearchType}>
+                    <option value="name">Name</option>
+                    <option value="description">Description</option>
+                </select>
                 <label for="sort">Order By:</label>
                 <select name="sort" id="sort" @change=${this._handleOrderBy}>
                     <option value="id" ?selected=${this._orderBy === "id"}>ID</option>

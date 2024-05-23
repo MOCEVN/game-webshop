@@ -29,10 +29,12 @@ export class OrderItemService {
         return (await response.json()) as OrderItem[];
     }
 
-    public async getAllSortedFiltered(orderBy: string = "", sortOrder: string = "ASC"): Promise<OrderItem[] | undefined> {
+    public async getAllWithParameters(orderBy: string = "", sortOrder: string = "ASC", search: string = "", searchType: string = "name"): Promise<OrderItem[] | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/all?${(new URLSearchParams({
             orderBy: orderBy,
-            sortOrder: sortOrder
+            sortOrder: sortOrder,
+            search: "%" + search + "%",
+            searchType: searchType,
         })).toString()}`, {
             method: "get",
         });

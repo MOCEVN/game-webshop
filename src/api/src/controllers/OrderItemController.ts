@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { AuthorizationLevel, OrderItem } from "@shared/types";
+import { AuthorizationLevel, OrderItem, OrderItemSortableColumns } from "@shared/types";
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 import { getConnection, queryDatabase } from "../databaseService";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
-import { SortFilter } from "@shared/types/SortFIlter";
+import { getQueryParameters } from "@shared/types/SortFIlter";
 import { Catagory } from "@shared/types/Catagory";
 import { CustomJwtToken } from "../types/jwt";
 // import { connect } from "http2";
@@ -39,16 +39,25 @@ class ItemDatabase {
             connection.release();
         }
     }
-    public async getAllSortedFiltered(params: SortFilter): Promise<OrderItem[]> {
+    public async getAllWithParameters(params: getQueryParameters): Promise<OrderItem[]> {
         const connection: PoolConnection = await getConnection();
         try {
             let query: string = "SELECT * FROM orderitem";
+            const values: any[] = [];
+
             // TODO: add filters
             
-            if (params.orderBy) {
-                query += ` ORDER BY ${params.orderBy} ${params.sortOrder ?? "ASC"}`;
+            // mysql2 parameter binding doesn't work for searchType here
+            if (params.search && params.searchType && OrderItemSortableColumns.has(params.searchType)) {
+                query += ` WHERE ${params.searchType} LIKE ?`;
+                values.push(params.search);
             }
-            const result: any = await queryDatabase(connection, query);
+            // mysql2 parameter binding doesn't work with ORDER BY
+            if (params.orderBy && OrderItemSortableColumns.has(params.orderBy)) {
+                query += ` ORDER BY ${params.orderBy} ${params.sortOrder === "DESC" ? "DESC" : "ASC"}`;
+            }
+            
+            const result: any = await queryDatabase(connection, query, ...values);
             return result;
         } catch (err) {
             console.error(err);
@@ -125,10 +134,12 @@ export class OrderItemController {
         const result: OrderItem[] = await itemDatabase.getAll();
         res.json(result);
     }
-    public async getAllSortedFiltered(req: Request,res: Response): Promise<void> {
-        const result: OrderItem[] = await itemDatabase.getAllSortedFiltered({
+    public async getAllWithParameters(req: Request,res: Response): Promise<void> {
+        const result: OrderItem[] = await itemDatabase.getAllWithParameters({
             orderBy: req.query.orderBy as string ?? "",
-            sortOrder: req.query.sortOrder as string ?? "ASC"
+            sortOrder: req.query.sortOrder as string ?? "ASC",
+            search: req.query.search as string ?? "",
+            searchType: req.query.searchType as string ?? "name",
         });
         res.json(result);
     }
