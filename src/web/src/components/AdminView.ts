@@ -42,11 +42,6 @@ export class AdminView extends LitElement {
     private _viewProduct: boolean = false;
     private _product?: OrderItem;
 
-    public async connectedCallback(): Promise<void> {
-        super.connectedCallback();
-        await this._getProducts();
-    }
-
     private async _getProducts(): Promise<void> {
         const products: OrderItem[] | undefined = await this._orderItemService.getAllSortedFiltered(this._orderBy,this._sortOrder);
         if (products) {
