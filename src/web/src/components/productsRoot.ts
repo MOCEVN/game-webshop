@@ -22,6 +22,7 @@ export class productsRoot extends LitElement {
             color: #373e98;
         }
         .ProductsContainer {
+            /* background-image */
             padding-top: 1vw;
             display: flex;
             flex-direction: row;
@@ -34,6 +35,7 @@ export class productsRoot extends LitElement {
             margin-bottom:4vw;
         }
         .products {
+            justify-content: space-evenly;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -52,7 +54,7 @@ export class productsRoot extends LitElement {
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 60%;
+            height: 20%;
             width: 90%;
             padding:10px;
             overflow-x: scroll;
@@ -64,6 +66,11 @@ export class productsRoot extends LitElement {
             width: 100%;
             padding-right: 10%;
             color: green;
+        }
+        .image{
+            border-radius: 10px;
+            height: 40%;
+            width:50%;
         }
     `;
 
@@ -106,14 +113,19 @@ export class productsRoot extends LitElement {
 
                         console.log(row.thumbnail);
 
-                        if(row.imageURLs){
+                        if(row.thumbnail){
                             // const image : string = row.imageURLs;
                         };
 
                         return html `
-                        <div class="products">
+                        <div class="products" >
                             <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
                             <div class="productname">${row.name}</div>
+                            <div class= "image" style="background: url(${row.thumbnail}) ;
+                        background-position: center;
+                        background-size: 100%;
+                        background-repeat: no-repeat;
+            "></div>
                             <div class="description">${row.description}</div>
                             <div class="price">${row.price}</div>
                         </div>
