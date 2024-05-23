@@ -2,7 +2,7 @@
 import { LitElement, TemplateResult, css, html } from "lit";
 import { customElement } from "lit/decorators.js";
 
-const checkcart: any = "select * from shoppingcartitem where userId = ?";
+const checkcart: any = ();
 let message: any ;
 
 if(checkcart === null){
@@ -17,10 +17,10 @@ if(checkcart === null){
     <button class="winkelen">verder winkelen</button>
 </div> `;
 }else if(checkcart.length){
- foreach
 }
  else {
- message = html `<p>Welcome to your shoppingbag</p>`;
+ message = html `<img src="">
+    <p>je moet ingelogd zijn om de winkelwagen te kunne gebruiken!</p>`;
 }
 
 
@@ -41,12 +41,5 @@ export class shoppingcart extends LitElement {
         }
     `;
 
-    protected render(): TemplateResult {
-        return html`
-            <p class="message">${message}</p>
-        `;
     }
-}
-
-
 
