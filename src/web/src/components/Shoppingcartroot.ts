@@ -1,5 +1,28 @@
+
 import { LitElement, TemplateResult, css, html } from "lit";
 import { customElement } from "lit/decorators.js";
+
+const checkcart: any = "select * from shoppingcartitem where userId = ?";
+let message: any ;
+
+if(checkcart === null){
+    message = html`<div class="noproductstext">
+    <img class="shoppingbag" src="/assets/img/Shoppingbag.png" />
+
+    <h1>Winkelwagen</h1>
+    <p>
+        Er zijn geen producten in jouw winkelwagen. Klik op de onderstaande knop om verder te
+        winkelen.
+    </p>
+    <button class="winkelen">verder winkelen</button>
+</div> `;
+}else if(checkcart.length){
+ foreach
+}
+ else {
+ message = html `<p>Welcome to your shoppingbag</p>`;
+}
+
 
 @customElement("shoppingcart-root")
 export class shoppingcart extends LitElement {
@@ -12,6 +35,7 @@ export class shoppingcart extends LitElement {
             width: 8vw;
         }
         .winkelen {
+            margin-top: 2vh;
             width: 35vw;
             height: 5vh;
         }
@@ -19,16 +43,10 @@ export class shoppingcart extends LitElement {
 
     protected render(): TemplateResult {
         return html`
-            <div class="noproductstext">
-                <img class="shoppingbag" src="/assets/img/Shoppingbag.png" />
-
-                <h1>Winkelwagen</h1>
-                <p>
-                    Er zijn geen producten in jouw winkelwagen. Klik op de onderstaande knop om verder te
-                    winkelen.
-                </p>
-                <button class="winkelen">verder winkelen</button>
-            </div>
+            <p class="message">${message}</p>
         `;
     }
 }
+
+
+
