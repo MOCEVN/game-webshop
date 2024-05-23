@@ -17,7 +17,7 @@ export class AdminView extends LitElement {
         }
         .products {
             display: grid;
-            grid-template-columns: 1fr 1fr 3fr;
+            grid-template-columns: 1fr 2fr 2fr 6fr;
         }
         .center {
             justify-self: center;
@@ -31,7 +31,7 @@ export class AdminView extends LitElement {
 
     private _products!: OrderItem[];
 
-    private _orderBy: string = "name";
+    private _orderBy: string = "id";
     private _sortOrder: string = "ASC";
 
     public async connectedCallback(): Promise<void> {
@@ -53,6 +53,7 @@ export class AdminView extends LitElement {
         if (this._products) {
             return html`
                 ${map(this._products, (val) => html`
+                    <p>${val.id}</p>
                     <p>${val.name}</p>
                     <p class="center">${val.price}</p>
                     <p>${val.description}</p>
@@ -79,7 +80,7 @@ export class AdminView extends LitElement {
             <div class="container">
                 <label for="sort">Order By:</label>
                 <select name="sort" id="sort" @change=${this._handleOrderBy}>
-                    <option value="">Default</option>
+                    <option value="id">ID</option>
                     <option value="name">Name</option>
                     <option value="price">Price</option>
                     <option value="description">Description</option>
@@ -90,9 +91,10 @@ export class AdminView extends LitElement {
                 </select>
                 <button @click=${this._refresh}>refresh</button>
                 <div class="products">
-                    <h1>name</h1>
-                    <h1 class="center">price</h1>
-                    <h1>description</h1>
+                    <h1>ID</h1>
+                    <h1>Name</h1>
+                    <h1 class="center">Price</h1>
+                    <h1>Description</h1>
                     ${until(this._renderProducts(),html`<p>Fetching products...</p>`)}
                 </div>
             </div>
