@@ -167,7 +167,7 @@ export class OrderItemController {
             if (await itemDatabase.addItem({
                 name: product.title ?? product.name ?? "",
                 description: product.descriptionMarkdown ?? product.description ?? "",
-                price: "0",
+                price: product.price ?? "0",
                 catagory: product.catagory ?? (product.tags ? product.tags[0] : ""),
                 imageURLs: product.images ?? product.imageURLs ?? [],
                 thumbnail: product.thumbnail ?? ""
