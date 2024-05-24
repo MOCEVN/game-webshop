@@ -1,4 +1,4 @@
-// import { Catagory } from "./Catagory";
+import { Catagory } from "./Catagory";
 
 export type OrderItem = {
     thumbnail: string;
@@ -6,6 +6,8 @@ export type OrderItem = {
     name: string;
     description?: string;
     price: number;
+    catagory?: Catagory;
+    imageURLs?: string[];
 };
 
 export const OrderItemSortableColumns: Set<string> = new Set(
