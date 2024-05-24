@@ -1,28 +1,23 @@
-
 import { LitElement, TemplateResult, css, html } from "lit";
 import { customElement } from "lit/decorators.js";
 
-const checkcart: any = ();
-let message: any ;
+const checkcart: any = "select * from shoppingcartitem where userId = ?";
+let message: any;
 
-if(checkcart === null){
+if (checkcart === null) {
     message = html`<div class="noproductstext">
-    <img class="shoppingbag" src="/assets/img/Shoppingbag.png" />
+        <img class="shoppingbag" src="/assets/img/Shoppingbag.png" />
 
-    <h1>Winkelwagen</h1>
-    <p>
-        Er zijn geen producten in jouw winkelwagen. Klik op de onderstaande knop om verder te
-        winkelen.
-    </p>
-    <button class="winkelen">verder winkelen</button>
-</div> `;
-}else if(checkcart.length){
+        <h1>Winkelwagen</h1>
+        <p>Er zijn geen producten in jouw winkelwagen. Klik op de onderstaande knop om verder te winkelen.</p>
+        <button class="winkelen">verder winkelen</button>
+    </div> `;
+} else if (checkcart.length) {
+    message = html`<p>je hebt items in je shoppingcart</p>`;
+} else {
+    message = html`<p>Welcome to your shoppingbag</p>`;
+    // hier moet een redirect komen naar de
 }
- else {
- message = html `<img src="">
-    <p>je moet ingelogd zijn om de winkelwagen te kunne gebruiken!</p>`;
-}
-
 
 @customElement("shoppingcart-root")
 export class shoppingcart extends LitElement {
@@ -41,5 +36,7 @@ export class shoppingcart extends LitElement {
         }
     `;
 
+    protected render(): TemplateResult {
+        return html` <p class="message">${message}</p> `;
     }
-
+}
