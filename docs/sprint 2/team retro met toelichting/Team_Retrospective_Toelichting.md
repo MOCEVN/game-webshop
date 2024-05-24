@@ -10,7 +10,7 @@
 
 ## Light Bulb
 
-- Optijd informatie aanvragen en ervoor zorgen dat je niet achterloopt in het leerproces.
+- Optijd informatie aanvragen en ervoor zorgen dat je niet achterloopt in het leerproces. Hierbij gaan we ook consequenter zijn met de standups en als iemand eerder weggaat, met z'n alle nog bespreken wat we hebben gedaan en wat we verder gaan doen als we thuis zijn.
 - Weight poker toepassen voor alle user stories die nog geen weight hebben, zodat we gemakkelijker kunnen plannen. De weight points gebruiken wij om per week te bepalen welke en hoeveel userstories er af moeten zijn. 
 
 ## Superhero
