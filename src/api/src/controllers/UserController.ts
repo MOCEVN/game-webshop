@@ -6,66 +6,19 @@ import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
 import { orderItems } from "../fakeDatabase";
 import { CustomJwtPayload, CustomJwtToken } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
-import { getConnection, queryDatabase } from "../databaseService";
-import { PoolConnection, ResultSetHeader } from "mysql2/promise";
-
-class UserDatabase {
-    /**
-     * Gets user data from an email address.
-     * @param email 
-     * @returns UserData
-     */
-    public async getUserFromEmail(email: string): Promise<UserData | undefined> {
-        const connection: PoolConnection = await getConnection();
-        const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE email = ?",email);
-        connection.release();
-        return user[0] as UserData | undefined;
-    }
-    /**
-     * Gets user data from an id.
-     * @param id 
-     * @returns UserData
-     */
-    public async getUserFromId(id: number): Promise<UserData | undefined> {
-        const connection: PoolConnection = await getConnection();
-        const user: any = await queryDatabase(connection,"SELECT id, email, password, name, firstName, lastName, authorizationLevel FROM user WHERE id = ?",id);
-        connection.release();
-        return user[0] as UserData | undefined;
-    }
-    /**
-     * Adds a user to the database.
-     * @param email 
-     * @param password 
-     * @param name 
-     * @returns Error string. Empty if no error.
-     */
-    public async addUser(email: string,password: string,name: string): Promise<string> {
-        const connection: PoolConnection = await getConnection();
-        const query: string = "INSERT INTO `user`(`email`, `password`, `name`) VALUES (?,?,?)";
-        const values: string[] = [email,password,name];
-        try {
-            await connection.beginTransaction();
-            const queryResult: ResultSetHeader = await queryDatabase(connection, query, ...values);
-            await connection.commit();
-            if (queryResult.affectedRows > 0) {
-                return "";
-            }
-            return queryResult.info;
-        } catch (err) {
-            console.error(err);
-            return err as string;
-        } finally {
-            connection.release();
-        }
-    }
-}
-
-export const userDatabase: UserDatabase = new UserDatabase();
+import { IUserController } from "../interfaces/UserController";
+import { IUserRepository } from "../interfaces/UserRepository";
 
 /**
  * Handles all endpoints related to the User resource
  */
-export class UserController {
+export class UserController implements IUserController{
+    private _userRepository: IUserRepository;
+    public constructor(
+        userRepository: IUserRepository
+    ) {
+        this._userRepository = userRepository;
+    }
     /**
      * Register a user using {@link UserRegisterFormModel}
      *
@@ -81,7 +34,7 @@ export class UserController {
         // TODO: Validate empty email/password/name
 
         // Validate if the user already exists
-        const existingUser: UserData | undefined = await userDatabase.getUserFromEmail(formModel.email);
+        const existingUser: UserData | undefined = await this._userRepository.getFromEmail(formModel.email);
 
         if (existingUser) {
             res.status(400).json({ message: "This email address is already used." });
@@ -92,7 +45,7 @@ export class UserController {
         // Hash the password
         const hashedPassword: string = bcrypt.hashSync(formModel.password, 10);
 
-        const queryResult: string = await userDatabase.addUser(formModel.email,hashedPassword,formModel.name);
+        const queryResult: string = await this._userRepository.add(formModel.email,hashedPassword,formModel.name);
 
         if (queryResult) {
             res.status(400).json({message: queryResult});
@@ -116,7 +69,7 @@ export class UserController {
         // TODO: Validate empty email/password
 
         // Retrieve user from the database
-        const user: UserData | undefined = await userDatabase.getUserFromEmail(formModel.email);
+        const user: UserData | undefined = await this._userRepository.getFromEmail(formModel.email);
         if (!user) {
             res.status(400).json({ message: "User not found" });
 

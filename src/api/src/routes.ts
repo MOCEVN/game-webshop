@@ -3,18 +3,19 @@ import { handleTokenBasedAuthentication } from "./middlewares/authenticationMidd
 import { UserController } from "./controllers/UserController";
 import { OrderItemController } from "./controllers/OrderItemController";
 import asyncHandler from "express-async-handler";
+import { UserRepository } from "./repositories/UserRepository";
 
 export const router: Router = Router();
 
-const userController: UserController = new UserController();
+const userController: UserController = new UserController(new UserRepository());
 const orderItemController: OrderItemController = new OrderItemController();
 
 router.get("/", (_, res) => {
     res.send("Hello, this is a simple webshop API.");
 });
 
-router.post("/users/register", asyncHandler(async (req, res) => userController.register(req, res)));
-router.post("/users/login", asyncHandler(async (req, res) => userController.login(req, res)));
+router.post("/users/register", asyncHandler(userController.register));
+router.post("/users/login", asyncHandler(userController.login.bind(userController)));
 
 router.get("/store-content/all", asyncHandler(orderItemController.getAllWithParameters));
 router.get("/store-content/all/:id", asyncHandler(orderItemController.getProduct));

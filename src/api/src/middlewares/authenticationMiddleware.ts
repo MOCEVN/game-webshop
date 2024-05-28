@@ -1,9 +1,12 @@
 import jwt from "jsonwebtoken";
 import { CustomJwtToken } from "../types/jwt";
-import { userDatabase } from "../controllers/UserController";
 import asyncHandler from "express-async-handler";
+import { IUserRepository } from "../interfaces/UserRepository";
+import { UserRepository } from "../repositories/UserRepository";
 
 type ExpressMiddleware = (req: any, res: any, next: any) => void;
+
+const userRepository: IUserRepository = new UserRepository();
 
 /**
  * Handles token-based authentication. If the token is valid, the user object is added to the request object.
@@ -47,7 +50,7 @@ export function handleTokenBasedAuthentication(): ExpressMiddleware {
         req.token = jwtToken;
 
         // Retrieve user
-        req.user = await userDatabase.getUserFromId(jwtToken.userId);
+        req.user = await userRepository.getFromId(jwtToken.userId);
 
         return next();
     });
