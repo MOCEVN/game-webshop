@@ -1,0 +1,5 @@
+## Retrospective sprint 2
+
+Voor deze sprint was mijn persoonlijke doel dat ik beter zou worden met plannen. Ik heb planningen gemaakt en ik merkte gelijk dat 9 van de 10 keer het niet altijd lukt. Meerendeels omdat er ook afspraken bij komen, afspraken kunnen worden afgezegd en moest ik mijn dagplanning weer anders indelen. Tijdens een coaching gesprek kwamen we erachter dat ik in de ochend/middag het productiefst ben. De andere weekplanning die ik heb gemaakt heb ik ook daarmee op afgestemd. Dat ik nog in de late ochtend/ vroege middag tijd heb en maak om aan school voorral te zitten.
+
+Het om hulp vragen is nog steeds soms een grote moeite voor mij. Terwijl je altijd 2 stappen vooruit bent dan wanneer je niks zegt en maar naar bijvoorbeeld een stuk code blijft staren. Voor de laatste sprint moet ik wel eerder en vaker aan de bel trekken. Ik ben heel dichtbij de propedeuse en ik moet het halen. Dit is ook persoonlijk om mezelf te kunnen bewijzen tegenover mezelf.
