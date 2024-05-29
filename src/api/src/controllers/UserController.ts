@@ -45,7 +45,7 @@ export class UserController implements IUserController{
         // Hash the password
         const hashedPassword: string = bcrypt.hashSync(formModel.password, 10);
 
-        const queryResult: string = await this._userRepository.add(formModel.email,hashedPassword,formModel.name);
+        const queryResult: string = await this._userRepository.add(formModel.email,hashedPassword,formModel.name,formModel.firstName,formModel.lastName);
 
         if (queryResult) {
             res.status(400).json({message: queryResult});

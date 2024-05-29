@@ -33,10 +33,10 @@ export class UserRepository implements IUserRepository {
      * @param name 
      * @returns Error string. Empty if no error.
      */
-    public async add(email: string,password: string,name: string): Promise<string> {
+    public async add(email: string,password: string,name: string,firstName: string, lastName: string): Promise<string> {
         const connection: PoolConnection = await getConnection();
-        const query: string = "INSERT INTO `user`(`email`, `password`, `name`) VALUES (?,?,?)";
-        const values: string[] = [email,password,name];
+        const query: string = "INSERT INTO `user`(`email`, `password`, `name`, `firstName`, `lastName`) VALUES (?,?,?,?,?)";
+        const values: string[] = [email,password,name,firstName,lastName];
         try {
             await connection.beginTransaction();
             const queryResult: ResultSetHeader = await queryDatabase(connection, query, ...values);
