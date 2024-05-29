@@ -78,6 +78,9 @@ export class SignUp extends LitElement {
           <label for="lastName">Achternaam</label>
           <input type="text" id="lastName" name="lastName" @input="${this.handleInputChange}" required>
 
+          <label for="name">Gebruikersnaam</label>
+          <input type="text" id="name" name="name" @input="${this.handleInputChange}" required>
+
           <label for="email">Email</label>
           <input type="email" id="email" name="email" @input="${this.handleInputChange}" required>
           
@@ -104,6 +107,9 @@ export class SignUp extends LitElement {
       case "lastName":
         this._lastName = input.value;
         break;
+        case "name":
+        this._name = input.value;
+        break;
       case "email":
         this._email = input.value;
         break;
@@ -115,6 +121,14 @@ export class SignUp extends LitElement {
 
   private async signUpForm(event: Event): Promise<void> {
     event.preventDefault();
+    console.log({
+      email: this._email,
+      password: this._password,
+      firstName: this._firstName,
+      lastName: this._lastName,
+      name: this._name
+    });
+    
 
     const result: boolean = await this._userService.register({
       email: this._email,
