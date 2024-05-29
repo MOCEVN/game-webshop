@@ -59,7 +59,7 @@ export class AdminView extends LitElement {
             return html`
                 ${map(this._products, (val) => html`
                     <a @click=${(e: Event): void => {void this._handleClickProduct(e,val.id.toString());}} href="">${val.id}</a>
-                    <p>${val.name}</p>
+                    <p>${val.title}</p>
                     <p class="center">${val.price}</p>
                     <p>${val.description}</p>
                 `)}
@@ -100,7 +100,7 @@ export class AdminView extends LitElement {
         return html`
             <div class="container">
                 <button @click=${(): void => {this._viewProduct = false;}}>Back</button>
-                <h1>${this._product?.name}</h1>
+                <h1>${this._product?.title}</h1>
                 <img src=${this._product!.thumbnail} alt="">
                 <p>${this._product?.description}</p>
                 <p>${this._product?.price}</p>

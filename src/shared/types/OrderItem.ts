@@ -3,7 +3,7 @@ import { Catagory } from "./Catagory";
 export type OrderItem = {
     thumbnail: string;
     id: number;
-    name: string;
+    title: string;
     description?: string;
     price: number;
     catagory?: Catagory;
@@ -14,7 +14,7 @@ export const OrderItemSortableColumns: Set<string> = new Set(
     [
         "id",
         "description",
-        "name",
+        "title",
         "price"   
     ]
 );

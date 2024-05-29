@@ -23,21 +23,21 @@ export const users: UserData[] = [
 export const orderItems: OrderItem[] = [
     {
         id: 1,
-        name: "Item 1",
+        title: "Item 1",
         description: "Description 1",
         price: 10,
         imageURLs: ["https://via.placeholder.com/150"],
     },
     {
         id: 2,
-        name: "Item 2",
+        title: "Item 2",
         description: "Description 2",
         price: 20,
         imageURLs: ["https://via.placeholder.com/150"],
     },
     {
         id: 3,
-        name: "Item 3",
+        title: "Item 3",
         description: "Description 3",
         price: 30,
         imageURLs: ["https://via.placeholder.com/150"],

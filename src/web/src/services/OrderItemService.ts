@@ -84,7 +84,7 @@ export class OrderItemService {
             return false;
         }
         
-        return (await response.json()) as boolean;
+        return ((await response.json()).succeeded) as boolean;
     }
 
     public async addMultiple(products: any): Promise<{succeeded?: number, failed?: number, errorOccured: boolean}> {

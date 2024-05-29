@@ -15,7 +15,7 @@ export class OrderItemRepository {
         try {
             const catagoryQueryResult: [{id: string}] = await queryDatabase(connection,"SELECT id FROM category WHERE name = ?",formData.catagory);
             const catagoryId: string = catagoryQueryResult.length > 0 ? catagoryQueryResult[0].id : "1";
-            const query: string = "INSERT INTO orderitem(name, description, price, categoryId, thumbnail) VALUES (?,?,?,?,?)";
+            const query: string = "INSERT INTO product(title, description, price, categoryId, thumbnail) VALUES (?,?,?,?,?)";
             const values: string[] = [formData.name,formData.description,formData.price,catagoryId,formData.thumbnail ?? ""];
             await connection.beginTransaction();
             const result: ResultSetHeader = await queryDatabase(connection, query, ...values);
@@ -39,7 +39,7 @@ export class OrderItemRepository {
     public async getAllWithParameters(params: getQueryParameters): Promise<OrderItem[]> {
         const connection: PoolConnection = await getConnection();
         try {
-            let query: string = "SELECT * FROM orderitem";
+            let query: string = "SELECT * FROM product";
             const values: any[] = [];
 
             // TODO: add filters
@@ -67,7 +67,7 @@ export class OrderItemRepository {
     public async getProduct(id: string): Promise<OrderItem | undefined> {
         const connection: PoolConnection = await getConnection();
         try {
-            const productQuery: string = "SELECT `id`, `name`, `description`, `price`, `categoryId`, `thumbnail` FROM `orderitem` WHERE `id` = ?";
+            const productQuery: string = "SELECT `id`, `title`, `description`, `price`, `categoryId`, `thumbnail` FROM `product` WHERE `id` = ?";
             const queryProductResult: OrderItem[] & {categoryId: string}[] = await queryDatabase(connection,productQuery, id);
             const imageQuery: string = "SELECT `url` FROM `image` WHERE `ItemId` = ?";
             const queryImageResult: {url: string}[] = await queryDatabase(connection,imageQuery,id);
@@ -89,7 +89,7 @@ export class OrderItemRepository {
     public async getAll(): Promise<OrderItem[]> {
         const connection: PoolConnection = await getConnection();
         try {
-            const result: any = await queryDatabase(connection, "SELECT * FROM orderitem");
+            const result: any = await queryDatabase(connection, "SELECT * FROM product");
             return result;
         } catch (err) {
             console.error(err);

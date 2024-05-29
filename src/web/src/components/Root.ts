@@ -271,7 +271,7 @@ export class Root extends LitElement {
     private renderOrderItem(orderItem: OrderItem): TemplateResult {
         return html`
             <div class="order-item">
-                <h2>${orderItem.name}</h2>
+                <h2>${orderItem.title}</h2>
                 <p>${orderItem.description}</p>
                 ${this._isLoggedIn
                     ? html`<button @click=${async (): Promise<void> => await this.addItemToCart(orderItem)}>

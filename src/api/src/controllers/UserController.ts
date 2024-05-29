@@ -120,7 +120,7 @@ export class UserController implements IUserController{
         const userData: UserData = req.user!;
 
         const cartItemNames: string[] | undefined = userData.cart?.map(
-            (e) => orderItems.find((f) => f.id === e.id)!.name
+            (e) => orderItems.find((f) => f.id === e.id)!.title
         );
 
         const response: UserHelloResponse = {

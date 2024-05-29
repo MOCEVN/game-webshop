@@ -120,7 +120,7 @@ export class productsRoot extends LitElement {
                         return html `
                         <div class="products" >
                             <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
-                            <div class="productname">${row.name}</div>
+                            <div class="productname">${row.title}</div>
                             <div class= "image" style="background: url(${row.thumbnail}) ;
                         background-position: center;
                         background-size: 100%;
