@@ -1,5 +1,8 @@
 import { html, css, LitElement, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
+// import { UserService } from "../services/UserService";
+import { OrderItemService } from "../services/OrderItemService";
+import { OrderItem } from "@shared/types";
 
 @customElement("productpage-element")
 export class ProductPage extends LitElement {
@@ -25,13 +28,27 @@ export class ProductPage extends LitElement {
     
     .productBasic {
         margin-left: 120px;
-        margin-top: -15px;
+        margin-top: 90px;
         margin-right: 110px;
         width: 1190px;
         height: 450px;
         border-radius: 2px;
         padding: 5px;
         background-color: #c2c2c2;
+    }
+        .aanbevelingen {
+        width: 420px;
+        background-color: #c2c2c2;
+        border: 1px solid #afafaf;
+        border-radius: 5px;
+        padding: 20px;
+        margin-right: 70px;
+        height: 400px;
+    }
+
+    .aanbevelingen h1 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
     }
 
     .productBasic-text {
@@ -52,7 +69,7 @@ export class ProductPage extends LitElement {
     .aanbevelingen {
         margin-right: 10px;
         margin-top: 120px;
-        height: 600px;
+        height: 450px;
         width: 420px;
         border-radius: 2px;
         background-color: #c2c2c2;
@@ -74,7 +91,7 @@ export class ProductPage extends LitElement {
         margin-left: 120px;
         border-radius: 2px;
         padding-left: 35px;
-        padding-top: 1px;
+        padding-top: -100px;
         padding-bottom: 30px;
         display: flex;
         align-items: center;
@@ -97,6 +114,7 @@ export class ProductPage extends LitElement {
         /* font-size: 2em; */
         align-items: center;
         display: flex;
+        cursor: pointer;
     }
 
     .addCartBtnText {
@@ -119,6 +137,7 @@ export class ProductPage extends LitElement {
 
     .about {
         margin-top: 50px;
+        margin-bottom: 4px;
     }
     
     .aboutCont {
@@ -132,91 +151,113 @@ export class ProductPage extends LitElement {
         height: 2px;
         background: linear-gradient(to right, #525252, rgba(51, 51, 51, 0));
         margin: 20px 0;
+        margin-top: 0px;
+    }
+
+    .recommendation-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .recommendation-item img {
+        width: 50px;
+        height: auto;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .recommendation-info {
+        flex-grow: 1;
+    }
+
+    .recommendation-info p {
+        margin: 0;
+    }
+
+    .old-price {
+        text-decoration: line-through;
+        color: red;
+        margin-right: 5px;
+    }
+
+    .price {
+        color: green;
+        font-weight: bold;
+    }
+
+    button {
+        padding: 5px 10px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #000000;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 10px 0;
+    }
+
+    #cartImg {
+        color: #81e978;
+        height: 20px;
+        width: 20px;
+        margin-left: 10px;
+        margin-top: 2px;
+    }
+
+`;
+
+    public connectedCallback(): void {
+        super.connectedCallback();
+        void this.getProduct();
+    }
+
+private _orderItemService: OrderItemService = new OrderItemService();
+
+@state()
+private _product!: OrderItem;
+
+private async getProduct(): Promise<void> {
+    const result: OrderItem |undefined = await this._orderItemService.getProduct("45");
+    console.log(result);
+    if (result) {
+        this._product = result;
+    }
 }
 
-.aanbevelingen {
-    width: 420px;
-    background-color: #c2c2c2;
-    border: 1px solid #afafaf;
-    border-radius: 5px;
-    padding: 20px;
-    margin-right: 70px;
-    height: 550px;
-}
-
-.aanbevelingen h1 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.recommendation-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.recommendation-item img {
-    width: 50px;
-    height: auto;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-.recommendation-info {
-    flex-grow: 1;
-}
-
-.recommendation-info p {
-    margin: 0;
-}
-
-.old-price {
-    text-decoration: line-through;
-    color: red;
-    margin-right: 5px;
-}
-
-.price {
-    color: green;
-    font-weight: bold;
-}
-
-button {
-    padding: 5px 10px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #555;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 10px 0;
-}
-
-    
-    `;
-
-    protected render():TemplateResult {
+    protected render(): TemplateResult {
+        if (!this._product) {
+            return html`
+            
+            <div class="navBar" id="navBar">
+                <nav-bar></nav-bar>
+            </div>
+            <p>aan het laden...</p>
+            `;
+        }
         return html`
             <div class="navBar" id="navBar">
                 <nav-bar></nav-bar>
             </div>
 
-            <h1 class="game-title">Titel komt hier</h1> 
+            <h1 class="game-title">${this._product.title}</h1> 
 
             <div class= "container">
                 <div class="productBasic">
+                <!-- TODO: database info komt hier -->
                     <div class= "productBasic-text">
                         <h3 class= "developers">Giorgio, Megan, Nico, Nii, Omar, Sonny</h3>
                         <h3 class= "publishedDate">6/03/2024</h3>
                         <h3 class= "genres">Genres:</h3>
+                        <!-- TODO: genres uit de database komen hier -->
                         <label class= "genreLabel">Fantasy</label>
                         <label class= "genreLabel">Singleplayer</label>
                         <label class= "genreLabel">Text-Based</label>
@@ -260,17 +301,19 @@ hr {
             </div>
 
             <div class="addToCart">
-                <h1 class="addCartText">Koop Terror Trial</h1>
-                <div class="addCartBtn">
-                    <h1 class="addCartBtnText">8.99$</h1>
+                <h1 class="addCartText">Koop ${this._product.title}</h1>
+                <button class="addCartBtn">
+                    <h1 class="addCartBtnText">$${this._product.price}</h1>
                     <h3 class="voegToe">Voeg toe</h3>
-                </div>
+                    <img id="cartImg" src="/public/assets/img/greenCart.png" alt="shopping cart img">
+                </button>
             </div>
 
             <div class="product-detailed">
                 <h2 class="about">Over dit spel</h2><div class="fading-line"></div>
 
-                <p class="aboutCont">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras blandit, nisl a dignissim cursus, neque sem rutrum nisl, ac pulvinar nunc metus sit amet eros. Fusce eget ultricies magna. Duis semper vitae ex sit amet interdum. Curabitur sagittis rutrum sapien ornare lobortis. Maecenas nisi justo, vulputate at neque a, volutpat auctor erat. Integer ornare ornare massa eu ornare. Etiam sollicitudin sit amet purus volutpat vestibulum. Curabitur id risus ultrices, ultricies odio et, fringilla felis. Etiam pulvinar, felis ac porta porta, enim lacus hendrerit dui, vel dignissim purus sapien ut enim. Duis ac ex cursus, tempor mi eu, sollicitudin magna. Aliquam pretium auctor nisi at porttitor. In varius erat eu fermentum consequat. Sed congue, sem sed molestie cursus, turpis elit ultrices ipsum, et tincidunt urna eros a diam. Aliquam condimentum nibh a ligula venenatis egestas.</p>
+                <!--TODO: zorg ervoor dat de informatie over de game uit de database hier komt te staan-->
+                <p class="aboutCont">${this._product.description}</p>
             </div>
         `;
     }
