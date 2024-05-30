@@ -6,7 +6,6 @@ import { OrderItem } from "@shared/types";
 
 @customElement("products-root")
 export class productsRoot extends LitElement {
-
     // static
     public static styles = css`
         .container {
@@ -16,6 +15,9 @@ export class productsRoot extends LitElement {
             align-items: center;
         }
         .header {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
             height: 10vh;
         }
         .ProductsH1 {
@@ -32,7 +34,7 @@ export class productsRoot extends LitElement {
             height: 80vh;
             overflow-y: scroll;
             border-radius: 10px;
-            margin-bottom:4vw;
+            margin-bottom: 4vw;
         }
         .products {
             justify-content: space-evenly;
@@ -50,27 +52,27 @@ export class productsRoot extends LitElement {
             border-radius: 10px;
             padding: 15px, 15px, 15px, 15px;
         }
-        .description{
+        .description {
             display: flex;
             flex-direction: column;
             align-items: center;
             height: 20%;
             width: 90%;
-            padding:10px;
+            padding: 10px;
             overflow-x: scroll;
             overflow-y: scroll;
         }
-        .price{
+        .price {
             display: flex;
             flex-direction: row-reverse;
             width: 100%;
             padding-right: 10%;
             color: green;
         }
-        .image{
+        .image {
             border-radius: 10px;
             height: 40%;
-            width:50%;
+            width: 50%;
         }
     `;
 
@@ -80,24 +82,44 @@ export class productsRoot extends LitElement {
     private _orderItemService: OrderItemService = new OrderItemService();
 
     @state()
-    private _orderItems: OrderItem[] = [];
+    private _orderItems!: OrderItem[];
 
-    public async connectedCallback(): Promise<void> {
+    private _sortOrder: string = "DESC";
+
+    public connectedCallback(): void {
         super.connectedCallback();
         // als de component word geladen voer dan deze code uit
-        await this.getOrderItems();
+        this.getOrderItems();
     }
 
-    private async getOrderItems(): Promise<void> {
+    private async fetchOrderItems(): Promise<OrderItem[]> {
         // do een get request met de api om alle items te krijgen en sla deze op in een array
-        const result: OrderItem[] | undefined = await this._orderItemService.getAll();
+        const result: OrderItem[] | undefined = await this._orderItemService.getAllWithParameters("id",this._sortOrder);
 
         if (!result) {
-            return;
+            return [];
         }
 
-        this._orderItems = result;
+        return result;
         // console.log(this._orderItems);
+    }
+
+    private getOrderItems(): void {
+        void this.fetchOrderItems().then((res: OrderItem[]) => {
+            this._orderItems = res;
+        });
+    }
+
+    private handleChange(e:Event):void {
+        const target : any = e.target;
+        console.log(target.value);
+        if (target.value === "old-new") {
+            this._sortOrder = "ASC";
+        }else if (target.value = "new-old"){
+            this._sortOrder = "DESC";
+        }
+        this.getOrderItems();
+        this.requestUpdate();
     }
 
     // polymorphism
@@ -106,29 +128,38 @@ export class productsRoot extends LitElement {
             <div class="container">
                 <div class="header">
                     <h1 class="ProductsH1">Products</h1>
+                    <form>
+                        <label for="sort">Sort:</label>
+                        <select name="sort" id="sort" @change = ${this.handleChange}>
+                            <option value="new-old">New to old</option>
+                            <option value="old-new">Old to new</option>
+                        </select>
+                    </form>
                 </div>
                 <div class="ProductsContainer">
                     <!-- voor elke  row van _orderItems maak je een products html-->
                     ${map(this._orderItems, (row) => {
+                        // console.log(row.thumbnail);
 
-                        console.log(row.thumbnail);
-
-                        if(row.thumbnail){
+                        if (row.thumbnail) {
                             // const image : string = row.imageURLs;
-                        };
+                        }
 
-                        return html `
-                        <div class="products" >
-                            <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
-                            <div class="productname">${row.title}</div>
-                            <div class= "image" style="background: url(${row.thumbnail}) ;
+                        return html`
+                            <div class="products">
+                                <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
+                                <div class="productname">${row.title}</div>
+                                <div
+                                    class="image"
+                                    style="background: url(${row.thumbnail}) ;
                         background-position: center;
                         background-size: 100%;
                         background-repeat: no-repeat;
-            "></div>
-                            <div class="description">${row.description}</div>
-                            <div class="price">${row.price}</div>
-                        </div>
+            "
+                                ></div>
+                                <div class="description">${row.description}</div>
+                                <div class="price">${row.price}</div>
+                            </div>
                         `;
                     })}
                 </div>

@@ -11,6 +11,10 @@ global.viteConfiguration = { API_URL: "/" };
 const userService: UserService = new UserService();
 const tokenService: TokenService = new TokenService();
 
+
+// describe("orderItemController testen", ())
+
+
 describe("User service", () => {
     beforeEach(() => {
         // Enable mocking fetch for these tests
@@ -18,7 +22,7 @@ describe("User service", () => {
 
         // Every test should start with cleared mocks
         vi.clearAllMocks();
-    });
+    }); 
 
     it("login does correct fetch to API", async () => {
         fetchMock.mockResponse(() => {

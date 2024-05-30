@@ -23,6 +23,7 @@ export class OrderItemController implements IOrderItemController {
         const result: OrderItem[] = await this._orderItemRepository.getAll();
         res.json(result);
     }
+    
     public async getAllWithParameters(req: Request,res: Response): Promise<void> {
         const result: OrderItem[] = await this._orderItemRepository.getAllWithParameters({
             orderBy: req.query.orderBy as string ?? "",
