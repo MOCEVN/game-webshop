@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AuthorizationLevel, UserData } from "@shared/types";
 import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
-import { orderItems } from "../fakeDatabase";
 import { CustomJwtPayload, CustomJwtToken } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
 import { IUserController } from "../interfaces/UserController";
@@ -119,13 +118,9 @@ export class UserController implements IUserController{
     public hello(req: Request, res: Response): void {
         const userData: UserData = req.user!;
 
-        const cartItemNames: string[] | undefined = userData.cart?.map(
-            (e) => orderItems.find((f) => f.id === e.id)!.title
-        );
-
         const response: UserHelloResponse = {
             email: userData.email,
-            cartItems: cartItemNames,
+            cartItems: [],
         };
 
         res.json(response);
