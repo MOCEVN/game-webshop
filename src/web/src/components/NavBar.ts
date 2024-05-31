@@ -1,5 +1,9 @@
+import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
 import { LitElement, html, css, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
+import { UserService } from "../services/UserService";
+import {when} from "lit/directives/when.js";
+import { TokenService } from "../services/TokenService";
 
 @customElement("nav-bar")
 export class Navbar extends LitElement {
@@ -81,7 +85,13 @@ footer p {
   height: 1.2em;
 }
 
+
   `;
+
+@state()
+private _isLoggedIn: boolean = false;
+private _userService: UserService = new UserService();
+private _tokenService: TokenService = new TokenService();
 
 // Fetch and Parse navigation bar and footer
 protected render(): TemplateResult {
@@ -91,21 +101,56 @@ protected render(): TemplateResult {
   `;
 }
 
+private async clickLogoutButton(_event: Event): Promise<void>  {
+  await this._userService.logout();
+  this._tokenService.removeToken();
+  this._isLoggedIn = false;
+
+  // redirect to login page
+  window.location.href = "login.html";
+}
+
+// Login 
+public async connectedCallback(): Promise<void> {
+  super.connectedCallback();
+  await this.getWelcome();
+}
+
+private async getWelcome(): Promise<void> {
+  const result: UserHelloResponse | undefined = await this._userService.getWelcome();
+  console.log(result);
+  if (result) {
+      this._isLoggedIn = true;
+  }
+}
+
   private renderNavBar(): TemplateResult {
     return html`
       <nav class="navBar">
         <ul>
         <li><a href="homepage.html"><img src="/assets/img/logo.png" class="logo"></a></li>
         <li><a href="products.html">Producten</a></li>
-        <li class="searchBar"><input type="text" placeholder="Zoek naar games..."></li>
-          <li><a href="shoppingcart.html"><img src="/assets/img/cart.png"></a></li>
-          <li><a href="#"><img src="/assets/img/heart.png"></a></li>
-          <li><a href="#"><img src="/assets/img/account.png"></a></li>
-          <li><a href="login.html" id="logIn"><img src="/assets/img/login.png"></a></li>
+        <li class="searchBar"><input type="text" placeholder="Zoek producten..."></li>
+        <li><a href="shoppingcart.html"><img src="/assets/img/cart.png"></a></li>
+
+        <li><a href="#"><img src="/assets/img/heart.png"></a></li>
+
+        ${when(
+          this._isLoggedIn,
+          () => html`
+            <li><a href="#"><img src="/assets/img/account.png"></a></li>
+            <li><a href="#" @click=${this.clickLogoutButton}><img src="/assets/img/login.png">Logout</a></li>
+          `,
+          () => html`
+            <li><a href="login.html" id="logIn"><img src="/assets/img/login.png">Login</a></li>
+          `
+        )}
+
         </ul>
     </nav>
     `;
   }
+
 
   private renderFooter(): TemplateResult {
     return html`
@@ -118,3 +163,4 @@ protected render(): TemplateResult {
 }
 
 }
+
