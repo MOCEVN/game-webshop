@@ -24,7 +24,7 @@ describe("User service", () => {
         vi.clearAllMocks();
     }); 
 
-    it("login does correct fetch to API", async () => {
+    it("method userService.login(), fetch, send correct request", async () => {
         fetchMock.mockResponse(() => {
             return { status: 400 };
         });
@@ -43,7 +43,7 @@ describe("User service", () => {
         expect(requestBody.password).toBe("test-password");
     });
 
-    it("login fails", async () => {
+    it("method userService.login(), login fails, returns falsy value", async () => {
         // Arrange
         fetchMock.mockResponse(() => {
             return { status: 400 };
@@ -59,7 +59,7 @@ describe("User service", () => {
         expect(result).toBeFalsy();
     });
 
-    it("login successful without valid token", async () => {
+    it("method userService.login(), no valid token recieved, returns falsy value", async () => {
         // Arrange
         fetchMock.mockResponse(() => {
             return { 
@@ -78,7 +78,7 @@ describe("User service", () => {
         expect(result).toBeFalsy();
     });
 
-    it("login successful with valid token", async () => {
+    it("method userService.login(), successful login with valid token, returns truthy value", async () => {
         // Arrange
         fetchMock.mockResponse(() => {
             return { 

@@ -11,7 +11,7 @@ config({ path: path.resolve(__dirname,"../../../api/.env.local"), override: true
 process.env.DB_DATABASE = "pb4b2324_toosuutooxii35_test";
 
 describe.concurrent("API endpoints", () => {
-    it("return a 200 status", async () => {
+    it("route \"/\", get request, success status 200", async () => {
         // Arrange
 
         // Act
@@ -21,7 +21,7 @@ describe.concurrent("API endpoints", () => {
         expect(res.status).toEqual(200);
     });
 
-    it("return a 400 for an invalid login where the email is not found", async () => {
+    it("route \"/users/login\", email not found, error status 400", async () => {
         // Arrange
         const loginForm: UserLoginFormModel = { email: "xyz@sadfjak.com", password: "2342388" };
         
@@ -36,7 +36,7 @@ describe.concurrent("API endpoints", () => {
         expect(res.status).toEqual(400);
     });
 
-    it("return a 400 for an invalid login where the password is wrong", async () => {
+    it("route \"/users/login\", wrong password, error status 400", async () => {
         // Arrange
         const loginForm: UserLoginFormModel = { email: "test@test.nl", password: "wrong-password" };
 
@@ -51,7 +51,7 @@ describe.concurrent("API endpoints", () => {
         expect(res.status).toEqual(400);
     });
 
-    it("return a 200 for a valid login", async () => {
+    it("route \"/users/login\", valid login, success status 200", async () => {
         // Arrange
         const loginForm: UserLoginFormModel = { email: "test@test.nl", password: "test" };
 
@@ -66,7 +66,7 @@ describe.concurrent("API endpoints", () => {
         expect(res.status).toEqual(200);
     });
 
-    it("return a 200 for getting all products", async () => {
+    it("route \"/store-content/all\", get request, success status 200", async () => {
         // Arrange
 
         // Act
@@ -79,7 +79,7 @@ describe.concurrent("API endpoints", () => {
         expect(res.status).toEqual(200);
     });
 
-    it("return the correct product for getting a product", async ({expect}) => {
+    it("route \"/store-content/all/:id\", get request, return correct product and status 200", async ({expect}) => {
         // Arrange
 
         // Act

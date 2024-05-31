@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`API endpoints > return the correct product for getting a product 1`] = `
+exports[`API endpoints > route "/store-content/all/:id", get request, return correct product and status 200 1`] = `
 {
   "catagory": {
     "description": "this product has no catagory",
