@@ -122,6 +122,12 @@ export class productsRoot extends LitElement {
         this.requestUpdate();
     }
 
+    private handleClick(e: Event): void{
+        const target : HTMLElement = e.target as HTMLElement;
+        console.log(target.id);
+        window.location.href = `/productpage?id=${target.id}`;
+    }
+
     // polymorphism
     protected render(): unknown {
         return html`
@@ -138,27 +144,27 @@ export class productsRoot extends LitElement {
                 </div>
                 <div class="ProductsContainer">
                     <!-- voor elke  row van _orderItems maak je een products html-->
-                    ${map(this._orderItems, (row) => {
+                    ${map(this._orderItems, (product) => {
                         // console.log(row.thumbnail);
 
-                        if (row.thumbnail) {
+                        if (product.thumbnail) {
                             // const image : string = row.imageURLs;
                         }
 
                         return html`
                             <div class="products">
                                 <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
-                                <div class="productname">${row.title}</div>
+                                <div class="productname" @click = "${this.handleClick}" id=${product.id}>${product.title}</div>
                                 <div
                                     class="image"
-                                    style="background: url(${row.thumbnail}) ;
+                                    style="background: url(${product.thumbnail}) ;
                         background-position: center;
                         background-size: 100%;
                         background-repeat: no-repeat;
             "
                                 ></div>
-                                <div class="description">${row.description}</div>
-                                <div class="price">${row.price}</div>
+                                <div class="description">${product.description}</div>
+                                <div class="price">${product.price}</div>
                             </div>
                         `;
                     })}
