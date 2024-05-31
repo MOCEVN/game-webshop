@@ -20,7 +20,7 @@ hic:
         - npm run test
         - npm run build
         - echo "enviroment > $HIC_ENVIRONMENT, host > $HIC_SFTP_HOST, username > $HIC_SFTP_USERNAME, password > $HIC_SFTP_PASSWORD"
-        - lftp -e "open --user $HIC_SFTP_USERNAME --pass $HIC_SFTP_PASSWORD $HIC_SFTP_HOST; mirror --reverse --verbose=3 --delete dist/web/ $HIC_ENVIRONMENT/wwwroot/; mirror --reverse --verbose=3 --delete dist/api/ $HIC_ENVIRONMENT/app/; bye"
+        - lftp -e "set sftp:auto-confirm yes;open --user $HIC_SFTP_USERNAME --pass $HIC_SFTP_PASSWORD $HIC_SFTP_HOST; mirror --reverse --verbose=3 --delete dist/web/ $HIC_ENVIRONMENT/wwwroot/; mirror --reverse --verbose=3 --delete dist/api/ $HIC_ENVIRONMENT/app/; bye"
         - 'wget --header="Authorization: $HIC_API_KEY" $HIC_API_URL/$HIC_ENVIRONMENT/Restart'
     artifacts:
         paths:
