@@ -79,7 +79,7 @@ export class productsRoot extends LitElement {
         }
     `;
 
-    @state() private game = "";
+    // @state() private game = "";
 
     @state()
     private _orderItemService: OrderItemService = new OrderItemService();
