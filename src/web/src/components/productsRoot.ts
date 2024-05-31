@@ -8,6 +8,9 @@ import { OrderItem } from "@shared/types";
 export class productsRoot extends LitElement {
     // static
     public static styles = css`
+    .productname{
+        cursor: pointer;
+    }
         .container {
             max-height: 90vh;
             display: flex;
