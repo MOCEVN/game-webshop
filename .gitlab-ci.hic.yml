@@ -19,8 +19,8 @@ hic:
         - npm install
         - npm run test
         - npm run build
-        - echo "enviroment > $HIC_ENVIRONMENT"
-        - lftp -e "open $HIC_SFTP_HOST; user $HIC_SFTP_USERNAME $HIC_SFTP_PASSWORD; mirror --reverse --verbose --delete dist/ $HIC_ENVIRONMENT/; bye"
+        - echo "enviroment > $HIC_ENVIRONMENT, host > $HIC_SFTP_HOST, username > $HIC_SFTP_USERNAME, password > $HIC_SFTP_PASSWORD"
+        - lftp -e "open $HIC_SFTP_HOST; user $HIC_SFTP_USERNAME $HIC_SFTP_PASSWORD; mirror --reverse --verbose=3 --delete /dist/web/ $HIC_ENVIRONMENT/wwwroot/; mirror --reverse --verbose=3 --delete /dist/api/ $HIC_ENVIRONMENT/app/; bye"
         - 'wget --header="Authorization: $HIC_API_KEY" $HIC_API_URL/$HIC_ENVIRONMENT/Restart'
     artifacts:
         paths:
