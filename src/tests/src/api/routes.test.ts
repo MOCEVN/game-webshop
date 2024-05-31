@@ -79,7 +79,7 @@ describe.concurrent("API endpoints", () => {
         expect(res.status).toEqual(200);
     });
 
-    it("return the correct product for getting a product", async () => {
+    it("return the correct product for getting a product", async ({expect}) => {
         // Arrange
 
         // Act
@@ -89,24 +89,7 @@ describe.concurrent("API endpoints", () => {
             .set("Accept", "application/json");
         
         // Assert
-        expect(res.body).toEqual({
-            "id": 45,
-            "title": "Terror Trial",
-            "description": "Terror Trial is een angstaanjagend huis vol met valstrikken en duistere geheimen, waar wanhopige reizigers gevangen zitten en enkel kunnen ontsnappen door raadsels op te lossen voordat de klok tikt naar hun ondergang.",
-            "price": "0.00",
-            "categoryId": 1,
-            "thumbnail": "https://lucastars.hbo-ict.cloud/media/6918722fe0104049b27aa218c692a417/00000006000000000000000000000000.png",
-            "imageURLs": [
-              "https://lucastars.hbo-ict.cloud/media/999069f72f4c4c5a98b8e7d25a3ce366/00000006000000000000000000000000.png",
-              "https://lucastars.hbo-ict.cloud/media/a37d086f50f14dca8c365448957a2139/00000006000000000000000000000000.png",
-              "https://lucastars.hbo-ict.cloud/media/aadfdef650f94bc9a8a99afe21978aa9/00000006000000000000000000000000.png",
-              "https://lucastars.hbo-ict.cloud/media/ad5e059aeb314f34b3385bb8b9e91083/00000006000000000000000000000000.png"
-            ],
-            "catagory": {
-              "name": "no catagory",
-              "description": "this product has no catagory"
-            }
-          });
-          expect(res.status).toEqual(200);
+        expect(res.body).toMatchSnapshot();
+        expect(res.status).toEqual(200);
     });
 });
