@@ -3,6 +3,7 @@ import { customElement, state } from "lit/decorators.js";
 // import { UserService } from "../services/UserService";
 import { OrderItemService } from "../services/OrderItemService";
 import { OrderItem } from "@shared/types";
+// import { URL } from "url";
 
 @customElement("productpage-element")
 export class ProductPage extends LitElement {
@@ -14,6 +15,10 @@ export class ProductPage extends LitElement {
     h1 { font-size: 20px
     }
 
+    a {
+        text-decoration: none;
+    }
+    
     .container {
         display: flex;
         align-items: center;
@@ -27,14 +32,16 @@ export class ProductPage extends LitElement {
     }
     
     .productBasic {
-        margin-left: 120px;
-        margin-top: 90px;
-        margin-right: 110px;
-        width: 1190px;
-        height: 450px;
-        border-radius: 2px;
-        padding: 5px;
-        background-color: #c2c2c2;
+    display: flex;
+    align-items: flex-start; /* Align items to the start for a cleaner look */
+    margin-left: 120px;
+    margin-top: 90px;
+    margin-right: 110px;
+    width: calc(70% - 230px); /* Adjust width to fit within the container */
+    height: auto; /* Remove fixed height to allow content to determine height */
+    border-radius: 2px;
+    padding: 5px;
+    background-color: #c2c2c2;
     }
         .aanbevelingen {
         width: 420px;
@@ -52,8 +59,9 @@ export class ProductPage extends LitElement {
     }
 
     .productBasic-text {
-        margin-left: 650px;
-    }
+    width: 50%; /* Adjust width as needed */
+    margin-left: 20px; /* Space between carousel and text */
+}
     
     .genres {
         margin-top: 50px;
@@ -213,6 +221,139 @@ export class ProductPage extends LitElement {
         margin-top: 2px;
     }
 
+    #slider {
+    width: 50%; /* Adjust width as needed */
+    max-width: 100%; /* Ensure it does not exceed parent container */
+    margin-right: 20px; /* Space between carousel and text */
+
+}
+#slider input[type=radio] {
+   display: none;
+}
+#slider label {
+   cursor:pointer;
+   text-decoration: none;
+}
+#slides {
+   padding: 10px;
+   border: 3px solid #ccc;
+   background: #fff;
+   position: relative;
+   z-index: 1;
+}
+#overflow {
+   width: 100%;
+   overflow: hidden;
+}
+#slide1:checked ~ #slides .inner {
+   margin-left: 0;
+}
+#slide2:checked ~ #slides .inner {
+   margin-left: -100%;
+}
+#slide3:checked ~ #slides .inner {
+   margin-left: -200%;
+}
+#slide4:checked ~ #slides .inner {
+   margin-left: -300%;
+}
+#slides .inner {
+   transition: margin-left 800ms cubic-bezier(0.770, 0.000, 0.175, 1.000);
+   width: 400%;
+   line-height: 0;
+   height: 300px;
+}
+#slides .slide {
+   width: 25%;
+   float:left;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+   color: #fff;
+}
+#slides .slide_1 {
+   background: #00171F;
+}
+#slides .slide_2 {
+   background: #003459;
+}
+#slides .slide_3 {
+   background: #007EA7;
+}
+#slides .slide_4 {
+   background: #00A8E8;
+}
+#controls {
+   margin: -180px 0 0 0;
+   width: 100%;
+   height: 50px;
+   z-index: 3;
+   position: relative;
+}
+#controls label {
+   transition: opacity 0.2s ease-out;
+   display: none;
+   width: 50px;
+   height: 50px;
+   opacity: .4;
+}
+#controls label:hover {
+   opacity: 1;
+}
+#slide1:checked ~ #controls label:nth-child(2),
+#slide2:checked ~ #controls label:nth-child(3),
+#slide3:checked ~ #controls label:nth-child(4),
+#slide4:checked ~ #controls label:nth-child(1) {
+   background: url(https://image.flaticon.com/icons/svg/130/130884.svg) no-repeat;
+   float:right;
+   margin: 0 -50px 0 0;
+   display: block;
+}
+#slide1:checked ~ #controls label:nth-last-child(2),
+#slide2:checked ~ #controls label:nth-last-child(3),
+#slide3:checked ~ #controls label:nth-last-child(4),
+#slide4:checked ~ #controls label:nth-last-child(1) {
+   background: url(https://image.flaticon.com/icons/svg/130/130882.svg) no-repeat;
+   float:left;
+   margin: 0 0 0 -50px;
+   display: block;
+}
+#bullets {
+   margin: 150px 0 0;
+   text-align: center;
+}
+#bullets label {
+   display: inline-block;
+   width: 10px;
+   height: 10px;
+   border-radius:100%;
+   background: #ccc;
+   margin: 0 10px;
+}
+#slide1:checked ~ #bullets label:nth-child(1),
+#slide2:checked ~ #bullets label:nth-child(2),
+#slide3:checked ~ #bullets label:nth-child(3),
+#slide4:checked ~ #bullets label:nth-child(4) {
+   background: #444;
+}
+@media screen and (max-width: 900px) {
+   #slide1:checked ~ #controls label:nth-child(2),
+   #slide2:checked ~ #controls label:nth-child(3),
+   #slide3:checked ~ #controls label:nth-child(4),
+   #slide4:checked ~ #controls label:nth-child(1),
+   #slide1:checked ~ #controls label:nth-last-child(2),
+   #slide2:checked ~ #controls label:nth-last-child(3),
+   #slide3:checked ~ #controls label:nth-last-child(4),
+   #slide4:checked ~ #controls label:nth-last-child(1) {
+      margin: 0;
+   }
+   #slides {
+      max-width: calc(100% - 140px);
+      margin: 0 auto;
+   }
+}
+
 `;
 
     public connectedCallback(): void {
@@ -220,18 +361,23 @@ export class ProductPage extends LitElement {
         void this.getProduct();
     }
 
-private _orderItemService: OrderItemService = new OrderItemService();
+    private _orderItemService: OrderItemService = new OrderItemService();
 
-@state()
-private _product!: OrderItem;
+    @state()
+    private _product!: OrderItem;
 
-private async getProduct(): Promise<void> {
-    const result: OrderItem |undefined = await this._orderItemService.getProduct("45");
-    console.log(result);
-    if (result) {
-        this._product = result;
+    private async getProduct(): Promise<void> {
+        const id: string | null = new URL(document.location.toString()).searchParams.get("id");
+        if (id) {
+            const result: OrderItem | undefined = await this._orderItemService.getProduct(id);
+            console.log(result);
+            if (result) {
+                this._product = result;
+            }
+        } else {
+
+        }
     }
-}
 
     protected render(): TemplateResult {
         if (!this._product) {
@@ -250,63 +396,113 @@ private async getProduct(): Promise<void> {
 
             <h1 class="game-title">${this._product.title}</h1> 
 
-            <div class= "container">
-                <div class="productBasic">
-                <!-- TODO: database info komt hier -->
-                    <div class= "productBasic-text">
-                        <h3 class= "developers">Giorgio, Megan, Nico, Nii, Omar, Sonny</h3>
-                        <h3 class= "publishedDate">6/03/2024</h3>
-                        <h3 class= "genres">Genres:</h3>
-                        <!-- TODO: genres uit de database komen hier -->
-                        <label class= "genreLabel">Fantasy</label>
-                        <label class= "genreLabel">Singleplayer</label>
-                        <label class= "genreLabel">Text-Based</label>
-                    </div>
-                </div>
-
-                <!-- <div class="aanbevelingen"> -->
-                    <div class="aanbevelingen">
-                    <h1 class= "aanbevelingenTitle">Top aanbevelingen</h1>
-                        <div class="recommendation-item">
-                            <img src="path/to/your/image1.jpg" alt="Recommendation 1">
-                            <div class="recommendation-info">
-                                <p>Terror Trial</p>
-                                <p class="old-price">15.98$</p>
-                                <p class="price">12.98$</p>
+            <div class="container">
+    <div class="productBasic">
+        <div id="slider">
+            <input type="radio" name="slider" id="slide1" checked>
+            <input type="radio" name="slider" id="slide2">
+            <input type="radio" name="slider" id="slide3">
+            <input type="radio" name="slider" id="slide4">
+            <div id="slides" style="width: 550px;">
+                <div id="overflow">
+                    <div class="inner">
+                        <div class="slide slide_1">
+                            <div class="slide-content">
+                                <h2>Slide 1</h2>
+                                <p>Content for Slide 1</p>
                             </div>
-                            <button>Voeg toe</button>
                         </div>
-                        <hr>
-                        <div class="recommendation-item">
-                            <img src="path/to/your/image2.jpg" alt="Recommendation 2">
-                            <div class="recommendation-info">
-                                <p>Ghost Plushie</p>
-                                <p class="old-price">6.99$</p>
-                                <p class="price">8.99$</p>
+                        <div class="slide slide_2">
+                            <div class="slide-content">
+                                <h2>Slide 2</h2>
+                                <p>Content for Slide 2</p>
                             </div>
-                            <button>Voeg toe</button>
                         </div>
-                        <hr>
-                        <div class="recommendation-item">
-                            <img src="path/to/your/image3.jpg" alt="Recommendation 3">
-                            <div class="recommendation-info">
-                                <p>Lost Lands</p>
-                                <p class="old-price">6.99$</p>
-                                <p class="price">8.99$</p>
+                        <div class="slide slide_3">
+                            <div class="slide-content">
+                                <h2>Slide 3</h2>
+                                <p>Content for Slide 3</p>
                             </div>
-                            <button>Voeg toe</button>
+                        </div>
+                        <div class="slide slide_4">
+                            <div class="slide-content">
+                                <h2>Slide 4</h2>
+                                <p>Content for Slide 4</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div id="controls">
+                <label for="slide1"></label>
+                <label for="slide2"></label>
+                <label for="slide3"></label>
+                <label for="slide4"></label>
+            </div>
+            <div id="bullets">
+                <label for="slide1"></label>
+                <label for="slide2"></label>
+                <label for="slide3"></label>
+                <label for="slide4"></label>
+            </div>
+        </div>
+
+        <!-- Game Information -->
+        <div class="productBasic-text">
+            <h3 class="developers">Giorgio, Megan, Nico, Nii, Omar, Sonny</h3>
+            <h3 class="publishedDate">6/03/2024</h3>
+            <h3 class="genres">Genres:</h3>
+            <!-- Genres from database -->
+            <label class="genreLabel">Fantasy</label>
+            <label class="genreLabel">Singleplayer</label>
+            <label class="genreLabel">Text-Based</label>
+        </div>
+    </div>
+    <!-- Recommendations Section -->
+    <div class="aanbevelingen">
+        <h1 class="aanbevelingenTitle">Top aanbevelingen</h1>
+        <div class="recommendation-item">
+            <img src="path/to/your/image1.jpg" alt="Recommendation 1">
+            <div class="recommendation-info">
+                <p>Terror Trial</p>
+                <p class="old-price">15.98$</p>
+                <p class="price">12.98$</p>
+            </div>
+            <button>Voeg toe</button>
+        </div>
+        <hr>
+        <div class="recommendation-item">
+            <img src="path/to/your/image2.jpg" alt="Recommendation 2">
+            <div class="recommendation-info">
+                <p>Ghost Plushie</p>
+                <p class="old-price">6.99$</p>
+                <p class="price">8.99$</p>
+            </div>
+            <button>Voeg toe</button>
+        </div>
+        <hr>
+        <div class="recommendation-item">
+            <img src="path/to/your/image3.jpg" alt="Recommendation 3">
+            <div class="recommendation-info">
+                <p>Lost Lands</p>
+                <p class="old-price">6.99$</p>
+                <p class="price">8.99$</p>
+            </div>
+            <button>Voeg toe</button>
+        </div>
+    </div>
+</div>
+
 
             <div class="addToCart">
                 <h1 class="addCartText">Koop ${this._product.title}</h1>
-                <button class="addCartBtn">
-                    <h1 class="addCartBtnText">$${this._product.price}</h1>
-                    <h3 class="voegToe">Voeg toe</h3>
-                    <img id="cartImg" src="/public/assets/img/greenCart.png" alt="shopping cart img">
-                </button>
+                <a href="#">
+                    <button class="addCartBtn">
+                        <h1 class="addCartBtnText">$${this._product.price}</h1>
+                        <h3 class="voegToe">Voeg toe</h3>
+                        <img id="cartImg" src="/public/assets/img/greenCart.png" alt="shopping cart img">
+                    </button>
+                </a>
             </div>
 
             <div class="product-detailed">
