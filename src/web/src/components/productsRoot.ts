@@ -4,6 +4,7 @@ import { map } from "lit/directives/map.js";
 import { OrderItemService } from "../services/OrderItemService";
 import { OrderItem } from "@shared/types";
 
+
 @customElement("products-root")
 export class productsRoot extends LitElement {
     // static
@@ -93,6 +94,8 @@ export class productsRoot extends LitElement {
         super.connectedCallback();
         // als de component word geladen voer dan deze code uit
         this.getOrderItems();
+
+        console.log(new URL(window.location.toString()));
     }
 
     private async fetchOrderItems(): Promise<OrderItem[]> {
