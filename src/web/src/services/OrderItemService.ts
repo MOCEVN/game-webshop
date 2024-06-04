@@ -29,6 +29,18 @@ export class OrderItemService {
         return (await response.json()) as OrderItem[];
     }
 
+    public async PopularProducts(): Promise<any[]> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/products`, {
+            method: "get",
+        });
+        if(response.ok){
+            return (await response.json()) as any[];
+        }else{
+            return [];
+        }
+        
+    }
+
     public async getAllWithParameters(orderBy: string = "", sortOrder: string = "ASC", search: string = "", searchType: string = "name"): Promise<OrderItem[] | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/all?${(new URLSearchParams({
             orderBy: orderBy,

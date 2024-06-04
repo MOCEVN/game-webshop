@@ -22,6 +22,8 @@ router.get("/store-content/all", asyncHandler(orderItemController.getAllWithPara
 router.get("/store-content/all/:id", asyncHandler(orderItemController.getProduct.bind(orderItemController)));
 router.get("/orderItems", asyncHandler(orderItemController.getAll.bind(orderItemController)));
 
+router.get("(await response.json()) as OrderItem[]");
+
 // NOTE: Everything after this point only works with a valid JWT token!
 router.use(handleTokenBasedAuthentication());
 
