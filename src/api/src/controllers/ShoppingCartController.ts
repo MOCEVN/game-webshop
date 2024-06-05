@@ -17,14 +17,10 @@ export class ShoppingcartController implements IShoppingcartController {
      * @param res Response object
      */
     public async checkcart(req: Request, res: Response): Promise<void> {
-        const checkcart: UserData | undefined = await this._ShoppingcartRepository.checkcart(req.user!.id);
-
-        console.log(checkcart);
-
+        const checkcart: UserData | undefined = await this._ShoppingcartRepository.checkcart(+req.params.id);
         if (!checkcart) {
-            res.status(200).json({ message: "Shoppingcart is empty" });
-
-            return;
+            res.status(200).json({message: "Shoppingcart is empty"});
+        } else {
             res.json(checkcart);
         }
     }
