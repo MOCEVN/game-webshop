@@ -58,8 +58,8 @@ export class Homepage extends LitElement {
             height: 20%;
             width: 90%;
             padding: 10px;
-            overflow-x: scroll;
-            overflow-y: scroll;
+            overflow-y: auto;
+            overflow-wrap: anywhere;
         }
         .price {
             display: flex;
