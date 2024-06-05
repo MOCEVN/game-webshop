@@ -4,10 +4,9 @@ import { map } from "lit/directives/map.js";
 import { OrderItemService } from "../services/OrderItemService";
 import { OrderItem } from "@shared/types";
 
-
 @customElement("products-root")
 export class productsRoot extends LitElement {
-    // static
+    // Define the styles for this component
     public static styles = css`
     .productname{
         cursor: pointer;
@@ -28,7 +27,7 @@ export class productsRoot extends LitElement {
             color: #373e98;
         }
         .ProductsContainer {
-            /* background-image */
+            /* background image */
             padding-top: 1vw;
             display: flex;
             flex-direction: row;
@@ -80,61 +79,69 @@ export class productsRoot extends LitElement {
         }
     `;
 
-    // @state() private game = "";
-
+    // Initialize an instance of OrderItemService
     @state()
     private _orderItemService: OrderItemService = new OrderItemService();
 
+    // State to hold the array of order items
     @state()
     private _orderItems!: OrderItem[];
 
+    // The string to initialize getAllWithParameters with the sort type
     private _sortOrder: string = "DESC";
 
+    // Lifecycle method that runs when the component is added to the DOM
     public connectedCallback(): void {
         super.connectedCallback();
-        // als de component word geladen voer dan deze code uit
+        // Fetch the order items when the component is loaded
         this.getOrderItems();
 
         console.log(new URL(window.location.toString()));
     }
 
+    // Fetch order items from the API
     private async fetchOrderItems(): Promise<OrderItem[]> {
-        // do een get request met de api om alle items te krijgen en sla deze op in een array
-        const result: OrderItem[] | undefined = await this._orderItemService.getAllWithParameters("id",this._sortOrder);
-
+        // Perform a GET request with the API to retrieve all items and store them in an array
+        const result: OrderItem[] | undefined = await this._orderItemService.getAllWithParameters("id", this._sortOrder);
+        // If there is no result, return an empty array
         if (!result) {
             return [];
         }
-
+        // Return the result
         return result;
-        // console.log(this._orderItems);
     }
 
+    // Get order items and update the state
     private getOrderItems(): void {
+        // Execute fetchOrderItems
         void this.fetchOrderItems().then((res: OrderItem[]) => {
+            // If successful, store the returned OrderItem array in the _orderItems state
             this._orderItems = res;
         });
     }
 
-    private handleChange(e:Event):void {
-        const target : any = e.target;
+    // Handle changes to the sort order
+    private handleChange(e: Event): void {
+        const target: any = e.target;
         console.log(target.value);
         if (target.value === "old-new") {
             this._sortOrder = "ASC";
-        }else if (target.value = "new-old"){
+        } else if (target.value === "new-old") {
             this._sortOrder = "DESC";
         }
         this.getOrderItems();
         this.requestUpdate();
     }
 
-    private handleClick(e: Event): void{
-        const target : HTMLElement = e.target as HTMLElement;
-        // console.log(target.id);
+    // Handle clicks on product names
+    private handleClick(e: Event): void {
+        // Store the HTML element that was clicked in the target const
+        const target: HTMLElement = e.target as HTMLElement;
+        // Navigate to the product page with the clicked product's id
         window.location.href = `/productpage?id=${target.id}`;
     }
 
-    // polymorphism
+    // Polymorphism: Override the render method to define the HTML structure
     protected render(): unknown {
         return html`
             <div class="container">
@@ -142,19 +149,19 @@ export class productsRoot extends LitElement {
                     <h1 class="ProductsH1">Products</h1>
                     <form>
                         <label for="sort">Sort:</label>
-                        <select name="sort" id="sort" @change = ${this.handleChange}>
+                        <select name="sort" id="sort" @change=${this.handleChange}>
                             <option value="new-old">New to old</option>
                             <option value="old-new">Old to new</option>
                         </select>
                     </form>
                 </div>
                 <div class="ProductsContainer">
-                    <!-- voor elke  row van _orderItems maak je een products html-->
+                    <!-- For each row of _orderItems, create a product HTML element -->
                     ${map(this._orderItems, (product) => {
                         return html`
                             <div class="products">
-                                <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
-                                <div class="productname" @click = "${this.handleClick}" id=${product.id}>${product.title}</div>
+                                <!-- When the product name is clicked, execute handleClick -->
+                                <div class="productname" @click="${this.handleClick}" id=${product.id}>${product.title}</div>
                                 <div
                                     class="image"
                                     style="background: url(${product.thumbnail}) ;
