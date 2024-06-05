@@ -130,7 +130,7 @@ export class productsRoot extends LitElement {
 
     private handleClick(e: Event): void{
         const target : HTMLElement = e.target as HTMLElement;
-        console.log(target.id);
+        // console.log(target.id);
         window.location.href = `/productpage?id=${target.id}`;
     }
 
@@ -151,12 +151,6 @@ export class productsRoot extends LitElement {
                 <div class="ProductsContainer">
                     <!-- voor elke  row van _orderItems maak je een products html-->
                     ${map(this._orderItems, (product) => {
-                        // console.log(row.thumbnail);
-
-                        if (product.thumbnail) {
-                            // const image : string = row.imageURLs;
-                        }
-
                         return html`
                             <div class="products">
                                 <!-- zet per div de toebehoren gegevens uit de row in de innerhtmls -->
