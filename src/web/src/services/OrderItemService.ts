@@ -29,12 +29,12 @@ export class OrderItemService {
         return (await response.json()) as OrderItem[];
     }
 
-    public async PopularProducts(): Promise<any[]> {
+    public async PopularProducts(): Promise<OrderItem[]> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/products`, {
             method: "get",
         });
         if(response.ok){
-            return (await response.json()) as any[];
+            return (await response.json()) as OrderItem[];
         }else{
             return [];
         }

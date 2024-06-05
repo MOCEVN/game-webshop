@@ -5,17 +5,15 @@ import { AuthorizationLevel, UserData } from "@shared/types";
 import { UserLoginFormModel, UserRegisterFormModel } from "@shared/formModels";
 import { CustomJwtPayload, CustomJwtToken } from "../types/jwt";
 import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
-import { IUserController } from "../interfaces/UserController";
-import { IUserRepository } from "../interfaces/UserRepository";
+import { IUserController } from "../interfaces/IUserController";
+import { IUserRepository } from "../interfaces/IUserRepository";
 
 /**
  * Handles all endpoints related to the User resource
  */
-export class UserController implements IUserController{
+export class UserController implements IUserController {
     private _userRepository: IUserRepository;
-    public constructor(
-        userRepository: IUserRepository
-    ) {
+    public constructor(userRepository: IUserRepository) {
         this._userRepository = userRepository;
     }
     /**
@@ -44,10 +42,16 @@ export class UserController implements IUserController{
         // Hash the password
         const hashedPassword: string = bcrypt.hashSync(formModel.password, 10);
 
-        const queryResult: string = await this._userRepository.add(formModel.email,hashedPassword,formModel.name,formModel.firstName,formModel.lastName);
+        const queryResult: string = await this._userRepository.add(
+            formModel.email,
+            hashedPassword,
+            formModel.name,
+            formModel.firstName,
+            formModel.lastName
+        );
 
         if (queryResult) {
-            res.status(400).json({message: queryResult});
+            res.status(400).json({ message: queryResult });
         }
 
         res.status(200).json({ message: "Successfully registered user." });
@@ -84,7 +88,7 @@ export class UserController implements IUserController{
         }
 
         // Generate a JWT Token
-        const payload: CustomJwtPayload = { userId: user.id , authorization: user.authorizationLevel };
+        const payload: CustomJwtPayload = { userId: user.id, authorization: user.authorizationLevel };
 
         const token: string = jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
 
@@ -152,8 +156,8 @@ export class UserController implements IUserController{
     public requestAdminAccess(req: Request, res: Response): void {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const userToken: CustomJwtToken = req.token!;
-        
-        if (userToken.authorization === AuthorizationLevel.ADMIN){
+
+        if (userToken.authorization === AuthorizationLevel.ADMIN) {
             res.json("true");
             return;
         }

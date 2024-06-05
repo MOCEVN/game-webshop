@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { AuthorizationLevel, OrderItem } from "@shared/types";
 import { CustomJwtToken } from "../types/jwt";
-import { IOrderItemController } from "../interfaces/OrderItemController";
-import { IOrderItemRepository } from "../interfaces/OrderItemRepository";
+import { IOrderItemController } from "../interfaces/IOrderItemController";
+import { IOrderItemRepository } from "../interfaces/IOrderItemRepository";
 
 /**
  * Handles all endpoints related to the Order Item resource

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { CustomJwtToken } from "../types/jwt";
 import asyncHandler from "express-async-handler";
-import { IUserRepository } from "../interfaces/UserRepository";
+import { IUserRepository } from "../interfaces/IUserRepository";
 import { UserRepository } from "../repositories/UserRepository";
 
 type ExpressMiddleware = (req: any, res: any, next: any) => void;
@@ -32,12 +32,8 @@ export function handleTokenBasedAuthentication(): ExpressMiddleware {
         let jwtToken: CustomJwtToken | undefined;
 
         try {
-            jwtToken = jwt.verify(
-                authenticationToken,
-                process.env.JWT_SECRET_KEY
-            ) as CustomJwtToken;
-        }
-        catch {
+            jwtToken = jwt.verify(authenticationToken, process.env.JWT_SECRET_KEY) as CustomJwtToken;
+        } catch {
             // Do nothing
         }
 
