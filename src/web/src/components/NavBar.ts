@@ -133,14 +133,15 @@ private async getWelcome(): Promise<void> {
         <li class="searchBar"><input type="text" placeholder="Zoek producten..."></li>
         <li><a href="shoppingcart.html"><img src="/assets/img/cart.png"></a></li>
 
-        <li><a href="#"><img src="/assets/img/heart.png"></a></li>
-
+        <!-- Show if the user is logged in -->
         ${when(
           this._isLoggedIn,
           () => html`
-            <li><a href="#"><img src="/assets/img/account.png"></a></li>
+            <li><a href="#"><img src="/assets/img/heart.png"></a></li>
+            <li><a href="profile.html"><img src="/assets/img/account.png"></a></li>
             <li><a href="#" @click=${this.clickLogoutButton}><img src="/assets/img/login.png">Logout</a></li>
           `,
+          // else the user needs to login first
           () => html`
             <li><a href="login.html" id="logIn"><img src="/assets/img/login.png">Login</a></li>
           `
