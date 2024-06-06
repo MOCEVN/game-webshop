@@ -5,6 +5,10 @@ import { getQueryParameters } from "@shared/types/SortFIlter";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
 import { getConnection, queryDatabase } from "../databaseService";
 
+/*
+OrderItemRepository
+handles the database requests of the api 
+*/
 export class OrderItemRepository {
     /**
      * Adds an item to the database.
@@ -37,6 +41,12 @@ export class OrderItemRepository {
         }
     }
 
+    /*
+    getAllWithParameters
+    composes the query and sends it to the database
+    params: getQueryParameters the sortOrder, searchType etc
+    returns the rows of the database in correct order
+    */
     public async getAllWithParameters(params: getQueryParameters): Promise<OrderItem[]> {
         const connection: PoolConnection = await getConnection();
         try {

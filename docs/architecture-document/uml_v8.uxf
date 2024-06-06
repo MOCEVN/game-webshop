@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>13</zoom_level><element><id>UMLClass</id><coordinates><x>273</x><y>78</y><w>351</w><h>208</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>189</x><y>54</y><w>243</w><h>144</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 OrderItem
 --
 +id: number
@@ -7,44 +7,44 @@ OrderItem
 +price: number
 +imageURLs: string[]
 +category: Category
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>104</x><y>494</y><w>286</w><h>91</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>72</x><y>342</y><w>198</w><h>63</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 Service
 --
--period: Period</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>455</x><y>481</y><w>377</w><h>117</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
+-period: Period</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>315</x><y>333</y><w>261</w><h>81</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 Product
 --
 +maxPerCustomer: number
 +inStock: number
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>91</x><y>741</y><w>338</w><h>169</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>63</x><y>513</y><w>234</w><h>117</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
 Period
 --
 YEAR = "year"
 MONTH = "month"
 WEEKLY = "weekly"
-SINGLEPAYMENT = "single-payment"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>871</x><y>468</y><w>351</w><h>143</h></coordinates><panel_attributes>ShoppingCart
+SINGLEPAYMENT = "single-payment"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>603</x><y>324</y><w>243</w><h>99</h></coordinates><panel_attributes>ShoppingCart
 --
 +add(item: ShoppingCartItem): boolean
 +remove(id): boolean
 +count(): number
-+get(id: number): ShoppingCart</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>715</x><y>234</y><w>351</w><h>156</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
++get(id: number): ShoppingCart</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>495</x><y>162</y><w>243</w><h>108</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 Category
 --
 +id: number
 +name: string
 +description: string
-+subCategory: Category</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1001</x><y>78</y><w>351</w><h>117</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
++subCategory: Category</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>693</x><y>54</y><w>243</w><h>81</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 ShoppingCartItem
 --
 +orderItem: OrderItem
-+amount: number</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1157</x><y>182</y><w>65</w><h>312</h></coordinates><panel_attributes>lt=&lt;-
++amount: number</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>801</x><y>126</y><w>45</w><h>216</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>10;10;10;220</additional_attributes></element><element><id>Relation</id><coordinates><x>1300</x><y>1001</y><w>65</w><h>195</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;10;220</additional_attributes></element><element><id>Relation</id><coordinates><x>900</x><y>693</y><w>45</w><h>135</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1209</x><y>468</y><w>143</w><h>299</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>837</x><y>324</y><w>99</w><h>207</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..1
-m2=0</panel_attributes><additional_attributes>10;10;80;10;80;210</additional_attributes></element><element><id>Relation</id><coordinates><x>611</x><y>91</y><w>416</w><h>52</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;80;10;80;210</additional_attributes></element><element><id>Relation</id><coordinates><x>423</x><y>63</y><w>288</w><h>36</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0	</panel_attributes><additional_attributes>10;10;300;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>195</x><y>1144</y><w>572</w><h>442</h></coordinates><panel_attributes>ProductController
+m2=0	</panel_attributes><additional_attributes>10;10;300;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>135</x><y>792</y><w>396</w><h>306</h></coordinates><panel_attributes>ProductController
 --
 -isDatabaseActive: boolean
 -products: Product[]
@@ -64,21 +64,21 @@ m2=0	</panel_attributes><additional_attributes>10;10;300;10</additional_attribut
 +getProductsOrderdByCategory(category: Category): Product[]
 +getProductsOrderdByPrice(desc: boolean): Product[]
 +getServicesOrderdByCategory(category: Category): Service[]
-+getServicesOrderdByPrice(desc: boolean): Service[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1365</x><y>468</y><w>273</w><h>130</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
++getServicesOrderdByPrice(desc: boolean): Service[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>945</x><y>324</y><w>189</w><h>90</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
 AuthorizationLevel
 --
 USER = "user"
 EMPLOYEE = "employee"
-ADMIN = "admin"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1781</x><y>364</y><w>312</w><h>117</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
+ADMIN = "admin"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1233</x><y>252</y><w>216</w><h>81</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 CartItem
 --
 +id: number
-+amount: number</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2210</x><y>117</y><w>312</w><h>143</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
++amount: number</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1530</x><y>81</y><w>216</w><h>99</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 Order
 --
 +id: number
 +products: OrderItem[]
-+status: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1755</x><y>117</y><w>312</w><h>169</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
++status: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1215</x><y>81</y><w>216</w><h>117</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 OrderItem
 --
 +thumbnail: string
@@ -86,7 +86,7 @@ OrderItem
 +name: string
 +description?: string
 +price: number
-+imageURLs?: string[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2119</x><y>546</y><w>364</w><h>286</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
++imageURLs?: string[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1467</x><y>378</y><w>252</w><h>198</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 UserData
 --
 +id: number
@@ -98,26 +98,26 @@ UserData
 +addresses?: Address[]
 +orders?: Order[]
 +authorizationLevel?: AuthorizationLevel
-+cart?: CartItem[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>663</x><y>676</y><w>312</w><h>182</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
++cart?: CartItem[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>459</x><y>468</y><w>216</w><h>126</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 Address
 --
 +id: number
 +street: string
 +city: string
 +zip: string
-+country: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2054</x><y>130</y><w>182</w><h>52</h></coordinates><panel_attributes>lt=&lt;-
++country: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1422</x><y>90</y><w>126</w><h>36</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0	</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2288</x><y>325</y><w>117</w><h>247</h></coordinates><panel_attributes>lt=&lt;-
+m2=0	</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1584</x><y>225</y><w>81</w><h>171</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>70;10;10;10;10;170</additional_attributes></element><element><id>Relation</id><coordinates><x>2236</x><y>247</y><w>65</w><h>325</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>70;10;10;10;10;170</additional_attributes></element><element><id>Relation</id><coordinates><x>1548</x><y>171</y><w>45</w><h>225</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>2080</x><y>377</y><w>130</w><h>195</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>1440</x><y>261</y><w>90</w><h>135</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>10;10;70;10;70;130</additional_attributes></element><element><id>Relation</id><coordinates><x>468</x><y>585</y><w>234</w><h>585</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;70;10;70;130</additional_attributes></element><element><id>Relation</id><coordinates><x>324</x><y>405</y><w>162</w><h>405</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>140;10;140;60;10;60;10;430</additional_attributes></element><element><id>Relation</id><coordinates><x>611</x><y>156</y><w>325</w><h>104</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>140;10;140;60;10;60;10;430</additional_attributes></element><element><id>Relation</id><coordinates><x>423</x><y>108</y><w>225</w><h>72</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>210;60;210;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1131</x><y>741</y><w>351</w><h>273</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
+m2=0</panel_attributes><additional_attributes>210;60;210;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>783</x><y>513</y><w>243</w><h>189</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 UserData
 --
 +id: number
@@ -129,99 +129,99 @@ UserData
 +addresses?: Address[]
 +orders?: Order[]
 +authorizationLevel?: AuthorizationLevel
-+cart?: ShoppingCart</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1807</x><y>533</y><w>273</w><h>143</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
++cart?: ShoppingCart</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1251</x><y>369</y><w>189</w><h>99</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
 AuthorizationLevel
 --
 USER = "user"
 EMPLOYEE = "employee"
-ADMIN = "admin"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2379</x><y>312</y><w>312</w><h>182</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
+ADMIN = "admin"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1647</x><y>216</y><w>216</w><h>126</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 Address
 --
 +id: number
 +street: string
 +city: string
 +zip: string
-+country: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>962</x><y>689</y><w>286</w><h>78</h></coordinates><panel_attributes>lt=&lt;-
++country: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>666</x><y>477</y><w>198</w><h>54</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>10;10;190;10;190;40</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1703</x><y>0</y><w>1287</w><h>1690</h></coordinates><panel_attributes>Current code version 1.0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>0</y><w>1677</w><h>1690</h></coordinates><panel_attributes>Future code version 2.0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2314</x><y>962</y><w>312</w><h>156</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
+m2=0</panel_attributes><additional_attributes>10;10;190;10;190;40</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1179</x><y>0</y><w>891</w><h>1170</h></coordinates><panel_attributes>Current code version 1.0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>0</x><y>0</y><w>1161</w><h>1170</h></coordinates><panel_attributes>Future code version 2.0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1602</x><y>666</y><w>216</w><h>108</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
 authenticationMiddleware
 --
 +handleTokenBasedAuthentication(
    req: Request,
    res: Response,
    next: NextFunction
-) : NextFunction | void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2613</x><y>1040</y><w>169</w><h>91</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>110;10;110;50;10;50</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1729</x><y>884</y><w>1235</w><h>767</h></coordinates><panel_attributes>Backend</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2652</x><y>962</y><w>234</w><h>91</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+) : NextFunction | void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1809</x><y>720</y><w>117</w><h>63</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>110;10;110;50;10;50</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1197</x><y>612</y><w>855</w><h>531</h></coordinates><panel_attributes>Backend</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1836</x><y>666</y><w>162</w><h>63</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
 Request
 --
-user?: UserData</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2288</x><y>819</y><w>507</w><h>169</h></coordinates><panel_attributes>lt=&lt;-
+user?: UserData</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1584</x><y>567</y><w>351</w><h>117</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..1
-m2=0</panel_attributes><additional_attributes>10;10;10;50;360;50;360;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2314</x><y>1248</y><w>234</w><h>104</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
+m2=0</panel_attributes><additional_attributes>10;10;10;50;360;50;360;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1602</x><y>864</y><w>162</w><h>72</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
 routes.ts
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1937</x><y>663</y><w>208</w><h>117</h></coordinates><panel_attributes>lt=&lt;-
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1341</x><y>459</y><w>144</w><h>81</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..1
-m2=0</panel_attributes><additional_attributes>10;10;10;60;140;60</additional_attributes></element><element><id>Relation</id><coordinates><x>2418</x><y>1105</y><w>39</w><h>169</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2652</x><y>1326</y><w>234</w><h>130</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
+m2=0</panel_attributes><additional_attributes>10;10;10;60;140;60</additional_attributes></element><element><id>Relation</id><coordinates><x>1674</x><y>765</y><w>27</w><h>117</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1836</x><y>918</y><w>162</w><h>90</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
 app.ts
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2535</x><y>1313</y><w>143</w><h>117</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>90;70;10;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1729</x><y>52</y><w>988</w><h>806</h></coordinates><panel_attributes>Shared</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1820</x><y>936</y><w>364</w><h>169</h></coordinates><panel_attributes>OrderItemController
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1755</x><y>909</y><w>99</w><h>81</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>90;70;10;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1197</x><y>36</y><w>684</w><h>558</h></coordinates><panel_attributes>Shared</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1260</x><y>648</y><w>252</w><h>117</h></coordinates><panel_attributes>OrderItemController
 --
 _orderItemRepository
 --
 +getAllWithParameters(req: Request,res: Response): Promise&lt;void&gt;
 +add(req: Request, res: Response): Promise&lt;void&gt;
 +getProduct(req: Request,res: Response): Promise&lt;void&gt;
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1755</x><y>1131</y><w>481</w><h>156</h></coordinates><panel_attributes>UserController
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1224</x><y>990</y><w>333</w><h>108</h></coordinates><panel_attributes>UserController
 --
 +register(req: Request, res: Response): void
 +login(req: Request, res: Response): void
 +logout(req: Request, res: Response): void
 +hello(req: Request, res: Response): void
-+addOrderItemToCart(req: Request, res: Response): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2171</x><y>936</y><w>169</w><h>455</h></coordinates><panel_attributes>lt=&lt;-
++addOrderItemToCart(req: Request, res: Response): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1503</x><y>648</y><w>117</w><h>315</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
-m2=0</panel_attributes><additional_attributes>10;10;80;70;80;320;110;320</additional_attributes></element><element><id>Relation</id><coordinates><x>2223</x><y>1131</y><w>78</w><h>52</h></coordinates><panel_attributes>lt=&lt;-
-m1=1</panel_attributes><additional_attributes>10;10;40;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>858</x><y>1170</y><w>312</w><h>169</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
+m2=0</panel_attributes><additional_attributes>10;10;80;160;80;320;110;320</additional_attributes></element><element><id>Relation</id><coordinates><x>1548</x><y>783</y><w>45</w><h>234</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>10;240;30;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>594</x><y>810</y><w>216</w><h>117</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
 authenticationMiddleware
 --
 +handleTokenBasedAuthentication(
    req: Request,
    res: Response,
    next: NextFunction
-) : NextFunction | void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>858</x><y>1430</y><w>234</w><h>130</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
+) : NextFunction | void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>594</x><y>990</y><w>162</w><h>90</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
 routes.ts
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1196</x><y>1430</y><w>234</w><h>130</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>828</x><y>990</y><w>162</w><h>90</h></coordinates><panel_attributes>&lt;&lt;module&gt;&gt;
 app.ts
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1079</x><y>1495</y><w>143</w><h>39</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>962</x><y>1326</y><w>39</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>143</x><y>1053</y><w>1339</w><h>585</h></coordinates><panel_attributes>Backend</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1157</x><y>1248</y><w>169</w><h>91</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>110;10;110;50;10;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1196</x><y>1170</y><w>234</w><h>91</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>747</x><y>1035</y><w>99</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>666</x><y>918</y><w>27</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>99</x><y>729</y><w>927</w><h>405</h></coordinates><panel_attributes>Backend</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>801</x><y>864</y><w>117</w><h>63</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>110;10;110;50;10;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>828</x><y>810</y><w>162</w><h>63</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
 Request
 --
-user?: UserData</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>754</x><y>1144</y><w>130</w><h>403</h></coordinates><panel_attributes>lt=&lt;-
+user?: UserData</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>522</x><y>792</y><w>90</w><h>279</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
-m2=0</panel_attributes><additional_attributes>10;10;50;10;50;280;80;280</additional_attributes></element><element><id>Relation</id><coordinates><x>234</x><y>572</y><w>273</w><h>117</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n</panel_attributes><additional_attributes>10;10;10;70;190;70</additional_attributes></element><element><id>Relation</id><coordinates><x>234</x><y>273</y><w>247</w><h>247</h></coordinates><panel_attributes>lt=&lt;&lt;-
-</panel_attributes><additional_attributes>170;10;170;110;10;110;10;170</additional_attributes></element><element><id>Relation</id><coordinates><x>442</x><y>390</y><w>221</w><h>117</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;150;20;150;70</additional_attributes></element><element><id>Relation</id><coordinates><x>1417</x><y>585</y><w>65</w><h>182</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;50;10;50;280;80;280</additional_attributes></element><element><id>Relation</id><coordinates><x>162</x><y>396</y><w>189</w><h>81</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>10;10;10;70;190;70</additional_attributes></element><element><id>Relation</id><coordinates><x>162</x><y>189</y><w>171</w><h>171</h></coordinates><panel_attributes>lt=&lt;&lt;-
+</panel_attributes><additional_attributes>170;10;170;110;10;110;10;170</additional_attributes></element><element><id>Relation</id><coordinates><x>306</x><y>270</y><w>153</w><h>81</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;150;20;150;70</additional_attributes></element><element><id>Relation</id><coordinates><x>981</x><y>405</y><w>45</w><h>126</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..1
-m2=0</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>143</x><y>572</y><w>52</w><h>195</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>99</x><y>396</y><w>36</w><h>135</h></coordinates><panel_attributes>lt=&lt;-
 m1=1
-m2=0</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>663</x><y>884</y><w>312</w><h>143</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
+m2=0</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>459</x><y>612</y><w>216</w><h>99</h></coordinates><panel_attributes>&lt;&lt;type&gt;&gt;
 Order
 --
 +id: number
 +products: OrderItem[]
-+status: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>962</x><y>897</y><w>195</w><h>52</h></coordinates><panel_attributes>lt=&lt;-
++status: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>666</x><y>621</y><w>135</w><h>36</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>39</x><y>91</y><w>650</w><h>910</h></coordinates><panel_attributes>lt=&lt;-
+m2=0</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>27</x><y>63</y><w>450</w><h>630</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n
-m2=0</panel_attributes><additional_attributes>180;10;10;10;10;670;480;670</additional_attributes></element><element><id>Text</id><coordinates><x>1274</x><y>234</y><w>325</w><h>182</h></coordinates><panel_attributes>*Disclaimer*
+m2=0</panel_attributes><additional_attributes>180;10;10;10;10;670;480;670</additional_attributes></element><element><id>Text</id><coordinates><x>882</x><y>162</y><w>225</w><h>126</h></coordinates><panel_attributes>*Disclaimer*
 This is a conceptual design and may contain errors. 
 
 However, please first discuss changes with your teachers before you apply them in your code to prevent loss of work!
-style=wordwrap</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1768</x><y>1378</y><w>442</w><h>208</h></coordinates><panel_attributes>OrderItemRepository
+style=wordwrap</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1233</x><y>819</y><w>306</w><h>144</h></coordinates><panel_attributes>OrderItemRepository
 --
 +addItem(formData: ProductAddModel) : Promise&lt;boolean&gt;
 +getAllWithParameters(params: getQueryParameters): Promise&lt;OrderItem[]&gt;
 +getProduct(id: string): Promise&lt;OrderItem | undefined&gt;
 +getAll(): Promise&lt;OrderItem[]&gt;
-+getImages(): Promise&lt;any&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1976</x><y>1274</y><w>52</w><h>130</h></coordinates><panel_attributes>lt=-
++getImages(): Promise&lt;any&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1377</x><y>747</y><w>36</w><h>90</h></coordinates><panel_attributes>lt=-
 m1=1
 
 m2=1</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element></diagram>

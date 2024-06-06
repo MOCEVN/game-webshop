@@ -5,7 +5,9 @@ import { IOrderItemController } from "../interfaces/IOrderItemController";
 import { IOrderItemRepository } from "../interfaces/IOrderItemRepository";
 
 /**
+ * OrderItemController
  * Handles all endpoints related to the Order Item resource
+ * requires aa orderItemRepository object in the constructor
  */
 export class OrderItemController implements IOrderItemController {
     private _orderItemRepository: IOrderItemRepository;
@@ -14,8 +16,8 @@ export class OrderItemController implements IOrderItemController {
         this._orderItemRepository = orderItemRepository;
     }
     /**
-     * Get all order items
-     * 
+     * getAll
+     * Gets all order items
      * @param _ Request object (unused)
      * @param res Response object
      */
@@ -24,15 +26,19 @@ export class OrderItemController implements IOrderItemController {
         res.json(result);
     }
     
+    /*
+    getAllWithParameters
+    initialises orderItemRepository with the data from the request and then sends the order items back as a json
+    req: Request = the request that was sent to the api
+    res: Response = the response the api will give
+    */
     public async getAllWithParameters(req: Request,res: Response): Promise<void> {
-        //initialise the getAllWithParameters function from the orderItemRepository class with the data from the request
         const result: OrderItem[] = await this._orderItemRepository.getAllWithParameters({
             orderBy: req.query.orderBy as string ?? "",
             sortOrder: req.query.sortOrder as string ?? "ASC",
             search: req.query.search as string ?? "",
             searchType: req.query.searchType as string ?? "name",
         });
-        //return the database results in a json
         res.json(result);
     }
     public async getProduct(req: Request,res: Response): Promise<void> {
