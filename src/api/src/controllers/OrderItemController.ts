@@ -25,12 +25,14 @@ export class OrderItemController implements IOrderItemController {
     }
     
     public async getAllWithParameters(req: Request,res: Response): Promise<void> {
+        //initialise the getAllWithParameters function from the orderItemRepository class with the data from the request
         const result: OrderItem[] = await this._orderItemRepository.getAllWithParameters({
             orderBy: req.query.orderBy as string ?? "",
             sortOrder: req.query.sortOrder as string ?? "ASC",
             search: req.query.search as string ?? "",
             searchType: req.query.searchType as string ?? "name",
         });
+        //return the database results in a json
         res.json(result);
     }
     public async getProduct(req: Request,res: Response): Promise<void> {
