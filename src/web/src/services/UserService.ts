@@ -1,7 +1,8 @@
-import { UserLoginFormModel } from "@shared/formModels/UserLoginFormModel";
-import { UserRegisterFormModel } from "@shared/formModels/UserRegisterFormModel";
-import { TokenService } from "./TokenService";
-import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
+import {UserLoginFormModel} from "@shared/formModels/UserLoginFormModel";
+import {UserRegisterFormModel} from "@shared/formModels/UserRegisterFormModel";
+import {TokenService} from "./TokenService";
+import {UserHelloResponse} from "@shared/responses/UserHelloResponse";
+import {UserData} from "@shared/types";
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -168,5 +169,23 @@ export class UserService {
         }
 
         return await response.json() === "true";
+    }
+
+    public async getInfo(): Promise<UserData | undefined> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if (!token) {
+            return undefined;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}users/info`, {
+            method: "get",
+            headers: { ...headers, authorization: token}
+        });
+
+        if (!response.ok) {
+            return undefined;
+        }
+        return (await response.json()) as UserData;
     }
 }

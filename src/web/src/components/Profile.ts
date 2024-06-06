@@ -1,5 +1,7 @@
 import { LitElement, html, css, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import {customElement, state} from "lit/decorators.js";
+import {UserData} from "@shared/types";
+import {UserService} from "../services/UserService";
 
 
 @customElement("profile-page")
@@ -86,6 +88,16 @@ export class Profilepage extends LitElement {
         }
     `;
 
+    @state()
+    private _userData: UserData | undefined;
+
+    private _userService: UserService = new UserService();
+
+    public async connectedCallback(): Promise<void> {
+        this._userData = await this._userService.getInfo();
+        super.connectedCallback();
+    }
+
     protected render(): TemplateResult {
         return html`
             <main>
@@ -113,8 +125,21 @@ export class Profilepage extends LitElement {
                 <section id="user">
                     <h2>Mijn Gegevens</h2>
                     <form>
+<<<<<<< HEAD
                     <p><strong>Naam:</strong> </p>
                     <p><strong>E-mail:</strong> </p>
+=======
+                        <label for="name">Naam:</label>
+                        <input type="text" id="name" name="name" value="${this._userData?.firstName}">
+                        
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" value="jan.jansen@example.com">
+                        
+                        <label for="address">Adres:</label>
+                        <input type="text" id="address" name="address" value="Hoofdstraat 123, 1234 AB, Amsterdam">
+                        
+                        <button type="submit">Gegevens Bijwerken</button>
+>>>>>>> refs/remotes/origin/main
                     </form>
                 </section>
             </main>

@@ -163,4 +163,8 @@ export class UserController implements IUserController {
         }
         res.json("false");
     }
+
+    public getInfo(req: Request, res: Response): void {
+        res.json(req.user);
+    }
 }
