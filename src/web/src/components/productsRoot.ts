@@ -120,16 +120,20 @@ export class productsRoot extends LitElement {
         });
     }
 
-    // Handle changes to the sort order
+    
     private handleChange(e: Event): void {
+        // save the target of the event to a const
         const target: any = e.target;
-        console.log(target.value);
+        // console.log(target.value);
+        // if the value of target is old-new then change the _sortOrderstate to ASC else change it to DESC
         if (target.value === "old-new") {
             this._sortOrder = "ASC";
         } else if (target.value === "new-old") {
             this._sortOrder = "DESC";
         }
+        // execute getOrderItems again because the data changed
         this.getOrderItems();
+         // request an update to show the sorted items
         this.requestUpdate();
     }
 
@@ -149,6 +153,7 @@ export class productsRoot extends LitElement {
                     <h1 class="ProductsH1">Products</h1>
                     <form>
                         <label for="sort">Sort:</label>
+                        <!-- if you choose an option of the dropdown then execute handleChange -->
                         <select name="sort" id="sort" @change=${this.handleChange}>
                             <option value="new-old">New to old</option>
                             <option value="old-new">Old to new</option>

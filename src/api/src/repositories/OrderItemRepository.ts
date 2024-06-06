@@ -36,6 +36,7 @@ export class OrderItemRepository {
             connection.release();
         }
     }
+
     public async getAllWithParameters(params: getQueryParameters): Promise<OrderItem[]> {
         const connection: PoolConnection = await getConnection();
         try {
@@ -51,7 +52,7 @@ export class OrderItemRepository {
             }
             // mysql2 parameter binding doesn't work with ORDER BY
             if (params.orderBy && OrderItemSortableColumns.has(params.orderBy)) {
-                query += ` ORDER BY ${params.orderBy} ${params.sortOrder === "DESC" ? "DESC" : "ASC"}`;
+                query += ` ORDER BY ${params.orderBy} ${params.sortOrder}`;
             }
             
             const result: any = await queryDatabase(connection, query, ...values);
