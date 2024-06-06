@@ -22,7 +22,7 @@ export class UserRepository implements IUserRepository {
     /**
      * Gets user data from an id.
      * @param id
-     * @returns UserData
+     * @returns UserDataFF
      */
     public async getFromId(id: number): Promise<UserData | undefined> {
         const connection: PoolConnection = await getConnection();
