@@ -35,6 +35,7 @@ router.get("");
 // NOTE: Everything after this point only works with a valid JWT token!
 router.use(handleTokenBasedAuthentication());
 
+router.get("/users/info", (req, res) => userController.getInfo(req, res));
 router.get("/users/logout", (req, res) => userController.logout(req, res));
 router.get("/users/hello", (req, res) => userController.hello(req, res));
 router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(req, res));
