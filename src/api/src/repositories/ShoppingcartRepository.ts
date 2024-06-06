@@ -16,8 +16,7 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
             "select * from shoppingcartitem WHERE userId = ?",
             id
         );
-
-        console.log(checkcart);
+        // hier nog een async neezetten richting het ophalen van productnames.
         connection.release();
         return checkcart;
     }

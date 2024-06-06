@@ -19,7 +19,7 @@ export class ShoppingcartController implements IShoppingcartController {
     public async checkcart(req: Request, res: Response): Promise<void> {
         const checkcart: UserData | undefined = await this._ShoppingcartRepository.checkcart(+req.params.id);
         if (!checkcart) {
-            res.status(200).json({message: "Shoppingcart is empty"});
+            res.status(200).json({ message: "Shoppingcart is empty" });
         } else {
             res.json(checkcart);
         }

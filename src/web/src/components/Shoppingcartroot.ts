@@ -1,8 +1,8 @@
 import { LitElement, TemplateResult, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { ShoppingcartService } from "../services/ShoppingcartService";
-import {OrderItem} from "@shared/types";
-import {TokenService} from "../services/TokenService";
+import { OrderItem } from "@shared/types";
+import { TokenService } from "../services/TokenService";
 
 // TODO Omar: Voeg commentaar toe om token-truc uit te leggen
 @customElement("shoppingcart-root")
@@ -27,36 +27,52 @@ export class ShoppingCart extends LitElement {
 
     private _tokenService: TokenService = new TokenService();
 
-    private checkcart: OrderItem | undefined;
+    private checkcart: OrderItem[] | undefined;
 
     public async connectedCallback(): Promise<void> {
+        // hier vraag ik de token van de ingelogde gebruiker
         const token: string | undefined = this._tokenService.getToken();
+        // als die token er is dan pas gaat deze code werken
         if (token) {
+            // hier word jhe token ontcijferd waaraan ik hem in een array stop en alleen de tweede sectie van de array gebruik
             const payload: any = JSON.parse(atob(token.split(".")[1]));
+
+            // in de array saal ik dan de userId eruit en maak ik ddaar een constructor van om te gebruiken in me api request.
             const userId: number = payload.userId;
+
+            // Request naar de database om de functie checkcart uit shoppingcartservice uit te voeren met als ID the constructor userId
             this.checkcart = await this._shoppingcartService.checkcart(userId);
+            if (this.checkcart) {
+                const itemId: number[] = this.checkcart.map((item: { itemId: any }) => item.itemId);
+                console.log("dit is de itemid van de items in je shoppingcart", itemId);
+            }
         }
         super.connectedCallback();
     }
-
+    // hier maak ik dan een html page die zich aanpast aan de state van de checkcart
     protected render(): TemplateResult {
-        const message: string = this.checkcart ? "Hallo Nico" : "Het is niet gelukt";
+        let message: any;
+        if (this.checkcart === null) {
+            message = html`<div class="noproductstext">
+                <img class="shoppingbag" src="/assets/img/Shoppingbag.png" />
+
+                <h1>Winkelwagen</h1>
+                <p>
+                    Er zijn geen producten in jouw winkelwagen. Klik op de onderstaande knop om verder te
+                    winkelen.
+                </p>
+                <button class="winkelen">verder winkelen</button>
+            </div> `;
+        } else if (this.checkcart) {
+            message = html`<p>${this.checkcart}</p>`;
+        } else {
+            message = html`<p>je moet ingelogd zijn</p>`;
+            window.location.replace("homepage.html");
+            window.alert(["je moet ingelogd zijn om hier gebruik van te maken"]);
+
+            // hier moet een redirect komen naar de product page met een pop up je kan niks in je shoppingcart doen.
+            // welicht de navbar aanpassen zodat je alleen op shoppingcart kan drukken als je bent ingelogd. gebruikk hiervoor een gettoken request om met een if else statement de navbar dynamisch te weergeven.
+        }
         return html` <p class="message">${message}</p> `;
     }
 }
-// let message: any;
-// console.log(checkcart);
-// if (checkcart === null) {
-//     message = html`<div class="noproductstext">
-//         <img class="shoppingbag" src="/assets/img/Shoppingbag.png" />
-//
-//         <h1>Winkelwagen</h1>
-//         <p>Er zijn geen producten in jouw winkelwagen. Klik op de onderstaande knop om verder te winkelen.</p>
-//         <button class="winkelen">verder winkelen</button>
-//     </div> `;
-// } else if (checkcart) {
-//     message = html`<p>je hebt items in je shoppingcart</p>`;
-// } else {
-//     message = html`<p>Welcome to your shoppingbag</p>`;
-//     // hier moet een redirect komen naar de
-// }
