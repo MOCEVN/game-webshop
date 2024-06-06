@@ -119,4 +119,24 @@ export class OrderItemService {
         
         return await response.json();
     }
+
+    public async getOrderInfo(): Promise<OrderItem | undefined> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if (!token) {
+            return undefined;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}users/info`, {
+            method: "get",
+            headers: { ...headers, authorization: token}
+        });
+
+        if (!response.ok) {
+            return undefined;
+        }
+        return (await response.json()) as OrderItem;
+    }
+
+
 }

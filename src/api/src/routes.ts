@@ -30,6 +30,9 @@ router.get(
 router.get("/store-content/all/:id", asyncHandler(orderItemController.getProduct.bind(orderItemController)));
 router.get("/orderItems", asyncHandler(orderItemController.getAll.bind(orderItemController)));
 
+//  Get Order information
+router.get("/order/info", (req, res) => orderItemController.getOrderInfo(req, res));
+
 router.get("");
 
 // NOTE: Everything after this point only works with a valid JWT token!

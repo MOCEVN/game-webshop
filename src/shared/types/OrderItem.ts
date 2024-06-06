@@ -4,7 +4,7 @@ export type OrderItem = {
     thumbnail: string;
     id: number;
     title: string;
-    description?: string;
+    description: string;
     price: number;
     catagory?: Catagory;
     imageURLs?: string[];

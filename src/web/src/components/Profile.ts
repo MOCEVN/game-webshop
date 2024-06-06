@@ -1,7 +1,8 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import {customElement, state} from "lit/decorators.js";
-import {UserData} from "@shared/types";
+import {OrderItem, UserData} from "@shared/types";
 import {UserService} from "../services/UserService";
+import { OrderItemService } from "../services/OrderItemService";
 
 
 @customElement("profile-page")
@@ -12,24 +13,6 @@ export class Profilepage extends LitElement {
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-        }
-
-        nav {
-            background-color: #444;
-            padding: 0.5em;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0 1em;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
         }
         main {
             max-width: 800px;
@@ -90,11 +73,14 @@ export class Profilepage extends LitElement {
 
     @state()
     private _userData: UserData | undefined;
+    private _orderData: OrderItem | undefined;
 
     private _userService: UserService = new UserService();
+    private _orderItemService: OrderItemService = new OrderItemService();
 
     public async connectedCallback(): Promise<void> {
         this._userData = await this._userService.getInfo();
+        this._orderData = await this._orderItemService.getOrderInfo();
         super.connectedCallback();
     }
 
@@ -108,16 +94,14 @@ export class Profilepage extends LitElement {
                             <tr>
                                 <th>Bestelling ID</th>
                                 <th>Datum</th>
-                                <th>Status</th>
                                 <th>Totaal</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>12345</td>
-                                <td>01-06-2024</td>
-                                <td>Verzonden</td>
-                                <td>€50.00</td>
+                                <td>${this._orderData?.id}</td>
+                                <td>${this._orderData?.description}</td>
+                                <td>${this._orderData?.catagory}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -125,21 +109,8 @@ export class Profilepage extends LitElement {
                 <section id="user">
                     <h2>Mijn Gegevens</h2>
                     <form>
-<<<<<<< HEAD
-                    <p><strong>Naam:</strong> </p>
-                    <p><strong>E-mail:</strong> </p>
-=======
-                        <label for="name">Naam:</label>
-                        <input type="text" id="name" name="name" value="${this._userData?.firstName}">
-                        
-                        <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="email" value="jan.jansen@example.com">
-                        
-                        <label for="address">Adres:</label>
-                        <input type="text" id="address" name="address" value="Hoofdstraat 123, 1234 AB, Amsterdam">
-                        
-                        <button type="submit">Gegevens Bijwerken</button>
->>>>>>> refs/remotes/origin/main
+                    <p><strong>Naam:</strong> ${this._userData?.firstName}</p>
+                    <p><strong>E-mail:</strong> ${this._userData?.email}</p>
                     </form>
                 </section>
             </main>

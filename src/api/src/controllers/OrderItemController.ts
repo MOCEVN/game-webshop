@@ -69,4 +69,9 @@ export class OrderItemController implements IOrderItemController {
         }
         res.json({succeeded: succeeded, failed: failed, error: false});
     }
+
+    public getOrderInfo(req: Request, res: Response): void {
+        res.json(req.user);
+    }
+
 }
