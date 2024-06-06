@@ -10,18 +10,24 @@ export class Homepage extends LitElement {
     public static styles = css`
         .productname {
             cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
         .container {
             max-height: 90vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 20px;
         }
         .header {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             height: 10vh;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
         }
         .ProductsH1 {
             color: #373e98;
@@ -31,49 +37,55 @@ export class Homepage extends LitElement {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            width: 90vw;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
             height: 80vh;
             border-radius: 10px;
-            margin-bottom: 4vw;
+            overflow-y: auto;
         }
         .products {
-            justify-content: space-evenly;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-left: 1vw;
-            margin-right: 1vw;
-            margin-bottom: 1vh;
             background-color: #ffffff;
             width: 20vw;
-            height: 25vh;
+            height: 35vh;
             border-radius: 10px;
-            padding: 15px, 15px, 15px, 15px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .products:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
         .description {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 20%;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             width: 90%;
-            padding: 10px;
-            overflow-x: scroll;
-            overflow-y: scroll;
         }
         .price {
             display: flex;
-            flex-direction: row-reverse;
+            justify-content: center;
             width: 100%;
-            padding-right: 10%;
+            margin-top: 10px;
+            font-size: 1.1em;
             color: green;
         }
         .image {
+            width: 100%;
+            height: 50%;
             border-radius: 10px;
-            height: 40%;
-            width: 50%;
-        }
-    `;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }  `;
 
     @state()
     private _orderItemService: OrderItemService = new OrderItemService();
@@ -111,7 +123,7 @@ export class Homepage extends LitElement {
         window.location.href = `/productpage?id=${target.id}`;
     }
 
-    // polymorphism
+
     protected render(): unknown {
         return html`
             <div class="container">

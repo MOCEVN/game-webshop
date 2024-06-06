@@ -55,10 +55,9 @@ export class SignUp extends LitElement {
     }
   `;
 
-  // composition from class signUp
   private _userService: UserService = new UserService();
 
-  // encapsulation
+
   private _email: string = "";
   private _password: string = "";
   private _firstName: string = "";

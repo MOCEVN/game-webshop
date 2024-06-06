@@ -1,6 +1,7 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 
+
 @customElement("profile-page")
 export class Profilepage extends LitElement {
     public static styles = css`
@@ -45,10 +46,13 @@ export class Profilepage extends LitElement {
             border-collapse: collapse;
             margin-top: 1em;
         }
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid #ddd;
         }
-        th, td {
+        th,
+        td {
             padding: 0.5em;
             text-align: left;
         }
@@ -80,50 +84,10 @@ export class Profilepage extends LitElement {
             display: flex;
             flex-wrap: wrap;
         }
-        .favorite-item {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1em;
-            margin: 0.5em;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .favorite-item img {
-            max-width: 100px;
-            border-radius: 4px;
-        }
-        .favorite-item button {
-            margin-top: 0.5em;
-            padding: 0.5em;
-            background-color: #333;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .favorite-item button:hover {
-            background-color: #555;
-        }
-        footer {
-            text-align: center;
-            padding: 1em 0;
-            background-color: #333;
-            color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
     `;
 
     protected render(): TemplateResult {
         return html`
-            <nav>
-                <ul>
-                    <li><a href="#orders">Bestellingen</a></li>
-                    <li><a href="#details">Gegevens</a></li>
-                </ul>
-            </nav>
             <main>
                 <section id="orders">
                     <h2>Mijn Bestellingen</h2>
@@ -143,28 +107,14 @@ export class Profilepage extends LitElement {
                                 <td>Verzonden</td>
                                 <td>€50.00</td>
                             </tr>
-                            <tr>
-                                <td>67890</td>
-                                <td>15-05-2024</td>
-                                <td>In Behandeling</td>
-                                <td>€75.00</td>
-                            </tr>
                         </tbody>
                     </table>
                 </section>
-                <section id="details">
+                <section id="user">
                     <h2>Mijn Gegevens</h2>
                     <form>
-                        <label for="name">Naam:</label>
-                        <input type="text" id="name" name="name" value="Jan Jansen">
-                        
-                        <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="email" value="jan.jansen@example.com">
-                        
-                        <label for="address">Adres:</label>
-                        <input type="text" id="address" name="address" value="Hoofdstraat 123, 1234 AB, Amsterdam">
-                        
-                        <button type="submit">Gegevens Bijwerken</button>
+                    <p><strong>Naam:</strong> </p>
+                    <p><strong>E-mail:</strong> </p>
                     </form>
                 </section>
             </main>

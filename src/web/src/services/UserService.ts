@@ -10,6 +10,7 @@ const headers: { "Content-Type": string } = {
 /**
  * Handles user related functionality
  */
+
 export class UserService {
     private _tokenService: TokenService = new TokenService();
 
@@ -109,14 +110,16 @@ export class UserService {
             method: "get",
             headers: { ...headers, authorization: token },
         });
-
+        // console.log("test"); 
         if (!response.ok) {
-            console.error(response);
 
+            console.error(response);
+         
             return undefined;
         }
 
         return (await response.json()) as UserHelloResponse;
+
     }
 
     /**
