@@ -1,5 +1,5 @@
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
-import { OrderItem } from "@shared/types";
+import { Order, OrderItem } from "@shared/types";
 import { getQueryParameters } from "@shared/types/SortFIlter";
 
 export interface IOrderItemRepository {
@@ -7,5 +7,6 @@ export interface IOrderItemRepository {
     getAllWithParameters(params: getQueryParameters): Promise<OrderItem[]>;
     getProduct(id: string): Promise<OrderItem | undefined>;
     
-    getAll(): Promise<OrderItem[]>
+    getAll(): Promise<OrderItem[]>;
+    getOrders(userId: string): Promise<Order | undefined>
 }

@@ -49,5 +49,6 @@ export function handleTokenBasedAuthentication(): ExpressMiddleware {
         req.user = await userRepository.getFromId(jwtToken.userId);
 
         return next();
+
     });
 }

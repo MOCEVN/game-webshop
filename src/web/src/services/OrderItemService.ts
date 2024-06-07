@@ -1,4 +1,4 @@
-import { OrderItem } from "@shared/types";
+import { Order, OrderItem } from "@shared/types";
 import { TokenService } from "./TokenService";
 
 const headers: { "Content-Type": string } = {
@@ -120,14 +120,14 @@ export class OrderItemService {
         return await response.json();
     }
 
-    public async getOrderInfo(): Promise<OrderItem | undefined> {
+    public async getOrderInfo(): Promise<Order | undefined> {
         const token: string | undefined = this._tokenService.getToken();
 
         if (!token) {
             return undefined;
         }
 
-        const response: Response = await fetch(`${viteConfiguration.API_URL}users/info`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}order/info`, {
             method: "get",
             headers: { ...headers, authorization: token}
         });
@@ -135,7 +135,7 @@ export class OrderItemService {
         if (!response.ok) {
             return undefined;
         }
-        return (await response.json()) as OrderItem;
+        return (await response.json()) as Order;
     }
 
 

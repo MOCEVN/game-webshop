@@ -1,6 +1,6 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import {customElement, state} from "lit/decorators.js";
-import {OrderItem, UserData} from "@shared/types";
+import {Order, UserData} from "@shared/types";
 import {UserService} from "../services/UserService";
 import { OrderItemService } from "../services/OrderItemService";
 
@@ -73,7 +73,7 @@ export class Profilepage extends LitElement {
 
     @state()
     private _userData: UserData | undefined;
-    private _orderData: OrderItem | undefined;
+    private _orderData: Order | undefined;
 
     private _userService: UserService = new UserService();
     private _orderItemService: OrderItemService = new OrderItemService();
@@ -100,8 +100,8 @@ export class Profilepage extends LitElement {
                         <tbody>
                             <tr>
                                 <td>${this._orderData?.id}</td>
-                                <td>${this._orderData?.description}</td>
-                                <td>${this._orderData?.catagory}</td>
+                                <td>${this._orderData?.order_date}</td>
+                                <td>${this._orderData?.total_amount}</td>
                             </tr>
                         </tbody>
                     </table>

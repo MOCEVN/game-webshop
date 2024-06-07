@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AuthorizationLevel, OrderItem } from "@shared/types";
+import { AuthorizationLevel, Order, OrderItem } from "@shared/types";
 import { CustomJwtToken } from "../types/jwt";
 import { IOrderItemController } from "../interfaces/IOrderItemController";
 import { IOrderItemRepository } from "../interfaces/IOrderItemRepository";
@@ -70,8 +70,9 @@ export class OrderItemController implements IOrderItemController {
         res.json({succeeded: succeeded, failed: failed, error: false});
     }
 
-    public getOrderInfo(req: Request, res: Response): void {
-        res.json(req.user);
+    public async getOrderInfo(req: Request, res: Response): Promise<void> {
+        const result: Order | undefined = await this._orderItemRepository.getOrders(req.user!.id.toString());
+        res.json(result);
     }
 
 }

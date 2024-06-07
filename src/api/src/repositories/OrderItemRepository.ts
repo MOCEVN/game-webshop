@@ -1,5 +1,5 @@
 import { ProductAddModel } from "@shared/formModels/ProductAddModel";
-import { OrderItem, OrderItemSortableColumns } from "@shared/types";
+import { Order, OrderItem, OrderItemSortableColumns } from "@shared/types";
 import { Catagory } from "@shared/types/Catagory";
 import { getQueryParameters } from "@shared/types/SortFIlter";
 import { PoolConnection, ResultSetHeader } from "mysql2/promise";
@@ -110,6 +110,25 @@ export class OrderItemRepository {
         } catch (error) {
             return[];
         } finally{
+            connection.release();
+        }
+    }
+
+    public async getOrders(userId: string): Promise<Order | undefined> {
+        const connection: PoolConnection = await getConnection();
+        try {
+            const order: any = await queryDatabase(connection, "SELECT `orderId`, `order_date`, `total_amount`, `status` FROM `orders` WHERE `userId` = ? ",userId);
+            return {
+                id: order[0].orderId,
+                order_date: order[0].order_date,
+                total_amount: order[0].total_amount,
+                status: order[0].status
+            };
+        } catch (err) {
+            console.error(err);
+            
+            return;
+        } finally {
             connection.release();
         }
     }

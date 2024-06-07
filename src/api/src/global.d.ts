@@ -1,5 +1,6 @@
 import { UserData } from "@shared/types/UserData";
 import { CustomJwtToken } from "./types/jwt";
+import { OrderData } from "@shared/types/OrderItem";
 
 declare global {
     namespace NodeJS {
@@ -12,6 +13,7 @@ declare global {
         export interface Request {
             user?: UserData;
             token?: CustomJwtToken;
+            orders?: OrderData;
         }
     }
 }

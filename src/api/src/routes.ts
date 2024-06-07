@@ -31,13 +31,13 @@ router.get("/store-content/all/:id", asyncHandler(orderItemController.getProduct
 router.get("/orderItems", asyncHandler(orderItemController.getAll.bind(orderItemController)));
 
 //  Get Order information
-router.get("/order/info", (req, res) => orderItemController.getOrderInfo(req, res));
 
 router.get("");
 
 // NOTE: Everything after this point only works with a valid JWT token!
 router.use(handleTokenBasedAuthentication());
 
+router.get("/order/info", (req, res) => orderItemController.getOrderInfo(req, res));
 router.get("/users/info", (req, res) => userController.getInfo(req, res));
 router.get("/users/logout", (req, res) => userController.logout(req, res));
 router.get("/users/hello", (req, res) => userController.hello(req, res));
