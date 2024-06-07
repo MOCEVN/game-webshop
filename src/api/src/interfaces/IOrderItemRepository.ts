@@ -8,5 +8,6 @@ export interface IOrderItemRepository {
     getProduct(id: string): Promise<OrderItem | undefined>;
     
     getAll(): Promise<OrderItem[]>;
-    getOrders(userId: string): Promise<Order | undefined>
+    getOrders(userId: string): Promise<Order | undefined>;
+    editProduct(product: OrderItem): Promise<boolean>;
 }

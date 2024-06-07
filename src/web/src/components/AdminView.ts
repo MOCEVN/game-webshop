@@ -96,12 +96,18 @@ export class AdminView extends LitElement {
         }
     }
 
+    private _handleEdit(e:Event,id: string): void{
+        const buttonElement: HTMLInputElement = e.target as HTMLInputElement;
+        buttonElement.dispatchEvent(new CustomEvent("edit", {bubbles: true, composed: true, detail: {id: id}}));
+    }
+
     private renderProduct(): TemplateResult {
         return html`
             <div class="container">
                 <button @click=${(): void => {this._viewProduct = false;}}>Back</button>
+                <button @click=${(e: Event): void => {this._handleEdit(e,this._product!.id.toString());}}>Edit</button>
                 <h1>${this._product?.title}</h1>
-                <img src=${this._product!.thumbnail} alt="">
+                <img src=${this._product!.thumbnail}>
                 <p>${this._product?.description}</p>
                 <p>${this._product?.price}</p>
                 <p>${this._product?.catagory?.name}</p>

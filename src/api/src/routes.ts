@@ -45,3 +45,4 @@ router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(r
 router.get("/users/admin", (req, res) => userController.requestAdminAccess(req, res));
 router.post("/store-content", asyncHandler(orderItemController.add.bind(orderItemController)));
 router.get("/users/cart", asyncHandler(ShoppingCartController.checkcart.bind(ShoppingCartController)));
+router.put("/store-content", asyncHandler(orderItemController.editProduct.bind(orderItemController)));
