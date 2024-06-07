@@ -1,7 +1,7 @@
 import { html, css, LitElement, TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
-// import { UserService } from "../services/UserService";
 import { OrderItemService } from "../services/OrderItemService";
+import { ShoppingcartService } from "../services/ShoppingcartService";
 import { OrderItem } from "@shared/types";
 // import { URL } from "url";
 
@@ -32,16 +32,17 @@ export class ProductPage extends LitElement {
     }
     
     .productBasic {
-    display: flex;
-    align-items: flex-start; /* Align items to the start for a cleaner look */
-    margin-left: 120px;
-    margin-top: 90px;
-    margin-right: 110px;
-    width: calc(70% - 230px); /* Adjust width to fit within the container */
-    height: auto; /* Remove fixed height to allow content to determine height */
-    border-radius: 2px;
-    padding: 5px;
-    background-color: #c2c2c2;
+        display: flex;
+        align-items: flex-start; 
+        margin-left: 120px;
+        margin-top: 90px;
+        margin-right: 110px;
+        width: calc(70% - 230px); 
+        height: auto; 
+        border-radius: 2px;
+        padding: 5px;
+        background-color: #c2c2c2;
+        /* overflow: hidden; */
     }
         .aanbevelingen {
         width: 420px;
@@ -64,7 +65,7 @@ export class ProductPage extends LitElement {
 }
     
     .genres {
-        margin-top: 50px;
+        margin-top: 15px;
         margin-bottom: 8px;
     }
 
@@ -72,6 +73,10 @@ export class ProductPage extends LitElement {
         background-color: #8d8d8d;
         border-radius: 5px;
         padding: 5px;
+    }
+
+    .genresTab {
+        margin-bottom: 20px;
     }
     
     .aanbevelingen {
@@ -103,6 +108,7 @@ export class ProductPage extends LitElement {
         padding-bottom: 30px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
 
     .addCartText {
@@ -118,11 +124,11 @@ export class ProductPage extends LitElement {
         padding-right: 20px;
         background-color: #1f1f1f;
         margin-top: 30px;
-        margin-left: 400px;
-        /* font-size: 2em; */
-        align-items: center;
+        margin-right: 30px;
         display: flex;
+        align-items: center;
         cursor: pointer;
+        align-self: flex-end;
     }
 
     .addCartBtnText {
@@ -222,11 +228,19 @@ export class ProductPage extends LitElement {
     }
 
     #slider {
+    margin-top: 6px;
     width: 50%; /* Adjust width as needed */
     max-width: 100%; /* Ensure it does not exceed parent container */
     margin-right: 20px; /* Space between carousel and text */
+    }
 
-}
+    .thumbProduct {
+        width: 95%;
+        margin-top: 8px;
+        height: 250px;
+        object-fit: cover;
+    }
+
 #slider input[type=radio] {
    display: none;
 }
@@ -235,8 +249,9 @@ export class ProductPage extends LitElement {
    text-decoration: none;
 }
 #slides {
-   padding: 10px;
-   border: 3px solid #ccc;
+   margin-left: 6px;
+   padding: 5px;
+   border: 1px solid #ccc;
    background: #fff;
    position: relative;
    z-index: 1;
@@ -352,6 +367,12 @@ export class ProductPage extends LitElement {
       max-width: calc(100% - 140px);
       margin: 0 auto;
    }
+   .addToCart {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+   }
 }
 
 `;
@@ -366,6 +387,9 @@ export class ProductPage extends LitElement {
     @state()
     private _product!: OrderItem;
 
+    @state()
+    private _checkcart!: ShoppingcartService;
+
     private async getProduct(): Promise<void> {
         const id: string | null = new URL(document.location.toString()).searchParams.get("id");
         if (id) {
@@ -377,6 +401,10 @@ export class ProductPage extends LitElement {
         } else {
 
         }
+    }
+
+    private addToCart(): void {
+        console.log("Je product is toegevoegd aan je mandje!");
     }
 
     protected render(): TemplateResult {
@@ -393,110 +421,115 @@ export class ProductPage extends LitElement {
             <div class="navBar" id="navBar">
                 <nav-bar></nav-bar>
             </div>
-
+    
             <h1 class="game-title">${this._product.title}</h1> 
-
+    
             <div class="container">
-    <div class="productBasic">
-        <div id="slider">
-            <input type="radio" name="slider" id="slide1" checked>
-            <input type="radio" name="slider" id="slide2">
-            <input type="radio" name="slider" id="slide3">
-            <input type="radio" name="slider" id="slide4">
-            <div id="slides" style="width: 550px;">
-                <div id="overflow">
-                    <div class="inner">
-                        <div class="slide slide_1">
-                            <div class="slide-content">
-                                <h2>Slide 1</h2>
-                                <p>Content for Slide 1</p>
+                <div class="productBasic">
+                    <div id="slider">
+                        <input type="radio" name="slider" id="slide1" checked>
+                        <input type="radio" name="slider" id="slide2">
+                        <input type="radio" name="slider" id="slide3">
+                        <input type="radio" name="slider" id="slide4">
+                        <div id="slides" style="width: 550px;">
+                            <div id="overflow">
+                                <div class="inner">
+                                    <div class="slide slide_1">
+                                        <div class="slide-content">
+                                            <h2>Slide 1</h2>
+                                            <p>Content for Slide 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="slide slide_2">
+                                        <div class="slide-content">
+                                            <h2>Slide 2</h2>
+                                            <p>Content for Slide 2</p>
+                                        </div>
+                                    </div>
+                                    <div class="slide slide_3">
+                                        <div class="slide-content">
+                                            <h2>Slide 3</h2>
+                                            <p>Content for Slide 3</p>
+                                        </div>
+                                    </div>
+                                    <div class="slide slide_4">
+                                        <div class="slide-content">
+                                            <h2>Slide 4</h2>
+                                            <p>Content for Slide 4</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="slide slide_2">
-                            <div class="slide-content">
-                                <h2>Slide 2</h2>
-                                <p>Content for Slide 2</p>
-                            </div>
+                        <div id="controls">
+                            <label for="slide1"></label>
+                            <label for="slide2"></label>
+                            <label for="slide3"></label>
+                            <label for="slide4"></label>
                         </div>
-                        <div class="slide slide_3">
-                            <div class="slide-content">
-                                <h2>Slide 3</h2>
-                                <p>Content for Slide 3</p>
-                            </div>
+                        <div id="bullets">
+                            <label for="slide1"></label>
+                            <label for="slide2"></label>
+                            <label for="slide3"></label>
+                            <label for="slide4"></label>
                         </div>
-                        <div class="slide slide_4">
-                            <div class="slide-content">
-                                <h2>Slide 4</h2>
-                                <p>Content for Slide 4</p>
-                            </div>
+                    </div>
+    
+                    <!-- Game Information -->
+                    <div class="productBasic-text">
+                        <div id="productThumbnail">
+                            <img src="${this._product.thumbnail}" alt="${this._product.title}" class="thumbProduct">
+                        </div>
+    
+                        <!-- <h3 class="developers">Giorgio, Megan, Nico, Nii, Omar, Sonny</h3> -->
+                        <h3 class="publishedDate">6/03/2024</h3>
+                        <div class="genresTab">
+                            <h3 class="genres">Genres:</h3>
+                            <label class="genreLabel">Fantasy</label>
+                            <label class="genreLabel">Singleplayer</label>
+                            <label class="genreLabel">Text-Based</label>
                         </div>
                     </div>
                 </div>
+                <!-- aanbevelingen -->
+                <div class="aanbevelingen">
+                    <h1 class="aanbevelingenTitle">Top aanbevelingen</h1>
+                    <div class="recommendation-item">
+                        <img src="path/to/your/image1.jpg" alt="Recommendation 1">
+                        <div class="recommendation-info">
+                            <p>Terror Trial</p>
+                            <p class="old-price">15.98$</p>
+                            <p class="price">12.98$</p>
+                        </div>
+                        <button>Voeg toe</button>
+                    </div>
+                    <hr>
+                    <div class="recommendation-item">
+                        <img src="path/to/your/image2.jpg" alt="Recommendation 2">
+                        <div class="recommendation-info">
+                            <p>Ghost Plushie</p>
+                            <p class="old-price">6.99$</p>
+                            <p class="price">8.99$</p>
+                        </div>
+                        <button>Voeg toe</button>
+                    </div>
+                    <hr>
+                    <div class="recommendation-item">
+                        <img src="path/to/your/image3.jpg" alt="Recommendation 3">
+                        <div class="recommendation-info">
+                            <p>Lost Lands</p>
+                            <p class="old-price">6.99$</p>
+                            <p class="price">8.99$</p>
+                        </div>
+                        <button>Voeg toe</button>
+                    </div>
+                </div>
             </div>
-            <div id="controls">
-                <label for="slide1"></label>
-                <label for="slide2"></label>
-                <label for="slide3"></label>
-                <label for="slide4"></label>
-            </div>
-            <div id="bullets">
-                <label for="slide1"></label>
-                <label for="slide2"></label>
-                <label for="slide3"></label>
-                <label for="slide4"></label>
-            </div>
-        </div>
-
-        <!-- Game Information -->
-        <div class="productBasic-text">
-            <h3 class="developers">Giorgio, Megan, Nico, Nii, Omar, Sonny</h3>
-            <h3 class="publishedDate">6/03/2024</h3>
-            <h3 class="genres">Genres:</h3>
-            <!-- Genres from database -->
-            <label class="genreLabel">Fantasy</label>
-            <label class="genreLabel">Singleplayer</label>
-            <label class="genreLabel">Text-Based</label>
-        </div>
-    </div>
-    <!-- Recommendations Section -->
-    <div class="aanbevelingen">
-        <h1 class="aanbevelingenTitle">Top aanbevelingen</h1>
-        <div class="recommendation-item">
-            <img src="path/to/your/image1.jpg" alt="Recommendation 1">
-            <div class="recommendation-info">
-                <p>Terror Trial</p>
-                <p class="old-price">15.98$</p>
-                <p class="price">12.98$</p>
-            </div>
-            <button>Voeg toe</button>
-        </div>
-        <hr>
-        <div class="recommendation-item">
-            <img src="path/to/your/image2.jpg" alt="Recommendation 2">
-            <div class="recommendation-info">
-                <p>Ghost Plushie</p>
-                <p class="old-price">6.99$</p>
-                <p class="price">8.99$</p>
-            </div>
-            <button>Voeg toe</button>
-        </div>
-        <hr>
-        <div class="recommendation-item">
-            <img src="path/to/your/image3.jpg" alt="Recommendation 3">
-            <div class="recommendation-info">
-                <p>Lost Lands</p>
-                <p class="old-price">6.99$</p>
-                <p class="price">8.99$</p>
-            </div>
-            <button>Voeg toe</button>
-        </div>
-    </div>
-</div>
-
-
+    
+    
             <div class="addToCart">
                 <h1 class="addCartText">Koop ${this._product.title}</h1>
-                <a href="#">
+                <a href="#" @click=${this.addToCart}>
                     <button class="addCartBtn">
                         <h1 class="addCartBtnText">$${this._product.price}</h1>
                         <h3 class="voegToe">Voeg toe</h3>
@@ -504,10 +537,10 @@ export class ProductPage extends LitElement {
                     </button>
                 </a>
             </div>
-
+    
             <div class="product-detailed">
                 <h2 class="about">Over dit spel</h2><div class="fading-line"></div>
-
+    
                 <!--TODO: zorg ervoor dat de informatie over de game uit de database hier komt te staan-->
                 <p class="aboutCont">${this._product.description}</p>
             </div>

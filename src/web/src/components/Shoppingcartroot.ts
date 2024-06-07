@@ -42,6 +42,7 @@ export class ShoppingCart extends LitElement {
 
             // Request naar de database om de functie checkcart uit shoppingcartservice uit te voeren met als ID the constructor userId
             this.checkcart = await this._shoppingcartService.checkcart(userId);
+            console.log("cartconsole", this.checkcart);
             if (this.checkcart) {
                 const itemId: number[] = this.checkcart.map((item: { itemId: any }) => item.itemId);
                 console.log("dit is de itemid van de items in je shoppingcart", itemId);
@@ -68,7 +69,6 @@ export class ShoppingCart extends LitElement {
         } else {
             message = html`<p>je moet ingelogd zijn</p>`;
             window.location.replace("homepage.html");
-            window.alert(["je moet ingelogd zijn om hier gebruik van te maken"]);
 
             // hier moet een redirect komen naar de product page met een pop up je kan niks in je shoppingcart doen.
             // welicht de navbar aanpassen zodat je alleen op shoppingcart kan drukken als je bent ingelogd. gebruikk hiervoor een gettoken request om met een if else statement de navbar dynamisch te weergeven.
