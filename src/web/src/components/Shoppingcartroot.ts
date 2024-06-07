@@ -2,7 +2,6 @@ import { LitElement, TemplateResult, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { ShoppingcartService } from "../services/ShoppingcartService";
 import { OrderItem } from "@shared/types";
-import { TokenService } from "../services/TokenService";
 
 // TODO Omar: Voeg commentaar toe om token-truc uit te leggen
 @customElement("shoppingcart-root")
@@ -25,28 +24,21 @@ export class ShoppingCart extends LitElement {
     @state()
     private _shoppingcartService: ShoppingcartService = new ShoppingcartService();
 
-    private _tokenService: TokenService = new TokenService();
-
     private checkcart: OrderItem[] | undefined;
 
     public async connectedCallback(): Promise<void> {
         // hier vraag ik de token van de ingelogde gebruiker
-        const token: string | undefined = this._tokenService.getToken();
-        // als die token er is dan pas gaat deze code werken
-        if (token) {
-            // hier word jhe token ontcijferd waaraan ik hem in een array stop en alleen de tweede sectie van de array gebruik
-            const payload: any = JSON.parse(atob(token.split(".")[1]));
+        // als die token er is dan pas gaat deze code werkens
+        // hier word jhe token ontcijferd waaraan ik hem in een array stop en alleen de tweede sectie van de array gebruik
 
-            // in de array saal ik dan de userId eruit en maak ik ddaar een constructor van om te gebruiken in me api request.
-            const userId: number = payload.userId;
+        // in de array saal ik dan de userId eruit en maak ik ddaar een constructor van om te gebruiken in me api request.
 
-            // Request naar de database om de functie checkcart uit shoppingcartservice uit te voeren met als ID the constructor userId
-            this.checkcart = await this._shoppingcartService.checkcart(userId);
-            console.log("cartconsole", this.checkcart);
-            if (this.checkcart) {
-                const itemId: number[] = this.checkcart.map((item: { itemId: any }) => item.itemId);
-                console.log("dit is de itemid van de items in je shoppingcart", itemId);
-            }
+        // Request naar de database om de functie checkcart uit shoppingcartservice uit te voeren met als ID the constructor userId
+        this.checkcart = await this._shoppingcartService.checkcart();
+        console.log("cartconsole", this.checkcart);
+        if (this.checkcart) {
+            const itemId: number[] = this.checkcart.map((item: { itemId: any }) => item.itemId);
+            console.log("dit is de itemid van de items in je shoppingcart", itemId);
         }
         super.connectedCallback();
     }
@@ -67,9 +59,8 @@ export class ShoppingCart extends LitElement {
         } else if (this.checkcart) {
             message = html`<p>${this.checkcart}</p>`;
         } else {
-            message = html`<p>je moet ingelogd zijn</p>`;
-            window.location.replace("homepage.html");
-
+            // message = html`<p>je moet ingelogd zijn</p>`;
+            // window.location.replace("homepage.html");
             // hier moet een redirect komen naar de product page met een pop up je kan niks in je shoppingcart doen.
             // welicht de navbar aanpassen zodat je alleen op shoppingcart kan drukken als je bent ingelogd. gebruikk hiervoor een gettoken request om met een if else statement de navbar dynamisch te weergeven.
         }

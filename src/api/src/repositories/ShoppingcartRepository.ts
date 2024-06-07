@@ -9,6 +9,7 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
      * @param id
      * @returns UserData
      */
+
     public async checkcart(id: number): Promise<UserData | undefined> {
         const connection: PoolConnection = await getConnection();
         const checkcart: any = await queryDatabase(
@@ -18,6 +19,7 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
         );
         // hier nog een async neezetten richting het ophalen van productnames.
         connection.release();
+        console.log("repository", checkcart);
         return checkcart;
     }
 }

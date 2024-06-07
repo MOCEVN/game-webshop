@@ -2,7 +2,6 @@ import { UserData } from "@shared/types";
 import { IShoppingcartController } from "../interfaces/ShoppingCartController";
 import { IShoppingcartRepository } from "../interfaces/ShoppingcartRepository";
 import { Request, Response } from "express";
-import { Jwt } from "jsonwebtoken";
 import { CustomJwtToken } from "../types/jwt";
 
 export class ShoppingcartController implements IShoppingcartController {
@@ -18,11 +17,13 @@ export class ShoppingcartController implements IShoppingcartController {
      * @param req Request object
      * @param res Response object
      */
-    
+
     public async checkcart(req: Request, res: Response): Promise<void> {
-        let jwtToken: CustomJwtToken | undefined;
-        console.log(jwtToken.userId);
-        const checkcart: UserData | undefined = await this._ShoppingcartRepository.checkcart(jwtToken.userId);
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const token: CustomJwtToken = req.token!;
+        const userId: number = token.userId;
+        console.log(userId);
+        const checkcart: UserData | undefined = await this._ShoppingcartRepository.checkcart(2);
         if (!checkcart) {
             res.status(200).json({ message: "Shoppingcart is empty" });
         } else {

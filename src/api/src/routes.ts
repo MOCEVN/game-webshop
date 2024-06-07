@@ -44,4 +44,4 @@ router.get("/users/hello", (req, res) => userController.hello(req, res));
 router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(req, res));
 router.get("/users/admin", (req, res) => userController.requestAdminAccess(req, res));
 router.post("/store-content", asyncHandler(orderItemController.add.bind(orderItemController)));
-router.get("/users/cart/:id", asyncHandler(ShoppingCartController.checkcart.bind(ShoppingCartController)));
+router.get("/users/cart", asyncHandler(ShoppingCartController.checkcart.bind(ShoppingCartController)));
