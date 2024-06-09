@@ -35,7 +35,7 @@ export class ProductPage extends LitElement {
         display: flex;
         align-items: flex-start; 
         margin-left: 120px;
-        margin-top: 90px;
+        margin-top: 50px;
         margin-right: 110px;
         width: calc(70% - 230px); 
         height: auto; 
@@ -44,14 +44,15 @@ export class ProductPage extends LitElement {
         background-color: #c2c2c2;
         /* overflow: hidden; */
     }
-        .aanbevelingen {
+    .aanbevelingen {
         width: 420px;
         background-color: #c2c2c2;
         border: 1px solid #afafaf;
         border-radius: 5px;
         padding: 20px;
         margin-right: 70px;
-        height: 400px;
+        margin-top: 120px;
+        height: fit-content;
     }
 
     .aanbevelingen h1 {
@@ -78,15 +79,6 @@ export class ProductPage extends LitElement {
     .genresTab {
         margin-bottom: 20px;
     }
-    
-    .aanbevelingen {
-        margin-right: 10px;
-        margin-top: 120px;
-        height: 450px;
-        width: 420px;
-        border-radius: 2px;
-        background-color: #c2c2c2;
-    }
 
     .developers {
         margin-top: 150px;
@@ -94,17 +86,17 @@ export class ProductPage extends LitElement {
     }
 
     .aanbevelingenTitle {
-        margin-left: 20px;
+        margin: 0 0 40px 10px;
     }
 
     .addToCart {
-        height: 70px;
+        height: fit-content;
         width: 900px;
         background-color: #c2c2c2;
         margin-left: 120px;
         border-radius: 2px;
         padding-left: 35px;
-        padding-top: -100px;
+        padding-top: 0px;
         padding-bottom: 30px;
         display: flex;
         align-items: center;
@@ -168,17 +160,25 @@ export class ProductPage extends LitElement {
         margin-top: 0px;
     }
 
-    .recommendation-item {
+    .recommendation-item, .recommendation-item2 {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
     }
 
     .recommendation-item img {
-        width: 50px;
+        width: 100px;
         height: auto;
         border-radius: 5px;
         margin-right: 10px;
+    }
+
+    .recommendation-item2 img {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+        margin-right: 10px;
+        object-fit: cover;
     }
 
     .recommendation-info {
@@ -187,6 +187,10 @@ export class ProductPage extends LitElement {
 
     .recommendation-info p {
         margin: 0;
+    }
+
+    .limitedText {
+        max-width: 20ch;
     }
 
     .old-price {
@@ -241,6 +245,13 @@ export class ProductPage extends LitElement {
         object-fit: cover;
     }
 
+    .slide-content {
+        width: auto;
+        margin-top: 8px;
+        height: 10px;
+        object-fit: cover; 
+    }
+
 #slider input[type=radio] {
    display: none;
 }
@@ -281,11 +292,18 @@ export class ProductPage extends LitElement {
 #slides .slide {
    width: 25%;
    float:left;
-   display: flex;
+   /* display: flex; */
    justify-content: center;
    align-items: center;
    height: 100%;
    color: #fff;
+}
+.thumbImg {
+    height: fit-content;
+    margin-top: -35px;
+    margin-left: -35px;
+    width: 600px;
+    object-fit: cover;
 }
 #slides .slide_1 {
    background: #00171F;
@@ -407,6 +425,15 @@ export class ProductPage extends LitElement {
         console.log("Je product is toegevoegd aan je mandje!");
     }
 
+    private sumPrices(): string {
+        const oldPrice: number = parseFloat(this._product.price.toString());
+        let newPrice: number = oldPrice + 8.99;
+        if (oldPrice <= 0.00) {
+            newPrice = newPrice + 4.00;
+        }
+        return newPrice.toFixed(2);
+    }
+
     protected render(): TemplateResult {
         if (!this._product) {
             return html`
@@ -417,6 +444,10 @@ export class ProductPage extends LitElement {
             <p>aan het laden...</p>
             `;
         }
+
+
+        this.sumPrices();
+
         return html`
             <div class="navBar" id="navBar">
                 <nav-bar></nav-bar>
@@ -435,9 +466,12 @@ export class ProductPage extends LitElement {
                             <div id="overflow">
                                 <div class="inner">
                                     <div class="slide slide_1">
-                                        <div class="slide-content">
+                                        <!-- <div class="slide-content">
                                             <h2>Slide 1</h2>
                                             <p>Content for Slide 1</p>
+                                        </div> -->
+                                        <div class="slide-content">
+                                            <img src=${this._product.thumbnail} class="thumbImg">
                                         </div>
                                     </div>
                                     <div class="slide slide_2">
@@ -493,33 +527,33 @@ export class ProductPage extends LitElement {
                 </div>
                 <!-- aanbevelingen -->
                 <div class="aanbevelingen">
-                    <h1 class="aanbevelingenTitle">Top aanbevelingen</h1>
+                    <h1 class="aanbevelingenTitle" style="margin-bottom: 25px;">Top aanbevelingen</h1>
                     <div class="recommendation-item">
-                        <img src="path/to/your/image1.jpg" alt="Recommendation 1">
+                        <img src="https://lucastars.hbo-ict.cloud/media/6918722fe0104049b27aa218c692a417/00000006000000000000000000000000.png?height=240&v=1da877783972670&hmac=45b6c4a69cf0360b4fedbe3b778e568b23d65bb1e341931104dda3118cd5ed15" alt="Recommendation 1">
                         <div class="recommendation-info">
-                            <p>Terror Trial</p>
-                            <p class="old-price">15.98$</p>
-                            <p class="price">12.98$</p>
+                            <p class="limitedText">${this._product.title} + Terror Trial</p>
+                            <p class="old-price">${this.sumPrices()} $</p>
+                            <p class="price">10.98$</p>
                         </div>
                         <button>Voeg toe</button>
                     </div>
                     <hr>
                     <div class="recommendation-item">
-                        <img src="path/to/your/image2.jpg" alt="Recommendation 2">
+                        <img src="https://m.media-amazon.com/images/I/61EK4WHx9EL.jpg" alt="Recommendation 2">
                         <div class="recommendation-info">
-                            <p>Ghost Plushie</p>
-                            <p class="old-price">6.99$</p>
-                            <p class="price">8.99$</p>
+                            <p>${this._product.title} + Ghost Plushie</p>
+                            <p class="old-price">16.99$</p>
+                            <p class="price">12.99$</p>
                         </div>
                         <button>Voeg toe</button>
                     </div>
                     <hr>
-                    <div class="recommendation-item">
-                        <img src="path/to/your/image3.jpg" alt="Recommendation 3">
+                    <div class="recommendation-item2">
+                        <img src="https://lucastars.hbo-ict.cloud/media/4b920de079414dec8df411e94f771bf0/00000006000000000000000000000000.png" alt="Recommendation 3">
                         <div class="recommendation-info">
-                            <p>Lost Lands</p>
-                            <p class="old-price">6.99$</p>
-                            <p class="price">8.99$</p>
+                            <p>${this._product.title} + Lost Lands</p>
+                            <p class="old-price">${this.sumPrices()}$</p>
+                            <p class="price">9.99$</p>
                         </div>
                         <button>Voeg toe</button>
                     </div>
@@ -533,7 +567,7 @@ export class ProductPage extends LitElement {
                     <button class="addCartBtn">
                         <h1 class="addCartBtnText">$${this._product.price}</h1>
                         <h3 class="voegToe">Voeg toe</h3>
-                        <img id="cartImg" src="/public/assets/img/greenCart.png" alt="shopping cart img">
+                        <img id="cartImg" src="/assets/img/greenCart.png" alt="shopping cart img">
                     </button>
                 </a>
             </div>
