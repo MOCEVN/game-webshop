@@ -22,12 +22,23 @@ export class ShoppingcartController implements IShoppingcartController {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const token: CustomJwtToken = req.token!;
         const userId: number = token.userId;
-        console.log(userId);
-        const checkcart: UserData | undefined = await this._ShoppingcartRepository.checkcart(2);
+        const checkcart: UserData | undefined = await this._ShoppingcartRepository.checkcart(userId);
         if (!checkcart) {
             res.status(200).json({ message: "Shoppingcart is empty" });
         } else {
             res.json(checkcart);
+        }
+    }
+    public async getproductname(req: Request, res: Response): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const id: number = parseInt(req.params.id);
+        const getproductname: UserData | undefined = await this._ShoppingcartRepository.getproductname(id);
+        console.log("task1", getproductname);
+        console.log("gameid", req.params.id);
+        if (!getproductname) {
+            res.status(200).json({ message: "Shoppingcart is empty" });
+        } else {
+            res.json(getproductname);
         }
     }
 }

@@ -14,12 +14,22 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
         const connection: PoolConnection = await getConnection();
         const checkcart: any = await queryDatabase(
             connection,
-            "select * from shoppingcartitem WHERE userId = ?",
+            "select itemId from shoppingcartitem WHERE userId = ?",
             id
         );
         // hier nog een async neezetten richting het ophalen van productnames.
         connection.release();
-        console.log("repository", checkcart);
         return checkcart;
+    }
+    public async getproductname(id: number): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const getproductname: any = await queryDatabase(
+            connection,
+            "select title from product WHERE id = ?",
+            id
+        );
+        // hier nog een async neezetten richting het ophalen van productnames.
+        connection.release();
+        return getproductname;
     }
 }

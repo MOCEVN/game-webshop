@@ -25,23 +25,23 @@ export class OrderItemController implements IOrderItemController {
         const result: OrderItem[] = await this._orderItemRepository.getAll();
         res.json(result);
     }
-    
+
     /*
     getAllWithParameters
     initialises orderItemRepository with the data from the request and then sends the order items back as a json
     req: Request = the request that was sent to the api
     res: Response = the response the api will give
     */
-    public async getAllWithParameters(req: Request,res: Response): Promise<void> {
+    public async getAllWithParameters(req: Request, res: Response): Promise<void> {
         const result: OrderItem[] = await this._orderItemRepository.getAllWithParameters({
-            orderBy: req.query.orderBy as string ?? "",
-            sortOrder: req.query.sortOrder as string ?? "ASC",
-            search: req.query.search as string ?? "",
-            searchType: req.query.searchType as string ?? "name",
+            orderBy: (req.query.orderBy as string) ?? "",
+            sortOrder: (req.query.sortOrder as string) ?? "ASC",
+            search: (req.query.search as string) ?? "",
+            searchType: (req.query.searchType as string) ?? "name",
         });
         res.json(result);
     }
-    public async getProduct(req: Request,res: Response): Promise<void> {
+    public async getProduct(req: Request, res: Response): Promise<void> {
         const result: OrderItem | undefined = await this._orderItemRepository.getProduct(req.params["id"]);
         res.json(result);
     }
@@ -53,8 +53,8 @@ export class OrderItemController implements IOrderItemController {
     public async add(req: Request, res: Response): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const userToken: CustomJwtToken = req.token!;
-        
-        if (userToken.authorization !== AuthorizationLevel.ADMIN){
+
+        if (userToken.authorization !== AuthorizationLevel.ADMIN) {
             res.status(401).end();
             return;
         }
@@ -75,7 +75,7 @@ export class OrderItemController implements IOrderItemController {
                 failed++;
             }
         }
-        res.json({succeeded: succeeded, failed: failed, error: false});
+        res.json({ succeeded: succeeded, failed: failed, error: false });
     }
 
     public async topPicks(_:Request, res:Response): Promise<void>{
