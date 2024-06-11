@@ -24,8 +24,8 @@ export class productsRoot extends LitElement {
         height: 10vh;
     }
     .topPicksH1{
-        color: #373e98;
-        size: 1.5em;
+        color: rgb(236 174 31);
+        font-size: 2vw;
     }
     .ProductsH1 {
         color: #373e98;
@@ -201,7 +201,7 @@ export class productsRoot extends LitElement {
                         </select>
                     </form>
                 </div>
-                <h1 class="topPicksH1" ></h1>Top Picks!</h1>
+                <h1 class="topPicksH1" >Top Picks!</h1>
                 <div class= "topPicksContainer">
                 ${map( this._topPicks, (product)=>{
                     return html`
