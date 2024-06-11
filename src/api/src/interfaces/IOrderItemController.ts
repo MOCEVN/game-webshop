@@ -5,4 +5,5 @@ export interface IOrderItemController {
     getProduct(req: Request,res: Response): Promise<void>;
     add(req: Request, res: Response): Promise<void>;
     editProduct(req: Request,res: Response): Promise<void>;
+    topPicks(req: Request, res: Response): Promise<void>;
 }

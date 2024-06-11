@@ -30,7 +30,7 @@ export class OrderItemService {
         return (await response.json()) as OrderItem[];
     }
 
-    public async PopularProducts(): Promise<OrderItem[]> {
+    public async TopPicks(): Promise<OrderItem[]> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/products`, {
             method: "get",
         });

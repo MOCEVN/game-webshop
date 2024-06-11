@@ -78,6 +78,10 @@ export class OrderItemController implements IOrderItemController {
         res.json({succeeded: succeeded, failed: failed, error: false});
     }
 
+    public async topPicks(req:Request, res:Response){
+        
+    }
+
     public async getOrderInfo(req: Request, res: Response): Promise<void> {
         const result: Order | undefined = await this._orderItemRepository.getOrders(req.user!.id.toString());
         res.json(result);
