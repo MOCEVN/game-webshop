@@ -10,4 +10,5 @@ export interface IOrderItemRepository {
     getAll(): Promise<OrderItem[]>;
     getOrders(userId: string): Promise<Order | undefined>;
     editProduct(product: OrderItem): Promise<boolean>;
+    topPicks():Promise<[]>;
 }

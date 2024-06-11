@@ -172,4 +172,17 @@ export class OrderItemRepository {
             connection.release();
         }
     }
+
+    public async topPicks():Promise<[]>{
+        const connection: PoolConnection = await getConnection();
+        try {
+            const results: any = queryDatabase(connection, "SELECT * FROM product WHERE top_picks = ?", 1);
+            return results;
+        } catch (error) {
+            console.log(error);
+            return [];
+        } finally{
+            connection.release();
+        }
+    }
 }

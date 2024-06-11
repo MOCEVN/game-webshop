@@ -32,7 +32,7 @@ router.get("/orderItems", asyncHandler(orderItemController.getAll.bind(orderItem
 
 //  Get Order information
 
-router.get("");
+router.get("/store-content/products", asyncHandler(orderItemController.topPicks.bind(orderItemController)));
 
 // NOTE: Everything after this point only works with a valid JWT token!
 router.use(handleTokenBasedAuthentication());

@@ -78,7 +78,9 @@ export class OrderItemController implements IOrderItemController {
         res.json({succeeded: succeeded, failed: failed, error: false});
     }
 
-    public async topPicks(req:Request, res:Response){
+    public async topPicks(_:Request, res:Response): Promise<void>{
+        const results: any = await this._orderItemRepository.topPicks();
+        res.json(results);
         
     }
 

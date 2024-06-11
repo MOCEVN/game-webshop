@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, TemplateResult, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { map } from "lit/directives/map.js";
 import { OrderItemService } from "../services/OrderItemService";
@@ -12,7 +12,7 @@ export class productsRoot extends LitElement {
         cursor: pointer;
     }
     .container {
-        max-height: 90vh;
+        /* max-height: 90vh; */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -22,6 +22,10 @@ export class productsRoot extends LitElement {
         flex-direction: row;
         flex-wrap: wrap;
         height: 10vh;
+    }
+    .topPicksH1{
+        color: #373e98;
+        size: 1.5em;
     }
     .ProductsH1 {
         color: #373e98;
@@ -63,6 +67,8 @@ export class productsRoot extends LitElement {
         width: 90%;
         padding: 10px;
         overflow-y: auto;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
         overflow-wrap: anywhere;
     }
     .price {
@@ -77,6 +83,25 @@ export class productsRoot extends LitElement {
         height: 40%;
         width: 50%;
     }
+    .topPicksContainer{
+        
+        display: flex;
+        width: 90vw;
+        height: 30vh;
+        background-color: #d3d3d3;
+        width: 90vw;
+        overflow-y: scroll;
+        border-radius: 10px;
+        margin-bottom: 4vw;
+        overflow: scroll;
+    }
+    .topPick{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70vw;
+        margin: 2vw
+    }
     `;
 
     // Initialize an instance of OrderItemService
@@ -86,6 +111,7 @@ export class productsRoot extends LitElement {
     // State to hold the array of order items
     @state()
     private _orderItems!: OrderItem[];
+    private _topPicks!: OrderItem[];
 
     // The string to initialize getAllWithParameters with the sort type
     private _sortOrder: string = "DESC";
@@ -94,13 +120,20 @@ export class productsRoot extends LitElement {
     connectedCallback
     method that runs when the component is added to the DOM and then executes this.getOrderItems() and super.connectedCallback()
     */
-    public connectedCallback(): void {
+    public async connectedCallback(): Promise<void> {
         super.connectedCallback();
         this.getOrderItems();
+        await this.fetchTopPicks();
 
         console.log(new URL(window.location.toString()));
     }
 
+
+    private async fetchTopPicks(): Promise<void> {
+       const result1: any= await this._orderItemService.topPicks();
+       console.log(result1);
+       this._topPicks = result1;
+    }
     /**
      * fetchOrderItems
      * Fetch order items from the API and initialises getAllWithParameters with _sortOrder
@@ -154,7 +187,7 @@ export class productsRoot extends LitElement {
     }
 
 
-    protected render(): unknown {
+    protected render(): TemplateResult {
         return html`
             <div class="container">
                 <div class="header">
@@ -168,8 +201,32 @@ export class productsRoot extends LitElement {
                         </select>
                     </form>
                 </div>
+                <h1 class="topPicksH1" ></h1>Top Picks!</h1>
+                <div class= "topPicksContainer">
+                ${map( this._topPicks, (product)=>{
+                    return html`
+                   
+                        <div class= "topPick">
+                            <div class="productname" @click="${this.handleClick}" id=${product.id}>${product.title}</div>
+                                <div
+                                    class="image"
+                                    style="background: url(${product.thumbnail}) ;
+                        background-position: center;
+                        background-size: 100%;
+                        background-repeat: no-repeat;
+            "
+                                ></div>
+                                <div class="description">${product.description}</div>
+                                <div class="price">${product.price}</div>
+                        </div>
+                    
+                    `;
+                })}
+
+                </div>
                 <div class="ProductsContainer">
-                    <!-- For each row of _orderItems, create a product HTML element -->
+                
+
                     ${map(this._orderItems, (product) => {
                         return html`
                             <div class="products">
