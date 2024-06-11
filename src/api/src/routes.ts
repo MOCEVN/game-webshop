@@ -46,3 +46,7 @@ router.get("/users/admin", (req, res) => userController.requestAdminAccess(req, 
 router.post("/store-content", asyncHandler(orderItemController.add.bind(orderItemController)));
 router.get("/users/cart", asyncHandler(ShoppingCartController.checkcart.bind(ShoppingCartController)));
 router.put("/store-content", asyncHandler(orderItemController.editProduct.bind(orderItemController)));
+router.get(
+    "/users/cart/:id",
+    asyncHandler(ShoppingCartController.getproductname.bind(ShoppingCartController))
+);
