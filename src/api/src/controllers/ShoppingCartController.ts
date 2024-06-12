@@ -29,16 +29,14 @@ export class ShoppingcartController implements IShoppingcartController {
             res.json(checkcart);
         }
     }
-    public async getproductname(req: Request, res: Response): Promise<void> {
+    public async getproductinfo(req: Request, res: Response): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        const id: number = parseInt(req.params.id);
-        const getproductname: UserData | undefined = await this._ShoppingcartRepository.getproductname(id);
-        console.log("task1", getproductname);
-        console.log("gameid", req.params.id);
-        if (!getproductname) {
+        const id: any = req.params.id;
+        const getproductinfo: UserData | undefined = await this._ShoppingcartRepository.getproductinfo(id);
+        if (!getproductinfo) {
             res.status(200).json({ message: "Shoppingcart is empty" });
         } else {
-            res.json(getproductname);
+            res.json(getproductinfo);
         }
     }
 }

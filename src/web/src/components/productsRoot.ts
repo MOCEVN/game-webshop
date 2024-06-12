@@ -8,100 +8,99 @@ import { OrderItem } from "@shared/types";
 export class productsRoot extends LitElement {
     // Define the styles for this component
     public static styles = css`
-    .productname {
-        cursor: pointer;
-    }
-    .container {
-        /* max-height: 90vh; */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .header {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        height: 10vh;
-    }
-    .topPicksH1{
-        color: rgb(236 174 31);
-        font-size: 2vw;
-    }
-    .ProductsH1 {
-        color: #373e98;
-    }
-    .ProductsContainer {
-        /* background image */
-        padding-top: 1vw;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        background-color: #d3d3d3;
-        width: 90vw;
-        height: 80vh;
-        overflow-y: scroll;
-        border-radius: 10px;
-        margin-bottom: 4vw;
-    }
-    .products {
-        justify-content: space-evenly;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 1vw;
-        margin-right: 1vw;
-        margin-bottom: 1vh;
-        background-color: #ffffff;
-        width: 20vw;
-        /* min-width: 150px; */
-        height: 25vh;
-        border-radius: 10px;
-        padding: 15px, 15px, 15px, 15px;
-    }
-    .description {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 20%;
-        width: 90%;
-        padding: 10px;
-        overflow-y: auto;
-        margin-top: 1vw;
-        margin-bottom: 1vw;
-        overflow-wrap: anywhere;
-    }
-    .price {
-        display: flex;
-        flex-direction: row-reverse;
-        width: 100%;
-        padding-right: 10%;
-        color: green;
-    }
-    .image {
-        border-radius: 10px;
-        height: 40%;
-        width: 50%;
-    }
-    .topPicksContainer{
-        
-        display: flex;
-        width: 90vw;
-        height: 30vh;
-        background-color: #d3d3d3;
-        width: 90vw;
-        overflow-y: scroll;
-        border-radius: 10px;
-        margin-bottom: 4vw;
-        overflow: scroll;
-    }
-    .topPick{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 70vw;
-        margin: 2vw
-    }
+        .productname {
+            cursor: pointer;
+        }
+        .container {
+            /* max-height: 90vh; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            height: 10vh;
+        }
+        .topPicksH1 {
+            color: rgb(236 174 31);
+            font-size: 2vw;
+        }
+        .ProductsH1 {
+            color: #373e98;
+        }
+        .ProductsContainer {
+            /* background image */
+            padding-top: 1vw;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            background-color: #d3d3d3;
+            width: 90vw;
+            height: 80vh;
+            overflow-y: scroll;
+            border-radius: 10px;
+            margin-bottom: 4vw;
+        }
+        .products {
+            justify-content: space-evenly;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 1vw;
+            margin-right: 1vw;
+            margin-bottom: 1vh;
+            background-color: #ffffff;
+            width: 20vw;
+            /* min-width: 150px; */
+            height: 25vh;
+            border-radius: 10px;
+            padding: 15px, 15px, 15px, 15px;
+        }
+        .description {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 20%;
+            width: 90%;
+            padding: 10px;
+            overflow-y: auto;
+            margin-top: 1vw;
+            margin-bottom: 1vw;
+            overflow-wrap: anywhere;
+        }
+        .price {
+            display: flex;
+            flex-direction: row-reverse;
+            width: 100%;
+            padding-right: 10%;
+            color: green;
+        }
+        .image {
+            border-radius: 10px;
+            height: 40%;
+            width: 50%;
+        }
+        .topPicksContainer {
+            display: flex;
+            width: 90vw;
+            height: 30vh;
+            background-color: #d3d3d3;
+            width: 90vw;
+            overflow-y: scroll;
+            border-radius: 10px;
+            margin-bottom: 4vw;
+            overflow: scroll;
+        }
+        .topPick {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70vw;
+            margin: 2vw;
+        }
     `;
 
     // Initialize an instance of OrderItemService
@@ -128,11 +127,10 @@ export class productsRoot extends LitElement {
         console.log(new URL(window.location.toString()));
     }
 
-
     private async fetchTopPicks(): Promise<void> {
-       const result1: any= await this._orderItemService.topPicks();
-       console.log(result1);
-       this._topPicks = result1;
+        const result1: any = await this._orderItemService.topPicks();
+        console.log(result1);
+        this._topPicks = result1;
     }
     /**
      * fetchOrderItems
@@ -140,7 +138,10 @@ export class productsRoot extends LitElement {
      * @returns Promise<OrderItem[]> A promise becomes an array of OrderItem objects
      */
     private async fetchOrderItems(): Promise<OrderItem[]> {
-        const result: OrderItem[] | undefined = await this._orderItemService.getAllWithParameters("id", this._sortOrder);
+        const result: OrderItem[] | undefined = await this._orderItemService.getAllWithParameters(
+            "id",
+            this._sortOrder
+        );
         if (!result) {
             return [];
         }
@@ -186,7 +187,6 @@ export class productsRoot extends LitElement {
         window.location.href = `/productpage?id=${target.id}`;
     }
 
-
     protected render(): TemplateResult {
         return html`
             <div class="container">
@@ -201,13 +201,14 @@ export class productsRoot extends LitElement {
                         </select>
                     </form>
                 </div>
-                <h1 class="topPicksH1" >Top Picks!</h1>
-                <div class= "topPicksContainer">
-                ${map( this._topPicks, (product)=>{
-                    return html`
-                   
-                        <div class= "topPick">
-                            <div class="productname" @click="${this.handleClick}" id=${product.id}>${product.title}</div>
+                <h1 class="topPicksH1">Top Picks!</h1>
+                <div class="topPicksContainer">
+                    ${map(this._topPicks, (product) => {
+                        return html`
+                            <div class="topPick">
+                                <div class="productname" @click="${this.handleClick}" id=${product.id}>
+                                    ${product.title}
+                                </div>
                                 <div
                                     class="image"
                                     style="background: url(${product.thumbnail}) ;
@@ -218,20 +219,18 @@ export class productsRoot extends LitElement {
                                 ></div>
                                 <div class="description">${product.description}</div>
                                 <div class="price">${product.price}</div>
-                        </div>
-                    
-                    `;
-                })}
-
+                            </div>
+                        `;
+                    })}
                 </div>
                 <div class="ProductsContainer">
-                
-
                     ${map(this._orderItems, (product) => {
                         return html`
                             <div class="products">
                                 <!-- When the product name is clicked, execute handleClick -->
-                                <div class="productname" @click="${this.handleClick}" id=${product.id}>${product.title}</div>
+                                <div class="productname" @click="${this.handleClick}" id=${product.id}>
+                                    ${product.title}
+                                </div>
                                 <div
                                     class="image"
                                     style="background: url(${product.thumbnail}) ;

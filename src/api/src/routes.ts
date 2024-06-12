@@ -48,5 +48,5 @@ router.get("/users/cart", asyncHandler(ShoppingCartController.checkcart.bind(Sho
 router.put("/store-content", asyncHandler(orderItemController.editProduct.bind(orderItemController)));
 router.get(
     "/users/cart/:id",
-    asyncHandler(ShoppingCartController.getproductname.bind(ShoppingCartController))
+    asyncHandler(ShoppingCartController.getproductinfo.bind(ShoppingCartController))
 );

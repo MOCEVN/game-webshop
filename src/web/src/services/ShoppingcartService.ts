@@ -32,7 +32,7 @@ export class ShoppingcartService {
 
         return (await response.json()) as OrderItem[];
     }
-    public async getproductname(id: number): Promise<OrderItem[] | undefined> {
+    public async getproductinfo(id: number): Promise<OrderItem[] | undefined> {
         const token: string | undefined = this._tokenService.getToken();
         if (!token) {
             return undefined;

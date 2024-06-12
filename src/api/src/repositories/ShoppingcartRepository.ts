@@ -21,14 +21,14 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
         connection.release();
         return checkcart;
     }
-    public async getproductname(id: number): Promise<UserData | undefined> {
+    /**
+     * Gets user data from an id.
+     * @param id
+     * @returns UserData
+     */
+    public async getproductinfo(id: number): Promise<UserData | undefined> {
         const connection: PoolConnection = await getConnection();
-        const getproductname: any = await queryDatabase(
-            connection,
-            "select title from product WHERE id = ?",
-            id
-        );
-        // hier nog een async neezetten richting het ophalen van productnames.
+        const getproductname: any = await queryDatabase(connection, "select * from product", id);
         connection.release();
         return getproductname;
     }
