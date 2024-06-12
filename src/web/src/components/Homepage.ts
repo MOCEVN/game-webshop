@@ -1,8 +1,8 @@
 import { LitElement, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { map } from "lit/directives/map.js";
 import { OrderItemService } from "../services/OrderItemService";
 import { OrderItem } from "@shared/types";
+import { when } from "lit/directives/when.js";
 
 @customElement("home-page")
 export class Homepage extends LitElement {
@@ -69,17 +69,9 @@ export class Homepage extends LitElement {
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 90%;
-<<<<<<< HEAD
-
             padding: 10px;
             overflow-y: auto;
             overflow-wrap: anywhere;
-
-=======
-            padding: 10px;
-            overflow-y: auto;
-            overflow-wrap: anywhere;
->>>>>>> refs/remotes/origin/main
         }
         .price {
             display: flex;
@@ -128,33 +120,17 @@ export class Homepage extends LitElement {
         });
     }
 
-    private handleClick(e: Event): void {
-        const target: HTMLElement = e.target as HTMLElement;
-        console.log(target.id);
-        window.location.href = `/productpage.html?id=${target.id}`;
-    }
 
 
     protected render(): unknown {
         return html`
             <div class="container">
-                <div class="header">
+                <div class="content">
+                    ${when(this._orderItems,() => html`
+                        <product-catagory .products=${this._orderItems} catagory=${"Retro"} catagoryId=1></product-catagory>
+                        <product-catagory .products=${this._orderItems} catagory=${"Avontuur"} catagoryId=2></product-catagory>
+                    `)}
                 </div>
-                <div class="ProductsContainer">
-                    ${map(this._orderItems, (product) => {
-                        return html`
-                            <div class="products">
-                                <div class="productname" @click="${this.handleClick}" id=${product.id}>
-                                    ${product.title}
-                                </div>
-                                <div
-                                    class="image"
-                                    style="background: url(${product.thumbnail}); background-position: center; background-size: 100%; background-repeat: no-repeat;"
-                                ></div>
-                                <div class="description">${product.description}</div>
-                            </div>
-                        `;
-                    })}
                 </div>
             </div>
         `;
