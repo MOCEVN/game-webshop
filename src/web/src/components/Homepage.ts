@@ -69,12 +69,9 @@ export class Homepage extends LitElement {
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 90%;
-<<<<<<< HEAD
-=======
             padding: 10px;
             overflow-y: auto;
             overflow-wrap: anywhere;
->>>>>>> refs/remotes/origin/main
         }
         .price {
             display: flex;
