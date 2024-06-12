@@ -94,8 +94,8 @@ export class AdminAdd extends LitElement{
                     <textarea name="description" id="description" required></textarea>
                     <label for="price">Price:</label>
                     <input type="number" step=0.01 name="price" id="price" required>
-                    <label for="catagory">Catagory:</label>
-                    <input type="text" name="catagory" id="catagory">
+                    <label for="catagory" >Category:</label>
+                    <input type="text" name="catagory" id="categoryId">
                     <label for="thumbnail">Thumbnail URL:</label>
                     <input type="text" name="thumbnail" id="thumbnail">
                     <label for="images">Image URLs (one image per line):</label>

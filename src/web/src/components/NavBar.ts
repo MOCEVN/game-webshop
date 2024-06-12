@@ -90,6 +90,8 @@ export class Navbar extends LitElement {
     @state()
     private _isLoggedIn: boolean = false;
     private _isAssigned: boolean = false;
+    private _hasAccess!: boolean;
+
     private _userService: UserService = new UserService();
     private _tokenService: TokenService = new TokenService();
 
@@ -102,6 +104,7 @@ export class Navbar extends LitElement {
         await this._userService.logout();
         this._tokenService.removeToken();
         this._isLoggedIn = false;
+        this._hasAccess = false;
 
         // redirect to login page
         window.location.href = "login.html";
@@ -110,6 +113,7 @@ export class Navbar extends LitElement {
     // Login
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
+        this._hasAccess = await this._userService.requestAdminAccess();
         await this.getWelcome();
     }
 
@@ -119,6 +123,11 @@ export class Navbar extends LitElement {
         if (result) {
             this._isLoggedIn = true;
             this._isAssigned = true;
+    
+            const isAdmin: boolean = await this._userService.requestAdminAccess();
+            if (isAdmin) {
+                this._hasAccess = true;
+            }
         }
     }
 
@@ -127,11 +136,10 @@ export class Navbar extends LitElement {
             <nav class="navBar">
                 <ul>
                     <li>
-<<<<<<< HEAD
-                        <a href=""><img src="/assets/img/logo.png" class="logo" /></a>
-=======
+
                         <a href="/"><img src="/assets/img/logo.png" class="logo" /></a>
->>>>>>> refs/remotes/origin/main
+
+
                     </li>
                     <li><a href="products.html">Producten</a></li>
                     <li class="searchBar"><input type="text" placeholder="Zoek producten..." /></li>
@@ -149,6 +157,14 @@ export class Navbar extends LitElement {
                             <li>
                                 <a href="profile.html"><img src="/assets/img/account.png" /></a>
                             </li>
+                              <!-- Admin panel if the admin is logged in -->
+                        ${this._hasAccess
+                            ? html`
+                                <li>
+                                    <a href="admin.html"><img src="/assets/img/admin_panel.png" /></a>
+                                </li> 
+                            `
+                            : ""}
                             <li>
                                 <a href="#" @click=${this.clickLogoutButton}
                                     ><img src="/assets/img/login.png" />Logout</a
