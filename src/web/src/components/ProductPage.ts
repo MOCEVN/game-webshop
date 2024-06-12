@@ -512,7 +512,7 @@ export class ProductPage extends LitElement {
                     <!-- Game Information -->
                     <div class="productBasic-text">
                         <div id="productThumbnail">
-                            <img src="${this._product.thumbnail}" alt="${this._product.title}" class="thumbProduct">
+                            <img src="https://lucastars.hbo-ict.cloud/assets/temp.png?height=1080&hmac=885812cc0967a27431a756b368fcc952ab759a9f715082c9582f375dd684a2f1" alt="${this._product.title}" class="thumbProduct">
                         </div>
     
                         <!-- <h3 class="developers">Giorgio, Megan, Nico, Nii, Omar, Sonny</h3> -->
