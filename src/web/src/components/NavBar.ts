@@ -4,16 +4,19 @@ import { customElement, state } from "lit/decorators.js";
 import { UserService } from "../services/UserService";
 import { when } from "lit/directives/when.js";
 import { TokenService } from "../services/TokenService";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 @customElement("nav-bar")
 export class Navbar extends LitElement {
     public static styles = css`
         .navBar {
             width: 100%;
+            max-width: 100%;
             background-color: lightgray;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            overflow: hidden;
         }
 
         .navBar ul li:first-child,
@@ -28,10 +31,14 @@ export class Navbar extends LitElement {
 
         .navBar ul {
             width: 100%;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr 5fr auto;
             list-style-type: none;
             justify-content: flex-end;
             padding: 0 30px;
+        }
+        .navBar ul ul {
+            display: flex;
         }
 
         .navBar li {
@@ -52,22 +59,30 @@ export class Navbar extends LitElement {
         }
 
         .searchBar {
-            width: 50%;
-            display: flex;
-            align-items: center;
+            width: 100%;
+            align-content: center;
+            position: relative;
         }
 
-        .searchBar input {
-            flex-grow: 1;
+        .searchBar form {
+            width: 100%;
+            display: flex;
+        }
+        .searchBar input[type=text] {
+            width: 100%;
             padding: 10px 30px;
             border: 1px solid #ccc;
             border-radius: 20px;
             font-size: 16px;
             box-sizing: border-box;
-            background-image: url("/assets/img/search.png");
-            background-repeat: no-repeat;
-            background-position: calc(100% - 10px) center;
-            background-size: 20px;
+        }
+
+        .searchBar input[type=image] {
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            right: 10px;
+            top: 15px;
         }
 
         footer {
@@ -92,6 +107,7 @@ export class Navbar extends LitElement {
     private _isAssigned: boolean = false;
     private _userService: UserService = new UserService();
     private _tokenService: TokenService = new TokenService();
+    private _searchQuery: string | undefined;
 
     // Fetch and Parse navigation bar and footer
     protected render(): TemplateResult {
@@ -110,6 +126,10 @@ export class Navbar extends LitElement {
     // Login
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
+        const urlParams: URLSearchParams = (new URL(window.location.toString())).searchParams;
+        if (urlParams.has("search")){
+            this._searchQuery = urlParams.get("search") as string;
+        }
         await this.getWelcome();
     }
 
@@ -121,6 +141,14 @@ export class Navbar extends LitElement {
         }
     }
 
+    private handleSearch(e: Event): void {
+        e.preventDefault();
+        const formElement: HTMLFormElement = e.target as HTMLFormElement;
+        const formInputData: FormData = new FormData(formElement);
+        window.location.href = `/products.html?search=${formInputData.get("search") as string}`;
+        
+    }
+
     private renderNavBar(): TemplateResult {
         return html`
             <nav class="navBar">
@@ -129,34 +157,41 @@ export class Navbar extends LitElement {
                         <a href="/"><img src="/assets/img/logo.png" class="logo" /></a>
                     </li>
                     <li><a href="products.html">Producten</a></li>
-                    <li class="searchBar"><input type="text" placeholder="Zoek producten..." /></li>
+                    <li class="searchBar">
+                        <form @submit=${this.handleSearch}>
+                            <input type="text" placeholder="Zoek producten..." name="search" value=${ifDefined(this._searchQuery)} />
+                            <input type="image" src="/assets/img/search.png" alt="search">
+                        </form>
+                    </li>
 
                     <!-- Show if the user is logged in -->
-                    ${when(
-                        this._isLoggedIn && this._isAssigned,
-                        () => html`
-                            <li>
-                                <a href="shoppingcart.html"><img src="/assets/img/cart.png" /></a>
-                            </li> 
-                            <li>
-                                <a href="#"><img src="/assets/img/heart.png" /></a>
-                            </li>
-                            <li>
-                                <a href="profile.html"><img src="/assets/img/account.png" /></a>
-                            </li>
-                            <li>
-                                <a href="#" @click=${this.clickLogoutButton}
-                                    ><img src="/assets/img/login.png" />Logout</a
-                                >
-                            </li>
-                        `,
-                        // else the user needs to login first
-                        () => html`
-                            <li>
-                                <a href="login.html" id="logIn"><img src="/assets/img/login.png" />Login</a>
-                            </li>
-                        `
-                    )}
+                    <ul>
+                        ${when(
+                            this._isLoggedIn && this._isAssigned,
+                            () => html`
+                                <li>
+                                    <a href="shoppingcart.html"><img src="/assets/img/cart.png" /></a>
+                                </li> 
+                                <li>
+                                    <a href="#"><img src="/assets/img/heart.png" /></a>
+                                </li>
+                                <li>
+                                    <a href="profile.html"><img src="/assets/img/account.png" /></a>
+                                </li>
+                                <li>
+                                    <a href="#" @click=${this.clickLogoutButton}
+                                        ><img src="/assets/img/login.png" />Logout</a
+                                    >
+                                </li>
+                            `,
+                            // else the user needs to login first
+                            () => html`
+                                <li>
+                                    <a href="login.html" id="logIn"><img src="/assets/img/login.png" />Login</a>
+                                </li>
+                            `
+                        )}
+                    </ul>
                 </ul>
             </nav>
         `;
