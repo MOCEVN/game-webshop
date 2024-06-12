@@ -20,7 +20,7 @@ export class OrderItemRepository {
             const catagoryQueryResult: [{id: string}] = await queryDatabase(connection,"SELECT id FROM category WHERE name = ?",formData.catagory);
             const catagoryId: string = catagoryQueryResult.length > 0 ? catagoryQueryResult[0].id : "1";
             const query: string = "INSERT INTO product(title, description, price, categoryId, thumbnail) VALUES (?,?,?,?,?)";
-            const values: string[] = [formData.name,formData.description,formData.price,catagoryId,formData.thumbnail ?? ""];
+            const values: string[] = [formData.title,formData.description,formData.price,catagoryId,formData.thumbnail ?? ""];
             await connection.beginTransaction();
             const result: ResultSetHeader = await queryDatabase(connection, query, ...values);
             if (formData.imageURLs){
@@ -142,5 +142,47 @@ export class OrderItemRepository {
             connection.release();
         }
     }
+    public async editProduct(product: OrderItem): Promise<boolean>{
+        const connection: PoolConnection = await getConnection();
+        try {
+            const productOld: OrderItem | undefined = await this.getProduct(product.id.toString());
+            const oldImages: string[] | undefined = productOld?.imageURLs;
+            await connection.beginTransaction();
+            const catagoryQueryResult: [{id: string}] = await queryDatabase(connection,"SELECT id FROM category WHERE name = ?",product.catagory ?? "");
+            const catagoryId: string = catagoryQueryResult.length > 0 ? catagoryQueryResult[0].id : "1";
+            const editQuery: string = "UPDATE `product` SET `title`= ? ,`description`= ? ,`price`= ? ,`thumbnail`= ? ,`categoryId`= ? WHERE `id` = ?";
+            console.log(product);
+            
+            const result: any = await queryDatabase(connection,editQuery,product.title,product.description,product.price ?? 0,product.thumbnail ?? "",catagoryId,product.id);
+            if (oldImages && result && product.imageURLs !== oldImages && product.imageURLs) {
+                const deleteQuery: string = "DELETE FROM `image` WHERE `ItemId` = ?";
+                await queryDatabase(connection,deleteQuery,product.id);
+                const addQuery: string = "INSERT INTO `image`(`ItemId`, `url`) VALUES (?,?)";
+                for (const image of product.imageURLs) {
+                    await queryDatabase(connection,addQuery,product.id,image);
+                }
+            }
+            await connection.commit();
+            return true;
+        } catch (err) {
+            console.error(err);
+            
+            return false;
+        } finally {
+            connection.release();
+        }
+    }
 
+    public async topPicks():Promise<[]>{
+        const connection: PoolConnection = await getConnection();
+        try {
+            const results: any = queryDatabase(connection, "SELECT * FROM product WHERE top_picks = ?", 1);
+            return results;
+        } catch (error) {
+            console.log(error);
+            return [];
+        } finally{
+            connection.release();
+        }
+    }
 }

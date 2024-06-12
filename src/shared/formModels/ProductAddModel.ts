@@ -1,5 +1,5 @@
 export type ProductAddModel = {
-    name: string;
+    title: string;
     description: string;
     price: string;
     catagory?: string;

@@ -1,5 +1,6 @@
 import { LitElement, TemplateResult, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 enum RouterPage {
     View = "view",
@@ -33,9 +34,17 @@ export class AdminContent extends LitElement{
             margin-bottom: -1px;
         }
     `;
-    
+
     @state()
     private _currentPage: RouterPage = RouterPage.Add;
+
+    @state()
+    private _editId?: string;
+
+    private handleEditEvent(e: CustomEvent): void {
+        this._editId = e.detail.id;
+        this._currentPage = RouterPage.Edit;
+    }
 
     protected render(): TemplateResult {
         return html`
@@ -50,11 +59,11 @@ export class AdminContent extends LitElement{
     private renderContent(): TemplateResult {
         switch (this._currentPage) {
             case RouterPage.View:
-                return html`<admin-view></admin-view>`;
+                return html`<admin-view @edit=${this.handleEditEvent}></admin-view>`;
             case RouterPage.Add:
                 return html`<admin-add></admin-add>`;
             default:
-                return html`<admin-edit></admin-edit>`;
+                return html`<admin-edit productId=${ifDefined(this._editId)}></admin-edit>`;
         }
     }
 }

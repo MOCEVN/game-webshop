@@ -1,6 +1,7 @@
 import { Catagory } from "./Catagory";
 
 export type OrderItem = {
+    itemId: any;
     thumbnail: string;
     id: number;
     title: string;

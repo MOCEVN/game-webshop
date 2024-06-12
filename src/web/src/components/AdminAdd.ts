@@ -49,12 +49,12 @@ export class AdminAdd extends LitElement{
         const formElement: HTMLFormElement = e.target as HTMLFormElement;
         const formInputData: FormData = new FormData(formElement);
         const formData: ProductAddModel = {
-            name: formInputData.get("name") as string,
+            title: formInputData.get("name") as string,
             description: formInputData.get("description") as string,
             price: formInputData.get("price") as string,
             catagory: formInputData.get("catagory") as string | undefined,
             thumbnail: formInputData.get("thumbnail") as string | undefined,
-            imageURLs: (formInputData.get("images") as string | undefined)?.split(" ")
+            imageURLs: (formInputData.get("images") as string | undefined)?.split("\n")
         };
         this._succeeded = await this._orderItemService.add(formData);
         
@@ -98,7 +98,7 @@ export class AdminAdd extends LitElement{
                     <input type="text" name="catagory" id="catagory">
                     <label for="thumbnail">Thumbnail URL:</label>
                     <input type="text" name="thumbnail" id="thumbnail">
-                    <label for="images">Image URLs:</label>
+                    <label for="images">Image URLs (one image per line):</label>
                     <textarea name="images" id="images"></textarea>
                     <button type="submit">Submit</button>
                     ${this._succeeded ? html`<p class="success">Success!</p>` : nothing}

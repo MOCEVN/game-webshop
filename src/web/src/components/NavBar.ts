@@ -79,6 +79,7 @@ export class Navbar extends LitElement {
             position: fixed;
             bottom: 0;
             width: 100%;
+            z-index: 1;
         }
         footer p {
             line-height: 1.2em;

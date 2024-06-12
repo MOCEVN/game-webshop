@@ -1,5 +1,6 @@
 import { Order, OrderItem } from "@shared/types";
 import { TokenService } from "./TokenService";
+import { ProductAddModel } from "@shared/formModels/ProductAddModel";
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -29,7 +30,7 @@ export class OrderItemService {
         return (await response.json()) as OrderItem[];
     }
 
-    public async PopularProducts(): Promise<OrderItem[]> {
+    public async topPicks(): Promise<OrderItem[]> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/products`, {
             method: "get",
         });
@@ -138,5 +139,22 @@ export class OrderItemService {
         return (await response.json()) as Order;
     }
 
+    public async editProduct(product: ProductAddModel & {id: string}): Promise<boolean> {
+        const token: string | undefined = this._tokenService.getToken();
 
+        if (!token) {
+            return false;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}store-content`, {
+            method: "put",
+            headers: { ...headers, authorization: token},
+            body: JSON.stringify(product)
+        });
+
+        if (!response.ok) {
+            return false;
+        }
+        return true;
+    }
 }
