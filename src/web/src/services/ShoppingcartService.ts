@@ -48,4 +48,36 @@ export class ShoppingcartService {
 
         return (await response.json()) as OrderItem[];
     }
+    public async clearcart(): Promise<OrderItem[] | undefined> {
+        const token: string | undefined = this._tokenService.getToken();
+        if (!token) {
+            return undefined;
+        }
+        const response: Response = await fetch(`${viteConfiguration.API_URL}users/cart`, {
+            method: "post",
+            headers: { ...headers, authorization: token },
+        });
+        if (!response.ok) {
+            console.error(response);
+            return undefined;
+        }
+
+        return (await response.json()) as OrderItem[];
+    }
+    public async insertintocart(itemid: number): Promise<OrderItem[] | undefined> {
+        const token: string | undefined = this._tokenService.getToken();
+        if (!token) {
+            return undefined;
+        }
+        const response: Response = await fetch(`${viteConfiguration.API_URL}users/cart/${itemid}`, {
+            method: "post",
+            headers: { ...headers, authorization: token },
+        });
+        if (!response.ok) {
+            console.error(response);
+            return undefined;
+        }
+
+        return (await response.json()) as OrderItem[];
+    }
 }

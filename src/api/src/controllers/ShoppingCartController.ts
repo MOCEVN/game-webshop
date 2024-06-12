@@ -34,9 +34,37 @@ export class ShoppingcartController implements IShoppingcartController {
         const id: any = req.params.id;
         const getproductinfo: UserData | undefined = await this._ShoppingcartRepository.getproductinfo(id);
         if (!getproductinfo) {
-            res.status(200).json({ message: "Shoppingcart is empty" });
+            res.status(200).json({ message: "something went wrong whilst getting product data" });
         } else {
             res.json(getproductinfo);
+        }
+    }
+    public async clearcart(req: Request, res: Response): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const token: CustomJwtToken = req.token!;
+        const userId: number = token.userId;
+        const clearcart: UserData | undefined = await this._ShoppingcartRepository.clearcart(userId);
+        if (!clearcart) {
+            res.status(200).json({ message: "something went wrong whilst clearing" });
+        } else {
+            res.json(clearcart);
+        }
+    }
+    public async insertintocart(req: Request, res: Response): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const token: CustomJwtToken = req.token!;
+        const itemId: any = req.params.id;
+        console.log(itemId);
+        const userId: number = token.userId;
+        const insertintocart: UserData | undefined = await this._ShoppingcartRepository.insertintocart(
+            userId,
+            itemId
+        );
+        console.log("item", itemId);
+        if (!insertintocart) {
+            res.status(200).json({ message: "could not insert item into shoppingcart" });
+        } else {
+            res.json(insertintocart);
         }
     }
 }

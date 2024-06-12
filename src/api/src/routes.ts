@@ -50,3 +50,8 @@ router.get(
     "/users/cart/:id",
     asyncHandler(ShoppingCartController.getproductinfo.bind(ShoppingCartController))
 );
+router.post("/users/cart", asyncHandler(ShoppingCartController.clearcart.bind(ShoppingCartController)));
+router.post(
+    "/users/cart/:itemid",
+    asyncHandler(ShoppingCartController.insertintocart.bind(ShoppingCartController))
+);

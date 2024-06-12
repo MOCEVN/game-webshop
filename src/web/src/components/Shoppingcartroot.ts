@@ -26,7 +26,8 @@ export class ShoppingCart extends LitElement {
             height: 20vw;
             background-color: #aaaa;
             display: block;
-            border-radius: 2spx;
+            border-radius: 10px;
+            position: relative;
         }
         .leftcontainer {
             background-color: #241f1f42;
@@ -85,7 +86,11 @@ export class ShoppingCart extends LitElement {
             font-size: 2vw;
         }
         .shoppingcart {
-            text-align: center;
+            text-align: left;
+            font-weight: 100px;
+            font-size: 25px;
+            margin-top: 5px;
+            margin-left: 2vw;
         }
         .btw {
             text-align: left;
@@ -94,7 +99,27 @@ export class ShoppingCart extends LitElement {
         }
         .uppersection {
             padding: 0px;
-            
+        }
+        .title {
+            margin-left: 100px;
+            top: 1vh;
+        }
+        .price {
+            text-align: center;
+            bottom: 100px;
+        }
+        .test {
+            width: 100px;
+            margin-top: -10vh;
+        }
+        .ptitle {
+            bottom: 1vh;
+            margin-left: 9.1vw;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        .pprice {
+            font-size: 20px;
         }
     `;
 
@@ -105,9 +130,13 @@ export class ShoppingCart extends LitElement {
     private itemId: number[] | undefined;
     private getproductinfo: OrderItem[] | undefined;
     private totalprice: number | undefined;
+    private clearcart: OrderItem[] | undefined;
+    private insertintocart: OrderItem[] | undefined;
 
     public async connectedCallback(): Promise<void> {
+        this.insertintocart = await this._shoppingcartService.insertintocart(2);
         this.checkcart = await this._shoppingcartService.checkcart();
+        console.log("dit moet niet te zien zijn", this.checkcart);
         if (this.checkcart) {
             this.itemId = this.checkcart.map((item: { itemId: any }) => item.itemId);
         }
@@ -120,8 +149,6 @@ export class ShoppingCart extends LitElement {
             this.totalprice = this.getproductinfo.reduce((sum: number, val) => {
                 return sum + parseFloat(val.price as unknown as string);
             }, 0);
-
-            // console.log("self made array van alleen de producten met een passende id", this.titleAndPrice);
         }
         super.connectedCallback();
     }
@@ -137,10 +164,9 @@ export class ShoppingCart extends LitElement {
                     Er zijn geen producten in jouw winkelwagen. Klik op de onderstaande knop om verder te
                     winkelen.
                 </p>
-                <button class="winkelen" @click="${this.handleClick}">verder winkelen</button>
+                <button class="winkelen" @click=${this.handleClick}>verder winkelen</button>
             </div>`;
-        }
-        if (this.checkcart) {
+        } else if (this.checkcart?.length !== 0) {
             message = html`
                 <div class="rightcontainer">
                     <div class="uppersection">
@@ -154,15 +180,15 @@ export class ShoppingCart extends LitElement {
                         <h2 class="subtotaal">Totaal € ${this.totalprice}</h2>
                         <p class="btw">incl btw</p>
                     </div>
-                    <button class="checkout">checkout</button>
+                    <button class="checkout" @click="${this.checkout}">checkout</button>
                 </div>
                 <div class="leftcontainer">
                     <h3 class="shoppingcart">Shoppingcart</h3>
                 </div>
                 ${map(this.getproductinfo, (product) => {
                     return html` <div class="container">
-                        <div class="title">${product.title}</div>
-                        <div class="price">${product.price}</div>
+                        <div class="title"><p class="ptitle">${product.title}</p></div>
+                        <div class="price"><p class="pprice">${product.price}</p></div>
                         <div class="thumbnail">
                             <img class="test" src=${product.thumbnail} />
                         </div>
@@ -178,5 +204,11 @@ export class ShoppingCart extends LitElement {
 
     private handleClick(_e: Event): void {
         window.location.replace("/");
+    }
+    private async checkout(_e: Event): Promise<void> {
+        this.clearcart = await this._shoppingcartService.clearcart();
+        alert("je hebt een item gekocht");
+        window.location.replace("/");
+        super.connectedCallback();
     }
 }
