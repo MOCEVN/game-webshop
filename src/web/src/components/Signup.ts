@@ -126,7 +126,7 @@ export class SignUp extends LitElement {
 
     if (result) {
       alert("U bent geregistreerd!");
-      window.location.href = "homepage.html";
+      window.location.href = "/";
     } else {
       alert("Registratie is niet gelukt!");
     }

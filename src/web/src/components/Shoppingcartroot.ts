@@ -108,12 +108,12 @@ export class ShoppingCart extends LitElement {
                 })}`;
         } else {
             message = html`<p>je moet ingelogd zijn</p>`;
-            window.location.replace("homepage.html");
+            window.location.replace("/");
         }
         return html`<p class="message">${message}</p>`;
     }
 
     private handleClick(_e: Event): void {
-        window.location.replace("homepage.html");
+        window.location.replace("/");
     }
 }
