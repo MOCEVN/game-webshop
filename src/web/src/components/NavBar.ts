@@ -115,7 +115,6 @@ export class Navbar extends LitElement {
 
     private async getWelcome(): Promise<void> {
         const result: UserHelloResponse | undefined = await this._userService.getWelcome();
-        console.log(result);
         if (result) {
             this._isLoggedIn = true;
             this._isAssigned = true;
@@ -127,11 +126,7 @@ export class Navbar extends LitElement {
             <nav class="navBar">
                 <ul>
                     <li>
-<<<<<<< HEAD
-                        <a href=""><img src="/assets/img/logo.png" class="logo" /></a>
-=======
                         <a href="/"><img src="/assets/img/logo.png" class="logo" /></a>
->>>>>>> refs/remotes/origin/main
                     </li>
                     <li><a href="products.html">Producten</a></li>
                     <li class="searchBar"><input type="text" placeholder="Zoek producten..." /></li>

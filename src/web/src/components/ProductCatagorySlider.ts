@@ -24,11 +24,7 @@ export class ProductCatagorySlider extends LitElement{
             text-decoration: underline;
             text-underline-offset: 7px;
             white-space: pre;
-            cursor: pointer;
             margin-right: auto;
-        }
-        .catagory-text:hover {
-            text-shadow: 0 0 1px black;
         }
         .catagory-content {
             display: flex;
@@ -124,19 +120,13 @@ export class ProductCatagorySlider extends LitElement{
     @property({type: Number})
     public catagoryId!: number;
 
-    public connectedCallback(): void {
-        super.connectedCallback();
-        console.log(this.products);
-        
-    }
-
-    private _scrollCatagoryRight(e: Event): void {
-        const catagoryElement: HTMLElement = (e.target as HTMLElement).parentElement?.parentElement?.querySelector(".catagory-content") as HTMLElement;
+    private _scrollCatagoryRight(): void {
+        const catagoryElement: HTMLElement = this.renderRoot.querySelector(".catagory-content") as HTMLElement;
         catagoryElement.scrollBy({ left: 400, behavior: "smooth" });
         this._checkScrollVisibility(catagoryElement, true);
     }
-    private _scrollCatagoryLeft(e: Event): void {
-        const catagoryElement: HTMLElement = (e.target as HTMLElement).parentElement?.parentElement?.querySelector(".catagory-content") as HTMLElement;
+    private _scrollCatagoryLeft(): void {
+        const catagoryElement: HTMLElement = this.renderRoot.querySelector(".catagory-content") as HTMLElement;
         catagoryElement.scrollBy({ left: -400, behavior: "smooth" });
         this._checkScrollVisibility(catagoryElement, false);
     }
@@ -156,7 +146,6 @@ export class ProductCatagorySlider extends LitElement{
             } else if (catagoryElement.scrollLeft >= catagoryElement.scrollWidth - catagoryElement.clientWidth - 400) {
                 rightScroll.style.display = "flex";
             }
-
         }
     }
     
@@ -174,7 +163,7 @@ export class ProductCatagorySlider extends LitElement{
     protected render(): TemplateResult {
         return html`
             <section class="catagory">
-                <p class="catagory-text">${this.catagory}  ></p>
+                <p class="catagory-text noselect">${this.catagory}  ></p>
                 <div class="catagory-content">
                     ${map(this.products.filter((item: any) => item.categoryId === this.catagoryId), this.renderGame.bind(this))}
                 </div>

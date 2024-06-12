@@ -14,11 +14,11 @@ export class Homepage extends LitElement {
             margin-bottom: 8px;
         }
         .container {
-            max-height: 90vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
+            margin-bottom: 50px;
         }
         .header {
             display: flex;
@@ -115,7 +115,6 @@ export class Homepage extends LitElement {
     public connectedCallback(): void {
         super.connectedCallback();
         this.getOrderItems();
-        console.log(new URL(window.location.toString()));
     }
 
     private async fetchOrderItems(): Promise<OrderItem[]> {
