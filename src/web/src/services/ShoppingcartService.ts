@@ -75,6 +75,7 @@ export class ShoppingcartService {
         });
         if (!response.ok) {
             console.error(response);
+            alert("je moet ingelogd zijn om hier te zijn");
             return undefined;
         }
 

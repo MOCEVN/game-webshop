@@ -63,7 +63,6 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
             1,
             itemid
         );
-        console.log(insertintocart);
         connection.release();
         return insertintocart;
     }

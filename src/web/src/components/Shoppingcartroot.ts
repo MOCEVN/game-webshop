@@ -20,7 +20,7 @@ export class ShoppingCart extends LitElement {
             height: 5vh;
         }
         .container {
-            margin-top: 100px;
+            margin-top: 0px;
             margin-left: 5vw;
             width: 35vw;
             height: 20vw;
@@ -32,12 +32,12 @@ export class ShoppingCart extends LitElement {
         .leftcontainer {
             background-color: #241f1f42;
             width: 45vw;
-            height: 100vh;
             position: absolute;
             margin-left: 3vw;
-            margin-top: -6vh;
-            overflow-y: scroll;
+            margin-top: 0vh;
+            overflow-y: auto;
             border-radius: 5px;
+            padding-bottom: 5vh;
         }
         .thumbnail {
             width: 3vw;
@@ -134,7 +134,6 @@ export class ShoppingCart extends LitElement {
     private insertintocart: OrderItem[] | undefined;
 
     public async connectedCallback(): Promise<void> {
-        this.insertintocart = await this._shoppingcartService.insertintocart(2);
         this.checkcart = await this._shoppingcartService.checkcart();
         console.log("dit moet niet te zien zijn", this.checkcart);
         if (this.checkcart) {
@@ -184,19 +183,21 @@ export class ShoppingCart extends LitElement {
                 </div>
                 <div class="leftcontainer">
                     <h3 class="shoppingcart">Shoppingcart</h3>
-                </div>
-                ${map(this.getproductinfo, (product) => {
-                    return html` <div class="container">
+                    ${map(this.getproductinfo, (product) => {
+                        return html` <div class="container">
                         <div class="title"><p class="ptitle">${product.title}</p></div>
                         <div class="price"><p class="pprice">${product.price}</p></div>
                         <div class="thumbnail">
                             <img class="test" src=${product.thumbnail} />
                         </div>
-                    </div>`;
-                })}
+                    </div>
+                    </div>
+                    `;
+                    })}
+                </div>
             `;
-        } else {
-            message = html`<p>je moet ingelogd zijn</p>`;
+        } else if (!this.checkcart) {
+            alert("je moet ingelogd zijn om hier te zijn");
             window.location.replace("/");
         }
         return html`<p class="message">${message}</p>`;

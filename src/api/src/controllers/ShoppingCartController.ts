@@ -53,14 +53,12 @@ export class ShoppingcartController implements IShoppingcartController {
     public async insertintocart(req: Request, res: Response): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const token: CustomJwtToken = req.token!;
-        const itemId: any = req.params.id;
-        console.log(itemId);
+        const itemId: any = req.params["itemid"];
         const userId: number = token.userId;
         const insertintocart: UserData | undefined = await this._ShoppingcartRepository.insertintocart(
             userId,
             itemId
         );
-        console.log("item", itemId);
         if (!insertintocart) {
             res.status(200).json({ message: "could not insert item into shoppingcart" });
         } else {

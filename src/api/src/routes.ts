@@ -41,7 +41,7 @@ router.get("/order/info", asyncHandler(orderItemController.getOrderInfo.bind(ord
 router.get("/users/info", (req, res) => userController.getInfo(req, res));
 router.get("/users/logout", (req, res) => userController.logout(req, res));
 router.get("/users/hello", (req, res) => userController.hello(req, res));
-router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(req, res));
+// router.post("/users/cart/:id", (req, res) => userController.addOrderItemToCart(req, res));
 router.get("/users/admin", (req, res) => userController.requestAdminAccess(req, res));
 router.post("/store-content", asyncHandler(orderItemController.add.bind(orderItemController)));
 router.get("/users/cart", asyncHandler(ShoppingCartController.checkcart.bind(ShoppingCartController)));
