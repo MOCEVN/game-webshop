@@ -44,6 +44,58 @@ export class ShoppingCart extends LitElement {
         .test {
             width: 10vw;
         }
+        .waardes {
+            font-size: 3vw;
+            position: relative;
+        }
+        .rightcontainer {
+            background-color: #a2a2a242;
+            width: 37vw;
+            position: absolute;
+            margin-left: 50vw;
+            border-radius: 5px;
+        }
+        .samenvatting {
+            font-size: 2vw;
+            text-align: left;
+            margin-left: 10px;
+        }
+        .undertekst {
+            font-size: 0.8vw;
+            max-width: 28vw;
+            margin-left: 10px;
+        }
+        .subtotaal {
+            text-align: left;
+            margin-left: 1vw;
+            font-size: 2vw;
+        }
+        .totaalprijs {
+            text-align: right;
+            margin-right: 1px;
+            font-size: 2vw;
+            position: relative;
+        }
+        .checkout {
+            width: 15vw;
+            height: 7vh;
+            border-radius: 5px;
+            margin-left: 11vw;
+            margin-bottom: 1vh;
+            font-size: 2vw;
+        }
+        .shoppingcart {
+            text-align: center;
+        }
+        .btw {
+            text-align: left;
+            font-size: 1vw;
+            margin-left: 1vw;
+        }
+        .uppersection {
+            padding: 0px;
+            
+        }
     `;
 
     @state()
@@ -52,7 +104,7 @@ export class ShoppingCart extends LitElement {
     private checkcart: OrderItem[] | undefined;
     private itemId: number[] | undefined;
     private getproductinfo: OrderItem[] | undefined;
-    private titleAndPrice: any[] | undefined;
+    private totalprice: number | undefined;
 
     public async connectedCallback(): Promise<void> {
         this.checkcart = await this._shoppingcartService.checkcart();
@@ -60,23 +112,16 @@ export class ShoppingCart extends LitElement {
             this.itemId = this.checkcart.map((item: { itemId: any }) => item.itemId);
         }
         const id: any = this.itemId;
-        this.getproductinfo = await this._shoppingcartService.getproductinfo(id);
-        console.log(this.getproductinfo);
+        const allProducts: OrderItem[] | undefined = await this._shoppingcartService.getproductinfo(id);
+        this.getproductinfo = allProducts?.filter((item) => id.includes(item.id));
 
         // hier ga je de producten info opvragen
         if (this.getproductinfo) {
-            const getproductinfo: OrderItem[] = this.getproductinfo.filter((item) => id.includes(item.id));
+            this.totalprice = this.getproductinfo.reduce((sum: number, val) => {
+                return sum + parseFloat(val.price as unknown as string);
+            }, 0);
 
-            // hier maak ik een map van elke onderdeel die past bij de item id die in de shoppingcart
-            this.titleAndPrice = getproductinfo.map(
-                (matchItem: { title: string; price: number; id: number; thumbnail: string }) => ({
-                    title: matchItem.title,
-                    price: matchItem.price,
-                    thumbnail: matchItem.thumbnail,
-                    id: matchItem.id,
-                })
-            );
-            console.log("self made array van alleen de producten met een passende id", this.titleAndPrice);
+            // console.log("self made array van alleen de producten met een passende id", this.titleAndPrice);
         }
         super.connectedCallback();
     }
@@ -96,8 +141,25 @@ export class ShoppingCart extends LitElement {
             </div>`;
         }
         if (this.checkcart) {
-            message = html` <div class="leftcontainer"></div>
-                ${map(this.titleAndPrice, (product) => {
+            message = html`
+                <div class="rightcontainer">
+                    <div class="uppersection">
+                        <h3 class="samenvatting">Samenvatting</h3>
+                        <p class="undertekst">
+                            Kortingscodes kunnen worden toegepast tijdens het afrekenen, maar zijn niet geldig
+                            voor producten van onze Marketplace.
+                        </p>
+                    </div>
+                    <div class="totaalprijs">
+                        <h2 class="subtotaal">Totaal € ${this.totalprice}</h2>
+                        <p class="btw">incl btw</p>
+                    </div>
+                    <button class="checkout">checkout</button>
+                </div>
+                <div class="leftcontainer">
+                    <h3 class="shoppingcart">Shoppingcart</h3>
+                </div>
+                ${map(this.getproductinfo, (product) => {
                     return html` <div class="container">
                         <div class="title">${product.title}</div>
                         <div class="price">${product.price}</div>
@@ -105,7 +167,8 @@ export class ShoppingCart extends LitElement {
                             <img class="test" src=${product.thumbnail} />
                         </div>
                     </div>`;
-                })}`;
+                })}
+            `;
         } else {
             message = html`<p>je moet ingelogd zijn</p>`;
             window.location.replace("/");
