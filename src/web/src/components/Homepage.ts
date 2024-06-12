@@ -123,7 +123,7 @@ export class Homepage extends LitElement {
     private handleClick(e: Event): void {
         const target: HTMLElement = e.target as HTMLElement;
         console.log(target.id);
-        window.location.href = `/productpage?id=${target.id}`;
+        window.location.href = `/productpage.html?id=${target.id}`;
     }
 
 
