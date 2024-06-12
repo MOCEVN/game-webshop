@@ -88,6 +88,7 @@ export class Navbar extends LitElement {
 
     @state()
     private _isLoggedIn: boolean = false;
+    private _isAssigned: boolean = false;
     private _userService: UserService = new UserService();
     private _tokenService: TokenService = new TokenService();
 
@@ -116,6 +117,7 @@ export class Navbar extends LitElement {
         console.log(result);
         if (result) {
             this._isLoggedIn = true;
+            this._isAssigned = true;
         }
     }
 
@@ -131,7 +133,7 @@ export class Navbar extends LitElement {
 
                     <!-- Show if the user is logged in -->
                     ${when(
-                        this._isLoggedIn,
+                        this._isLoggedIn && this._isAssigned,
                         () => html`
                             <li>
                                 <a href="shoppingcart.html"><img src="/assets/img/cart.png" /></a>

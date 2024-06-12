@@ -1,6 +1,7 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 import { UserService } from "../services/UserService";
+import { UserRegisterFormModel } from "@shared/formModels";
 
 @customElement("sign-up")
 // signUp class inherited from litElement
@@ -57,12 +58,7 @@ export class SignUp extends LitElement {
 
   private _userService: UserService = new UserService();
 
-
-  private _email: string = "";
-  private _password: string = "";
-  private _firstName: string = "";
-  private _lastName: string = "";
-  private _name: string = "";
+  private _user: UserRegisterFormModel = {email: "", firstName:"", lastName:"", name:"", password:""};
 
   protected render(): TemplateResult {
     return html`
@@ -101,41 +97,32 @@ export class SignUp extends LitElement {
 
     switch (input.name) {
       case "firstName":
-        this._firstName = input.value;
+        this._user.firstName = input.value;
         break;
       case "lastName":
-        this._lastName = input.value;
+        this._user.lastName = input.value;
         break;
         case "name":
-        this._name = input.value;
+        this._user.name = input.value;
         break;
       case "email":
-        this._email = input.value;
+        this._user.email = input.value;
         break;
       case "password":
-        this._password = input.value;
+        this._user.password = input.value;
         break;
     }
   }
 
   private async signUpForm(event: Event): Promise<void> {
     event.preventDefault();
-    console.log({
-      email: this._email,
-      password: this._password,
-      firstName: this._firstName,
-      lastName: this._lastName,
-      name: this._name
-    });
+    console.log(this._user);
     
+    const result: boolean = await this._userService.register(this._user);
 
-    const result: boolean = await this._userService.register({
-      email: this._email,
-      password: this._password,
-      firstName: this._firstName,
-      lastName: this._lastName,
-      name: this._name
-    });
+      await this._userService.login(this._user);
+    
+    
 
     if (result) {
       alert("U bent geregistreerd!");

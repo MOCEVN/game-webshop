@@ -101,7 +101,7 @@ export class Profilepage extends LitElement {
                             <tr>
                                 <td>${this._orderData?.id}</td>
                                 <td>${this._orderData?.order_date}</td>
-                                <td>${this._orderData?.total_amount}</td>
+                                <td>€ ${this._orderData?.total_amount}</td>
                             </tr>
                         </tbody>
                     </table>
