@@ -92,13 +92,13 @@ export class productsRoot extends LitElement {
             overflow-y: scroll;
             border-radius: 10px;
             margin-bottom: 4vw;
-            overflow: scroll;
+            overflow: auto;
         }
         .topPick {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 70vw;
+            min-width: 30vw;
             margin: 2vw;
         }
     `;
@@ -110,6 +110,7 @@ export class productsRoot extends LitElement {
     // State to hold the array of order items
     @state()
     private _orderItems!: OrderItem[];
+    @state()
     private _topPicks!: OrderItem[];
 
     // The string to initialize getAllWithParameters with the sort type
