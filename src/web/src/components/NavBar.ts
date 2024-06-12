@@ -30,15 +30,24 @@ export class Navbar extends LitElement {
         }
 
         .navBar ul {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr 5fr auto;
-            list-style-type: none;
-            justify-content: flex-end;
-            padding: 0 30px;
-        }
+    display: flex;
+    list-style-type: none;
+    justify-content: flex-end;
+    padding: 15px 30px;
+
+
+    .navBar ul li {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+.navBar ul li img {
+    margin: 0; 
+}
+}
         .navBar ul ul {
             display: flex;
+            gap: 10px;
         }
 
         .navBar li {
@@ -129,14 +138,14 @@ export class Navbar extends LitElement {
     // Login
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
-<<<<<<< HEAD
+
         this._hasAccess = await this._userService.requestAdminAccess();
-=======
+
         const urlParams: URLSearchParams = (new URL(window.location.toString())).searchParams;
         if (urlParams.has("search")){
             this._searchQuery = urlParams.get("search") as string;
         }
->>>>>>> refs/remotes/origin/main
+
         await this.getWelcome();
     }
 
@@ -166,14 +175,7 @@ export class Navbar extends LitElement {
             <nav class="navBar">
                 <ul>
                     <li>
-<<<<<<< HEAD
-
                         <a href="/"><img src="/assets/img/logo.png" class="logo" /></a>
-
-
-=======
-                        <a href="/"><img src="/assets/img/logo.png" class="logo" /></a>
->>>>>>> refs/remotes/origin/main
                     </li>
                     <li><a href="products.html">Producten</a></li>
                     <li class="searchBar">
@@ -184,7 +186,6 @@ export class Navbar extends LitElement {
                     </li>
 
                     <!-- Show if the user is logged in -->
-<<<<<<< HEAD
                     ${when(
                         this._isLoggedIn && this._isAssigned,
                         () => html`
@@ -218,35 +219,8 @@ export class Navbar extends LitElement {
                             </li>
                         `
                     )}
-=======
-                    <ul>
-                        ${when(
-                            this._isLoggedIn && this._isAssigned,
-                            () => html`
-                                <li>
-                                    <a href="shoppingcart.html"><img src="/assets/img/cart.png" /></a>
-                                </li> 
-                                <li>
-                                    <a href="#"><img src="/assets/img/heart.png" /></a>
-                                </li>
-                                <li>
-                                    <a href="profile.html"><img src="/assets/img/account.png" /></a>
-                                </li>
-                                <li>
-                                    <a href="#" @click=${this.clickLogoutButton}
-                                        ><img src="/assets/img/login.png" />Logout</a
-                                    >
-                                </li>
-                            `,
-                            // else the user needs to login first
-                            () => html`
-                                <li>
-                                    <a href="login.html" id="logIn"><img src="/assets/img/login.png" />Login</a>
-                                </li>
-                            `
-                        )}
-                    </ul>
->>>>>>> refs/remotes/origin/main
+                   
+
                 </ul>
             </nav>
         `;
