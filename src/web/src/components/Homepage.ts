@@ -69,7 +69,12 @@ export class Homepage extends LitElement {
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 90%;
-<<<<<<< HEAD
+
+
+
+            padding: 10px;
+            overflow-y: auto;
+            overflow-wrap: anywhere;
 
 
             padding: 10px;
@@ -81,11 +86,6 @@ export class Homepage extends LitElement {
             overflow-y: auto;
             overflow-wrap: anywhere;
 
-=======
-            padding: 10px;
-            overflow-y: auto;
-            overflow-wrap: anywhere;
->>>>>>> refs/remotes/origin/main
         }
         .price {
             display: flex;
@@ -143,6 +143,9 @@ export class Homepage extends LitElement {
                     ${when(this._orderItems,() => html`
                         <product-catagory .products=${this._orderItems} catagory=${"Retro"} catagoryId=1></product-catagory>
                         <product-catagory .products=${this._orderItems} catagory=${"Avontuur"} catagoryId=2></product-catagory>
+                        <product-catagory .products=${this._orderItems} catagory=${"Strategie"} catagoryId=3></product-catagory>
+                        <product-catagory .products=${this._orderItems} catagory=${"Simulatie"} catagoryId=4></product-catagory>
+                        <product-catagory .products=${this._orderItems} catagory=${"Horror"} catagoryId=5></product-catagory>
                     `)}
                 </div>
                 </div>
