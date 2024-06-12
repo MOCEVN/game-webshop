@@ -37,7 +37,7 @@ export class OrderItemController implements IOrderItemController {
             orderBy: (req.query.orderBy as string) ?? "",
             sortOrder: (req.query.sortOrder as string) ?? "ASC",
             search: (req.query.search as string) ?? "",
-            searchType: (req.query.searchType as string) ?? "name",
+            searchType: (req.query.searchType as string) ?? "title",
         });
         res.json(result);
     }

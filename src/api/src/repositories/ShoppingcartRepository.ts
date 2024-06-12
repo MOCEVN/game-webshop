@@ -5,7 +5,7 @@ import { IShoppingcartRepository } from "../interfaces/ShoppingcartRepository";
 
 export class ShoppingcartRepository implements IShoppingcartRepository {
     /**
-     * Gets user data from an id.
+     * gets all info from shoppingcartitem
      * @param id
      * @returns UserData
      */
@@ -17,12 +17,12 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
             "select * from shoppingcartitem WHERE userId = ?",
             id
         );
-        // hier nog een async neezetten richting het ophalen van productnames.
+
         connection.release();
         return checkcart;
     }
     /**
-     * Gets user data from an id.
+     * Gets all info from products
      * @param id
      * @returns UserData
      */
@@ -31,5 +31,40 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
         const getproductname: any = await queryDatabase(connection, "select * from product", id);
         connection.release();
         return getproductname;
+    }
+    /**
+    * clears cart of all items
+    * @param id
+     @returns UserData
+    */
+
+    public async clearcart(id: number): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const clearcart: any = await queryDatabase(
+            connection,
+            "delete from shoppingcartitem where userId = ?",
+            id
+        );
+        connection.release();
+        return clearcart;
+    }
+    /**
+    * insert data into the cart.
+    * @param id
+    * @param itemid
+     @returns UserData
+    */
+    public async insertintocart(id: number, itemid: number): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const insertintocart: any = await queryDatabase(
+            connection,
+            "INSERT INTO shoppingcartitem (userId, amount, itemId) VALUES (?, ?, ?)",
+            id,
+            1,
+            itemid
+        );
+        console.log(insertintocart);
+        connection.release();
+        return insertintocart;
     }
 }

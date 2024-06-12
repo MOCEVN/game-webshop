@@ -42,7 +42,7 @@ export class OrderItemService {
         
     }
 
-    public async getAllWithParameters(orderBy: string = "", sortOrder: string = "ASC", search: string = "", searchType: string = "name"): Promise<OrderItem[] | undefined> {
+    public async getAllWithParameters(orderBy: string = "", sortOrder: string = "ASC", search: string = "", searchType: string = "title"): Promise<OrderItem[] | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}store-content/all?${(new URLSearchParams({
             orderBy: orderBy,
             sortOrder: sortOrder,

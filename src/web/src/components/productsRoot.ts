@@ -3,6 +3,7 @@ import { customElement, state } from "lit/decorators.js";
 import { map } from "lit/directives/map.js";
 import { OrderItemService } from "../services/OrderItemService";
 import { OrderItem } from "@shared/types";
+import { when } from "lit/directives/when.js";
 
 @customElement("products-root")
 export class productsRoot extends LitElement {
@@ -101,6 +102,9 @@ export class productsRoot extends LitElement {
             min-width: 30vw;
             margin: 2vw;
         }
+        #sort {
+            margin-bottom: 1em;
+        }
     `;
 
     // Initialize an instance of OrderItemService
@@ -116,21 +120,26 @@ export class productsRoot extends LitElement {
     // The string to initialize getAllWithParameters with the sort type
     private _sortOrder: string = "DESC";
 
+    private _searchQuery: string | undefined;
+
     /*
     connectedCallback
     method that runs when the component is added to the DOM and then executes this.getOrderItems() and super.connectedCallback()
     */
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
+        const urlParams: URLSearchParams = (new URL(window.location.toString())).searchParams;
+        if (urlParams.has("search")){
+            this._searchQuery = urlParams.get("search") as string;
+        }
+        
         this.getOrderItems();
         await this.fetchTopPicks();
 
-        console.log(new URL(window.location.toString()));
     }
 
     private async fetchTopPicks(): Promise<void> {
         const result1: any = await this._orderItemService.topPicks();
-        console.log(result1);
         this._topPicks = result1;
     }
     /**
@@ -141,7 +150,8 @@ export class productsRoot extends LitElement {
     private async fetchOrderItems(): Promise<OrderItem[]> {
         const result: OrderItem[] | undefined = await this._orderItemService.getAllWithParameters(
             "id",
-            this._sortOrder
+            this._sortOrder,
+            this._searchQuery ?? ""
         );
         if (!result) {
             return [];
@@ -193,14 +203,6 @@ export class productsRoot extends LitElement {
             <div class="container">
                 <div class="header">
                     <h1 class="ProductsH1">Products</h1>
-                    <form>
-                        <label for="sort">Sort:</label>
-                        <!-- If you choose an option of the dropdown, then execute handleChange -->
-                        <select name="sort" id="sort" @change=${this.handleChange}>
-                            <option value="new-old">New to old</option>
-                            <option value="old-new">Old to new</option>
-                        </select>
-                    </form>
                 </div>
                 <h1 class="topPicksH1">Top Picks!</h1>
                 <div class="topPicksContainer">
@@ -224,6 +226,18 @@ export class productsRoot extends LitElement {
                         `;
                     })}
                 </div>
+                ${when(this._searchQuery, () => html`
+                    <h2>Resultaten voor "${this._searchQuery}"</h2>
+                `)}
+                
+                <form>
+                    <label for="sort">Sort:</label>
+                    <!-- If you choose an option of the dropdown, then execute handleChange -->
+                    <select name="sort" id="sort" @change=${this.handleChange}>
+                        <option value="new-old">New to old</option>
+                        <option value="old-new">Old to new</option>
+                    </select>
+                </form>
                 <div class="ProductsContainer">
                     ${map(this._orderItems, (product) => {
                         return html`
