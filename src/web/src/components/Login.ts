@@ -91,7 +91,7 @@ export class LoginForm extends LitElement {
 
     if (result) {
       alert("U bent ingelogd!");
-      window.location.href = "homepage.html";
+      window.location.href = "/";
     } else {
       alert("Inloggen is niet gelukt!");
     }

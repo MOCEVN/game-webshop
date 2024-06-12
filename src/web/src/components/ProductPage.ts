@@ -3,6 +3,7 @@ import { customElement, state } from "lit/decorators.js";
 import { OrderItemService } from "../services/OrderItemService";
 import { ShoppingcartService } from "../services/ShoppingcartService";
 import { OrderItem } from "@shared/types";
+import { map } from "lit/directives/map.js";
 // import { URL } from "url";
 
 @customElement("productpage-element")
@@ -246,10 +247,11 @@ export class ProductPage extends LitElement {
     }
 
     .slide-content {
-        width: auto;
-        margin-top: 8px;
-        height: 10px;
-        object-fit: cover; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
     }
 
 #slider input[type=radio] {
@@ -284,25 +286,21 @@ export class ProductPage extends LitElement {
    margin-left: -300%;
 }
 #slides .inner {
-   transition: margin-left 800ms cubic-bezier(0.770, 0.000, 0.175, 1.000);
-   width: 400%;
-   line-height: 0;
-   height: 300px;
+    transition: margin-left 800ms cubic-bezier(0.770, 0.000, 0.175, 1.000);
+    width: 400%;
+    height: 300px; /* Fixed height for the slides */
+    display: flex;
 }
 #slides .slide {
-   width: 25%;
-   float:left;
-   /* display: flex; */
-   justify-content: center;
-   align-items: center;
-   height: 100%;
-   color: #fff;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .thumbImg {
-    height: fit-content;
-    margin-top: -35px;
-    margin-left: -35px;
-    width: 600px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 #slides .slide_1 {
@@ -318,11 +316,11 @@ export class ProductPage extends LitElement {
    background: #00A8E8;
 }
 #controls {
-   margin: -180px 0 0 0;
-   width: 100%;
-   height: 50px;
-   z-index: 3;
-   position: relative;
+    margin: -180px 0 0 0;
+    width: 100%;
+    height: 50px;
+    z-index: 3;
+    position: relative;
 }
 #controls label {
    transition: opacity 0.2s ease-out;
@@ -394,7 +392,6 @@ export class ProductPage extends LitElement {
 }
 
 `;
-
     public connectedCallback(): void {
         super.connectedCallback();
         void this.getProduct();
@@ -406,7 +403,14 @@ export class ProductPage extends LitElement {
     private _product!: OrderItem;
 
     @state()
-    private _checkcart!: ShoppingcartService;
+    private _addToCart: ShoppingcartService = new ShoppingcartService;
+    private _shoppingcartService: ShoppingcartService = new ShoppingcartService();
+
+    private checkcart: OrderItem[] | undefined;
+    private itemId: number[] | undefined;
+    private getproductinfo: OrderItem[] | undefined;
+    private titleAndPrice: any[] | undefined;
+    private imageUrl: string[] | undefined;
 
     private async getProduct(): Promise<void> {
         const id: string | null = new URL(document.location.toString()).searchParams.get("id");
@@ -415,14 +419,39 @@ export class ProductPage extends LitElement {
             console.log(result);
             if (result) {
                 this._product = result;
+                this.imageUrl = [result.thumbnail];
+                if (result.imageURLs){
+                    this.imageUrl.push(...result.imageURLs);
+                }
             }
-        } else {
-
         }
     }
 
-    private addToCart(): void {
-        console.log("Je product is toegevoegd aan je mandje!");
+    private async checkCart(): Promise<void> {
+        this.checkcart = await this._addToCart.checkcart();
+        if (this.checkcart) {
+            this.itemId = this.checkcart.map((item: { itemId: any }) => item.itemId);
+        }
+        const id: any = this.itemId;
+        this.getproductinfo = await this._shoppingcartService.getproductinfo(id);
+        console.log(this.getproductinfo);
+
+        if (this.getproductinfo) {
+            const getproductinfo: OrderItem[] = this.getproductinfo.filter((item) => id.includes(item.id));
+
+            // hier maak ik een map van elke onderdeel die past bij de item id die in de shoppingcart
+            this.titleAndPrice = getproductinfo.map(
+                (matchItem: { title: string; price: number; id: number; thumbnail: string }) => ({
+                    title: matchItem.title,
+                    price: matchItem.price,
+                    thumbnail: matchItem.thumbnail,
+                    id: matchItem.id,
+                })
+            );
+            console.log("self made array van alleen de producten met een passende id", this.titleAndPrice);
+            console.log("Je product is toegevoegd aan je mandje!");
+        }
+        super.connectedCallback();
     }
 
     private sumPrices(): string {
@@ -458,54 +487,51 @@ export class ProductPage extends LitElement {
             <div class="container">
                 <div class="productBasic">
                     <div id="slider">
-                        <input type="radio" name="slider" id="slide1" checked>
-                        <input type="radio" name="slider" id="slide2">
-                        <input type="radio" name="slider" id="slide3">
-                        <input type="radio" name="slider" id="slide4">
+                        ${map(this.imageUrl,(_,idx) => {
+                            return html`
+                                <input for="radio${idx + 1}" type="radio" name="slider" id="slide${idx + 1}" ?checked=${idx === 0}>
+                            `;
+                        })}
+
                         <div id="slides" style="width: 550px;">
                             <div id="overflow">
                                 <div class="inner">
                                     <div class="slide slide_1">
-                                        <!-- <div class="slide-content">
-                                            <h2>Slide 1</h2>
-                                            <p>Content for Slide 1</p>
-                                        </div> -->
                                         <div class="slide-content">
                                             <img src=${this._product.thumbnail} class="thumbImg">
                                         </div>
                                     </div>
                                     <div class="slide slide_2">
                                         <div class="slide-content">
-                                            <h2>Slide 2</h2>
-                                            <p>Content for Slide 2</p>
+                                            <img src=${this.imageUrl && this.imageUrl[1] ? this.imageUrl[1] : ""} class="thumbImg">
                                         </div>
                                     </div>
                                     <div class="slide slide_3">
                                         <div class="slide-content">
-                                            <h2>Slide 3</h2>
-                                            <p>Content for Slide 3</p>
+                                        <img src=${this.imageUrl && this.imageUrl[2] ? this.imageUrl[2] : ""} class="thumbImg">
                                         </div>
                                     </div>
                                     <div class="slide slide_4">
                                         <div class="slide-content">
-                                            <h2>Slide 4</h2>
-                                            <p>Content for Slide 4</p>
+                                            <img src=${this.imageUrl && this.imageUrl[3] ? this.imageUrl[3] : ""} class="thumbImg">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div id="controls">
-                            <label for="slide1"></label>
-                            <label for="slide2"></label>
-                            <label for="slide3"></label>
-                            <label for="slide4"></label>
+                            ${map(this.imageUrl,(_,idx) => {
+                                return html`
+                                    <label for="slide${idx + 1}"></label>
+                                `; 
+                            })}
                         </div>
                         <div id="bullets">
-                            <label for="slide1"></label>
-                            <label for="slide2"></label>
-                            <label for="slide3"></label>
-                            <label for="slide4"></label>
+                            ${map(this.imageUrl,(_,idx) => {
+                                return html`
+                                    <label for="slide${idx + 1}"></label>
+                                `;
+                            })}
                         </div>
                     </div>
     
@@ -563,7 +589,7 @@ export class ProductPage extends LitElement {
     
             <div class="addToCart">
                 <h1 class="addCartText">Koop ${this._product.title}</h1>
-                <a href="#" @click=${this.addToCart}>
+                <a href="#" @click=${this.checkCart}>
                     <button class="addCartBtn">
                         <h1 class="addCartBtnText">$${this._product.price}</h1>
                         <h3 class="voegToe">Voeg toe</h3>

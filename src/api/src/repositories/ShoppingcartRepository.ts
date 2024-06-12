@@ -14,7 +14,7 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
         const connection: PoolConnection = await getConnection();
         const checkcart: any = await queryDatabase(
             connection,
-            "select itemId from shoppingcartitem WHERE userId = ?",
+            "select * from shoppingcartitem WHERE userId = ?",
             id
         );
         // hier nog een async neezetten richting het ophalen van productnames.
