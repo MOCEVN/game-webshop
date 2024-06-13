@@ -20,10 +20,10 @@ export class ShoppingCart extends LitElement {
             height: 5vh;
         }
         .container {
-            margin-top: 100px;
+            margin-top: 0px;
             margin-left: 5vw;
             width: 35vw;
-            height: 20vw;
+            height: 15vw;
             background-color: #aaaa;
             display: block;
             border-radius: 10px;
@@ -32,12 +32,12 @@ export class ShoppingCart extends LitElement {
         .leftcontainer {
             background-color: #241f1f42;
             width: 45vw;
-            height: 100vh;
             position: absolute;
             margin-left: 3vw;
-            margin-top: -6vh;
-            overflow-y: scroll;
+            margin-top: 0vh;
+            overflow-y: auto;
             border-radius: 5px;
+            padding-bottom: 5vh;
         }
         .thumbnail {
             width: 3vw;
@@ -59,12 +59,13 @@ export class ShoppingCart extends LitElement {
         .samenvatting {
             font-size: 2vw;
             text-align: left;
-            margin-left: 10px;
+            margin-left: 1vw;
         }
         .undertekst {
             font-size: 0.8vw;
             max-width: 28vw;
-            margin-left: 10px;
+            margin-left: 1vw;
+            text-align: left;
         }
         .subtotaal {
             text-align: left;
@@ -75,6 +76,7 @@ export class ShoppingCart extends LitElement {
             text-align: right;
             margin-right: 1px;
             font-size: 2vw;
+            margin-top: -14vh;
             position: relative;
         }
         .checkout {
@@ -84,6 +86,7 @@ export class ShoppingCart extends LitElement {
             margin-left: 11vw;
             margin-bottom: 1vh;
             font-size: 2vw;
+            cursor: pointer;
         }
         .shoppingcart {
             text-align: left;
@@ -95,31 +98,48 @@ export class ShoppingCart extends LitElement {
         .btw {
             text-align: left;
             font-size: 1vw;
-            margin-left: 1vw;
+            margin-left: 1.2vw;
+            margin-top: -2.5vh;
         }
         .uppersection {
             padding: 0px;
         }
         .title {
             margin-left: 100px;
+            margin-top: 20px;
             top: 1vh;
         }
         .price {
             text-align: center;
+            margin-left: 4vw;
             bottom: 100px;
         }
-        .test {
-            width: 100px;
+        .productpic {
+            width: 13vw;
             margin-top: -10vh;
         }
         .ptitle {
-            bottom: 1vh;
+            bottom: 10vh;
             margin-left: 9.1vw;
             font-size: 20px;
             margin-top: 10px;
         }
         .pprice {
             font-size: 20px;
+        }
+        .removeitem {
+            width: 2vw;
+            float: right;
+            margin-top: 12vw;
+            margin-right: 2vw;
+            cursor: pointer;
+        }
+        .line {
+            width: 40vw;
+            right: 1.5vw;
+            position: relative;
+            height: 30vh;
+            margin-top: -10vh;
         }
     `;
 
@@ -130,15 +150,13 @@ export class ShoppingCart extends LitElement {
     private itemId: number[] | undefined;
     private getproductinfo: OrderItem[] | undefined;
     private totalprice: number | undefined;
-    private clearcart: OrderItem[] | undefined;
-    private insertintocart: OrderItem[] | undefined;
+    private relevantid: any | undefined;
 
     public async connectedCallback(): Promise<void> {
-        this.insertintocart = await this._shoppingcartService.insertintocart(2);
         this.checkcart = await this._shoppingcartService.checkcart();
-        console.log("dit moet niet te zien zijn", this.checkcart);
         if (this.checkcart) {
             this.itemId = this.checkcart.map((item: { itemId: any }) => item.itemId);
+            console.log(this.itemId);
         }
         const id: any = this.itemId;
         const allProducts: OrderItem[] | undefined = await this._shoppingcartService.getproductinfo(id);
@@ -176,6 +194,7 @@ export class ShoppingCart extends LitElement {
                             voor producten van onze Marketplace.
                         </p>
                     </div>
+                    <img src="/assets/img/line-png.png" class="line" />
                     <div class="totaalprijs">
                         <h2 class="subtotaal">Totaal € ${this.totalprice}</h2>
                         <p class="btw">incl btw</p>
@@ -184,19 +203,28 @@ export class ShoppingCart extends LitElement {
                 </div>
                 <div class="leftcontainer">
                     <h3 class="shoppingcart">Shoppingcart</h3>
+                    ${map(this.getproductinfo, (product) => {
+                        this.relevantid = product.id;
+
+                        return html`
+                            <div class="container">
+                                <img
+                                    class="removeitem"
+                                    @click=${this.removeitem}
+                                    src="/assets/img/trash-bin.png"
+                                />
+                                <div class="title"><p class="ptitle">${product.title}</p></div>
+                                <div class="price"><p class="pprice">€ ${product.price}</p></div>
+                                <div class="thumbnail">
+                                    <img class="productpic" src=${product.thumbnail} />
+                                </div>
+                            </div>
+                        `;
+                    })}
                 </div>
-                ${map(this.getproductinfo, (product) => {
-                    return html` <div class="container">
-                        <div class="title"><p class="ptitle">${product.title}</p></div>
-                        <div class="price"><p class="pprice">${product.price}</p></div>
-                        <div class="thumbnail">
-                            <img class="test" src=${product.thumbnail} />
-                        </div>
-                    </div>`;
-                })}
             `;
-        } else {
-            message = html`<p>je moet ingelogd zijn</p>`;
+        } else if (!this.checkcart) {
+            alert("je moet ingelogd zijn om hier te zijn");
             window.location.replace("/");
         }
         return html`<p class="message">${message}</p>`;
@@ -206,9 +234,15 @@ export class ShoppingCart extends LitElement {
         window.location.replace("/");
     }
     private async checkout(_e: Event): Promise<void> {
-        this.clearcart = await this._shoppingcartService.clearcart();
+        await this._shoppingcartService.clearcart();
         alert("je hebt een item gekocht");
         window.location.replace("/");
+        super.connectedCallback();
+    }
+    private async removeitem(_e: Event): Promise<void> {
+        await this._shoppingcartService.deleteitem(this.relevantid);
+        alert("removed");
+        window.location.reload();
         super.connectedCallback();
     }
 }

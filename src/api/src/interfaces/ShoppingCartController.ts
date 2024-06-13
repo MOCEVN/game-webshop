@@ -5,4 +5,5 @@ export interface IShoppingcartController {
     getproductinfo(req: Request, res: Response): Promise<void>;
     clearcart(req: Request, res: Response): Promise<void>;
     insertintocart(req: Request, res: Response): Promise<void>;
+    deleteitem(req: Request, res: Response): Promise<void>;
 }
