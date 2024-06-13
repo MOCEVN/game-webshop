@@ -55,3 +55,7 @@ router.post(
     "/users/cart/:itemid",
     asyncHandler(ShoppingCartController.insertintocart.bind(ShoppingCartController))
 );
+router.post(
+    "/users/cart/:itemid",
+    asyncHandler(ShoppingCartController.deleteitem.bind(ShoppingCartController))
+);

@@ -66,4 +66,15 @@ export class ShoppingcartRepository implements IShoppingcartRepository {
         connection.release();
         return insertintocart;
     }
+    public async deleteitem(id: number, itemid: number): Promise<UserData | undefined> {
+        const connection: PoolConnection = await getConnection();
+        const deleteitem: any = await queryDatabase(
+            connection,
+            "delete from shoppingcartitem where userId = ? and itemId = ?",
+            id,
+            itemid
+        );
+        connection.release();
+        return deleteitem;
+    }
 }

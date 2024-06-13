@@ -65,4 +65,19 @@ export class ShoppingcartController implements IShoppingcartController {
             res.json(insertintocart);
         }
     }
+    public async deleteitem(req: Request, res: Response): Promise<void> {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        const token: CustomJwtToken = req.token!;
+        const itemId: any = req.params["itemid"];
+        const userId: number = token.userId;
+        const deleteitem: UserData | undefined = await this._ShoppingcartRepository.deleteitem(
+            userId,
+            itemId
+        );
+        if (!deleteitem) {
+            res.status(200).json({ message: "could not delete item into shoppingcart" });
+        } else {
+            res.json(deleteitem);
+        }
+    }
 }
