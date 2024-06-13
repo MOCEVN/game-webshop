@@ -407,7 +407,6 @@ export class ProductPage extends LitElement {
     @state()
     private _shoppingcartService: ShoppingcartService = new ShoppingcartService();
     private imageUrl: string[] | undefined;
-    private insertintocart: OrderItem[] | undefined;
     private checkcart: OrderItem[] | undefined;
     private itemId: number[] | undefined;
 
@@ -427,16 +426,17 @@ export class ProductPage extends LitElement {
     }
     private async checkCart(_e: Event): Promise<void> {
         this.checkcart = await this._shoppingcartService.checkcart();
-        this.itemId = this.checkcart.map((item: { itemId: any }) => item.itemId);
         if (!this.checkcart) {
             alert("je moet ingelogd zijn om items te kopen!");
-        } else if (this.itemId === this._product.itemId) {
+            return;
+        } 
+        this.itemId = this.checkcart.map((item: { itemId: any }) => item.itemId);
+        if (this.itemId === this._product.itemId) {
             alert("je hebt deze item all in je winkelmandje");
         } else {
-            this.insertintocart = await this._shoppingcartService.insertintocart(this._product.id);
+            await this._shoppingcartService.insertintocart(this._product.id);
             alert("toegevoegd aan shoppingcart");
             window.location.replace("/shoppingcart.html");
-            super.connectedCallback();
         }
     }
 

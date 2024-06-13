@@ -150,7 +150,6 @@ export class ShoppingCart extends LitElement {
     private itemId: number[] | undefined;
     private getproductinfo: OrderItem[] | undefined;
     private totalprice: number | undefined;
-    private deleteitem: OrderItem[] | undefined;
     private relevantid: any | undefined;
 
     public async connectedCallback(): Promise<void> {
@@ -195,7 +194,7 @@ export class ShoppingCart extends LitElement {
                             voor producten van onze Marketplace.
                         </p>
                     </div>
-                    <img src="../public/assets/img/line-png.png" class="line" />
+                    <img src="/assets/img/line-png.png" class="line" />
                     <div class="totaalprijs">
                         <h2 class="subtotaal">Totaal € ${this.totalprice}</h2>
                         <p class="btw">incl btw</p>
@@ -212,7 +211,7 @@ export class ShoppingCart extends LitElement {
                                 <img
                                     class="removeitem"
                                     @click=${this.removeitem}
-                                    src="../public/assets/img/trash-bin.png"
+                                    src="/assets/img/trash-bin.png"
                                 />
                                 <div class="title"><p class="ptitle">${product.title}</p></div>
                                 <div class="price"><p class="pprice">€ ${product.price}</p></div>
@@ -241,7 +240,7 @@ export class ShoppingCart extends LitElement {
         super.connectedCallback();
     }
     private async removeitem(_e: Event): Promise<void> {
-        this.deleteitem = await this._shoppingcartService.deleteitem(this.relevantid);
+        await this._shoppingcartService.deleteitem(this.relevantid);
         alert("removed");
         window.location.reload();
         super.connectedCallback();

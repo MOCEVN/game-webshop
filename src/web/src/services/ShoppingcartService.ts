@@ -86,7 +86,7 @@ export class ShoppingcartService {
             return undefined;
         }
         const response: Response = await fetch(`${viteConfiguration.API_URL}users/cart/${itemid}`, {
-            method: "post",
+            method: "delete",
             headers: { ...headers, authorization: token },
         });
         if (!response.ok) {
